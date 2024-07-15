@@ -12,7 +12,7 @@
 </div>
 
 ## MEMBERS
-<table>
+<table style="overflow: visible">
   <tbody>
     <tr>
       <td align="center"><a href="https://github.com/Yi-HyeonJu"><img src="https://avatars.githubusercontent.com/u/164320612?v=4" width="300px;" alt=""/><br /><sub><b>이현주</b></sub></a><br /></td>
@@ -24,7 +24,7 @@
 </table>
 
 ## COMMIT CONVENTION
-<table>
+<table style="overflow: visible">
   <tbody>
     <tr>
       <th align="center">✨Feat:</td>
