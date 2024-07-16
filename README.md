@@ -13,8 +13,6 @@
 
 ## MEMBERS
 
-## MEMBERS
-
 <table>
   <tr>
     <td align="center">
