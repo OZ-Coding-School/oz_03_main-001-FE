@@ -12,59 +12,49 @@
 </div>
 
 ## MEMBERS
-<table style="overflow: visible">
-  <tbody>
-    <tr>
-      <td align="center"><a href="https://github.com/Yi-HyeonJu"><img src="https://avatars.githubusercontent.com/u/164320612?v=4" width="300px;" alt=""/><br /><sub><b>이현주</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/doin-N"><img src="https://avatars.githubusercontent.com/u/164306935?v=4" width="300px;" alt=""/><br /><sub><b>노도인</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/Supernova-428"><img src="https://avatars.githubusercontent.com/u/89819295?v=4" width="300px;" alt=""/><br /><sub><b>이요성</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/sobinibani"><img src="https://avatars.githubusercontent.com/u/135595326?v=4" width="300px;" alt=""/><br /><sub><b>홍소빈</b></sub></a><br /></td>
-     <tr/>
-  </tbody>
+
+## MEMBERS
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Yi-HyeonJu">
+        <img src="https://avatars.githubusercontent.com/u/164320612?v=4" width="300px;" alt="이현주"/><br />
+        <sub><b>이현주</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/doin-N">
+        <img src="https://avatars.githubusercontent.com/u/164306935?v=4" width="300px;" alt="노도인"/><br />
+        <sub><b>노도인</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Supernova-428">
+        <img src="https://avatars.githubusercontent.com/u/89819295?v=4" width="300px;" alt="이요성"/><br />
+        <sub><b>이요성</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/sobinibani">
+        <img src="https://avatars.githubusercontent.com/u/135595326?v=4" width="300px;" alt="홍소빈"/><br />
+        <sub><b>홍소빈</b></sub>
+      </a>
+    </td>
+  </tr>
 </table>
 
 ## COMMIT CONVENTION
-<table style="overflow: visible">
-  <tbody>
-    <tr>
-      <th align="center">✨Feat:</td>
-      <td>새로운 기능 추가</td>
-     <tr/>
-    <tr>
-      <th align="center">🚑Fix:</td>
-      <td>버그 수정</td>
-     <tr/>
-    <tr>
-      <th align="center">📚Docs:</td>
-      <td>문서 수정</td>
-     <tr/>
-    <tr>
-      <th align="center">💄Style:</td>
-      <td>코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우</td>
-     <tr/>
-    <tr>
-      <th align="center">♻️Refactor:</td>
-      <td>코드 리펙토링</td>
-     <tr/>
-    <tr>
-      <th align="center">🧪 Test:</td>
-      <td>테스트 코드, 리펙토링 테스트 코드 추가</td>
-     <tr/>
-    <tr>
-      <th align="center">📰Chore:</td>
-      <td>빌드 업무 수정, 패키지 매니저 수정</td>
-     <tr/>
-    <tr>
-      <th align="center">💡Comment:</td>
-      <td>필요한 주석 추가 및 변경</td>
-     <tr/>
-    <tr>
-      <th align="center">🚚Rename:</td>
-      <td>파일 혹은 폴더명을 수정하거나 옮기는 경우</td>
-     <tr/>
-    <tr>
-      <th align="center">🔥Remove:</td>
-      <td>파일을 삭제하는 작업만 수행한 경우</td>
-     <tr/>
-  </tbody>
-</table>
+
+| 타입 | 설명 |
+| --- | --- |
+| ✨ **Feat:** | 새로운 기능 추가 |
+| 🚑 **Fix:** | 버그 수정 |
+| 📚 **Docs:** | 문서 수정 |
+| 💄 **Style:** | 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우 |
+| ♻️ **Refactor:** | 코드 리팩토링 |
+| 🧪 **Test:** | 테스트 코드, 리팩토링 테스트 코드 추가 |
+| 📰 **Chore:** | 빌드 업무 수정, 패키지 매니저 수정 |
+| 💡 **Comment:** | 필요한 주석 추가 및 변경 |
+| 🚚 **Rename:** | 파일 혹은 폴더명을 수정하거나 옮기는 경우 |
+| 🔥 **Remove:** | 파일을 삭제하는 작업만 수행한 경우 |
