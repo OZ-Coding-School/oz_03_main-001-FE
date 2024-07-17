@@ -11,7 +11,7 @@ const Login: React.FC = () => {
         <img
           src={dosilockLogo}
           alt='Logo'
-          className='mb-[48px] flex h-[73px] w-[200px]'
+          className='mb-[28px] flex h-[73px] w-[200px]'
         />
 
         {/* 여기서부터 제출 폼 */}
