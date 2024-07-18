@@ -3,7 +3,16 @@ import dosilockLogo from '../../assets/images/dosilockLogo.png';
 import googleLogo from '../../assets/images/googleLogo.png';
 import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';
+import { Link } from 'react-router-dom';
 
+/** 
+로그인 버튼 클릭시
+회원가입이 되어있으면 - 메인페이지이동
+회원가입 되어있지 않으면 - 회원가입 페이지 이동
+
+로그인 (아이디 또는 비밀번호가 잘못 되었습니다. 정확히 입력해주세요)
+
+**/
 const Login: React.FC = () => {
   return (
     <div>
@@ -43,9 +52,12 @@ const Login: React.FC = () => {
             />
           </div>
           <div className='mb-[12px] flex flex-col items-center'>
-            <div className='text-[#333333]font-semibold mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base leading-10'>
+            <Link
+              to='join'
+              className='text-[#333333]font-semibold mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base leading-10'
+            >
               회원가입
-            </div>
+            </Link>
             <div className='h-[35px] w-[330px] text-center text-[#6F6F6F]'>
               SNS계정으로 간편 로그인 / 회원가입
             </div>

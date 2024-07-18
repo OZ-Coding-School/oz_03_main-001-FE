@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  BrowserRouter,
+} from 'react-router-dom';
 // import Header from './components/layout/Header';
 // import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
@@ -11,20 +16,22 @@ import Login from './pages/Login/Login';
 
 function App() {
   return (
-    <Router>
-      {/* <Header /> */}
+    <BrowserRouter>
+      <Router>
+        {/* <Header /> */}
 
-      <Routes>
-        {/* <Route path='/' element={<Home />} /> */}
-        <Route path='/login' element={<Login />} />
-        {/* <Route path='/join' element={<Join />} /> */}
-        {/* <Route path='/welcome' element={<Welcome />} /> */}
-        {/* <Route path='/order' element={<Order />} /> */}
-        {/* <Route path='/orderdetail' element={<OrderDetail />} /> */}
-        {/* <Route path='/orderhistories' element={<OrderHistories />} /> */}
-        {/* <Route path='/orderhistories/:id' element={<OrderHistory />} /> */}
-      </Routes>
-    </Router>
+        <Routes>
+          {/* <Route path='/' element={<Home />} /> */}
+          <Route path='/login' element={<Login />} />
+          {/* <Route path='/join' element={<Join />} /> */}
+          {/* <Route path='/welcome' element={<Welcome />} /> */}
+          {/* <Route path='/order' element={<Order />} /> */}
+          {/* <Route path='/orderdetail' element={<OrderDetail />} /> */}
+          {/* <Route path='/orderhistories' element={<OrderHistories />} /> */}
+          {/* <Route path='/orderhistories/:id' element={<OrderHistory />} /> */}
+        </Routes>
+      </Router>
+    </BrowserRouter>
   );
 }
 
