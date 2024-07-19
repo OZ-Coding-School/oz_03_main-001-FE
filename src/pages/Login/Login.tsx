@@ -44,7 +44,7 @@ const Login: React.FC = () => {
           onSubmit={handleSubmit((date) => alert(JSON.stringify(date)))}
           className='h-[533px] w-[490px] rounded-[28px] border border-border'
         >
-          <div className='mb-[14px] ml-[43px] mt-[39px] text-xl font-medium leading-10 text-[#333333]'>
+          <div className='mb-[14px] ml-[43px] mt-[39px] text-xl font-medium leading-10 text-main'>
             로그인
           </div>
           <div className='flex flex-col items-center'>
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
               placeholder='아이디'
               required //반드시 값을 입력해야할때
               className='h-[60px] w-[410px] rounded-[12px] border px-4 py-2'
-              style={{ border: ' 1px solid #E6E6E6' }}
+              style={{ border: ' 1px solid border' }}
               aria-invalid={errors.id ? 'true' : 'false'}
             />
             <input
@@ -75,13 +75,13 @@ const Login: React.FC = () => {
               placeholder='비밀번호'
               required //반드시 값을 입력해야할때
               className='mt-[14px] h-[60px] w-[410px] rounded-[12px] border px-4 py-2'
-              style={{ border: ' 1px solid #E6E6E6' }}
+              style={{ border: ' 1px solid border' }}
             />
             <button
               disabled={!isValid || isSubmitting} //양식이 제출되는 중에는 버튼 비활성화
               type='submit'
-              className={`mt-9 h-[60px] w-[410px] rounded-[12px] border bg-[#EC6446] text-center text-lg font-bold leading-[30px] text-white ${
-                !isValid || isSubmitting ? 'cursor-not-allowed opacity-50' : ''
+              className={`mt-9 h-[60px] w-[410px] rounded-[12px] border bg-primary text-center text-lg font-bold leading-[30px] text-white ${
+                !isValid || isSubmitting ? 'opacity-50' : 'hover:bg-primary-hover' 
               }`}
             >
               로그인
@@ -90,11 +90,11 @@ const Login: React.FC = () => {
           <div className='mb-[12px] flex flex-col items-center'>
             <Link
               to='join'
-              className='text-[#333333]font-semibold /* var(--gray-300) mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base leading-10 disabled:bg-[#D1D5DB]'
+              className='text-main font-semibold /* var(--gray-300) mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base leading-10'
             >
               회원가입
             </Link>
-            <div className='h-[35px] w-[330px] text-center text-[#6F6F6F]'>
+            <div className='h-[35px] w-[330px] text-center text-caption'>
               SNS계정으로 간편 로그인 / 회원가입
             </div>
           </div>
