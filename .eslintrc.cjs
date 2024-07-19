@@ -49,5 +49,6 @@ module.exports = {
     "eqeqeq": ["error", "always"],
     "tailwindcss/classnames-order": "warn",
     "tailwindcss/no-custom-classname": "off",
+    "react/prop-types": "off"
   },
 };
