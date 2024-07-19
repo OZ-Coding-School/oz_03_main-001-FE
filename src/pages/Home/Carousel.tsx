@@ -1,3 +1,4 @@
+import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoScroll from 'embla-carousel-auto-scroll';
 import image from '../../assets/images/example1.png';
@@ -9,7 +10,7 @@ const CarouselLi = () => {
         <div className='mx-auto mt-[20px] flex h-[392px] w-[398px] items-center justify-center rounded-2xl bg-[#fffadc]'>
           <img src={image} alt='샘플 도시락 이미지' className='w-[50%]' />
         </div>
-        <a href='https://naver.com' className='pl-[5px] text-lg leading-[60px]'>
+        <a href='#' className='pl-[5px] text-lg leading-[60px]'>
           무슨무슨 도시락
         </a>
       </div>
@@ -29,7 +30,7 @@ const Carousel = () => {
 
   return (
     <div
-      className='slider embla mt-[60px] overflow-hidden border-2 py-[30px]'
+      className='slider embla mt-[60px] overflow-hidden py-[30px]'
       ref={emblaRef}
     >
       <ul className='embla__container flex'>
