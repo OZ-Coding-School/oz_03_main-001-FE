@@ -282,7 +282,7 @@ const Join = () => {
           <button
             id='submit-button'
             className={`h-[60px] w-[410px] rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
-              isValueEmpty ? 'bg-primary hover:bg-primary-hover' : 'bg-gray20'
+              isValueEmpty ? 'bg-primary hover:bg-primary-hover' : 'bg-disabled'
             }`}
             type='submit'
             onClick={postJoin}
