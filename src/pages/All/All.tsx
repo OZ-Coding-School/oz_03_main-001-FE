@@ -75,7 +75,7 @@ const All = () => {
           className='h-[70px] w-[549px] rounded-xl border border-border bg-primary px-[20px] py-[12px] text-lg font-bold text-white hover:bg-primary-hover'
           type='submit'
         >
-          입력 완료
+          입력 완료 버튼
         </button>
       </form>
     </div>
