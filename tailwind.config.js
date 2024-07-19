@@ -19,6 +19,7 @@ export default {
       "secondary": '#FFF4B8',
       "tigim": '#F6B75A',
       "tertiary": '#D5F5D2',
+      "disabled": '#EDB5A7'
     },
   },
   plugins: [],
