@@ -51,6 +51,7 @@ export default {
       "caption": '#6F6F6F',
       
       "primary": '#EC6446',
+      "primary-hover": '#DC4E2F',
       "secondary": '#FFF4B8',
       "tigim": '#F6B75A',
       "tertiary": '#D5F5D2',
