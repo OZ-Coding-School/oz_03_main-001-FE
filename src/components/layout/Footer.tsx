@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../../assets/images/dosilockLogo.png';
+import Logo from '../../assets/images/dosirockLogo.png';
 import footerBack from '../../assets/images/character-footer.png';
 
 const Footer = () => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../../assets/images/dosilockLogo.png';
+import Logo from '../../assets/images/dosirockLogo.png';
 
 const Header = () => {
   return (
