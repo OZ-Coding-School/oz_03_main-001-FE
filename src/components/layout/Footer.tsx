@@ -1,21 +1,21 @@
 import React from 'react';
-import Logo from '../../assets/images/dosilockLogo.png';
-import footerBack from '../../assets/images/character-footer.png';
+import Logo from '../../assets/images/dosirockLogo.png';
+// import footerBack from '../../assets/images/character-footer.png';
 
 const Footer = () => {
   return (
     <footer className="bg-[url('./assets/images/character-footer.png')] bg-right-bottom bg-no-repeat">
       <div className='mx-auto w-[1590px] border-t-[1px] border-t-border'>
         <div className='mt-[47px] flex items-center'>
-          <a href='#' aria-label='도시락도 락이다 홈'>
+          <a href='/' aria-label='도시락도 락이다 홈'>
             <img src={Logo} aria-hidden className='w-[120px]' />
           </a>
           <span className='ml-[30px] h-[17px] w-0.5 bg-gray20' />
-          <a href='#' className='w-[113px] text-center text-caption'>
+          <a href='/order' className='w-[113px] text-center text-caption'>
             주문하기
           </a>
           <span className='h-[17px] w-0.5 bg-gray20' />
-          <a href='#' className='w-[113px] text-center text-caption'>
+          <a href='/' className='w-[113px] text-center text-caption'>
             커뮤니티
           </a>
           <span className='h-[17px] w-0.5 bg-gray20' />

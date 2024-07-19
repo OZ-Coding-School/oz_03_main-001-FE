@@ -1,5 +1,5 @@
 import React from 'react';
-import Logo from '../../assets/images/dosilockLogo.png';
+import Logo from '../../assets/images/dosirockLogo.png';
 
 const Header = () => {
   return (
@@ -8,18 +8,18 @@ const Header = () => {
       <div className='inner mx-auto flex h-[75px] w-[1770px] items-center justify-between'>
         <div className='flex items-center'>
           <h1>
-            <a href='#' aria-label='도시락도 락이다'>
+            <a href='/' aria-label='도시락도 락이다'>
               <img src={Logo} aria-hidden className='w-[118px]' />
             </a>
           </h1>
           <a
-            href='#'
+            href='/order'
             className='ml-[58px] text-lg font-medium hover:text-primary'
           >
             주문하기
           </a>
           <a
-            href='#'
+            href='/'
             className='ml-[62px] text-lg font-medium hover:text-primary'
           >
             커뮤니티

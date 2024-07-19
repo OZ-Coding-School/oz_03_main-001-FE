@@ -1,5 +1,5 @@
 import React from 'react';
-import dosilockLogo from '../../assets/images/dosilockLogo.png';
+import dosilockLogo from '../../assets/images/dosirockLogo.png';
 import welcome from '../../assets/images/welcome.png';
 import { Link } from 'react-router-dom';
 
