@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useJoinStore } from '../../store/useJoinStore';
-import logo from '../../assets/images/dosilockLogo.png';
+import logo from '../../assets/images/dosirockLogo.png';
 import Modal from './Modal/Modal';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';

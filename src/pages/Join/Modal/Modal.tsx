@@ -1,5 +1,5 @@
 import Xlogo from '../../../assets/images/X.svg';
-import Polygon1 from '../../../assets/images/Polygon 1.svg';
+import Polygon1 from '../../../assets/images/Polygon1.svg';
 
 type ModalProps = {
   isOpen: boolean;
