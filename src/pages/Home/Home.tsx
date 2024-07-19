@@ -16,7 +16,7 @@ const Home = () => {
   return (
     <section>
       <div className='mx-auto max-w-[1920px] overflow-x-hidden'>
-        <button className='fixed bottom-[65px] left-1/2 z-40 flex h-[60px] w-[275px] -translate-x-1/2 transform items-center rounded-full bg-white shadow-btn'>
+        <button className='shadow-btn fixed bottom-[65px] left-1/2 z-40 flex h-[60px] w-[275px] -translate-x-1/2 transform items-center rounded-full bg-white'>
           <div className='mx-auto flex items-center'>
             <span className='mr-[25px] text-lg font-medium'>
               나만의 도시락 만들러 가기
@@ -32,7 +32,7 @@ const Home = () => {
                 <img src={mainTxt} alt='도시락도 ROCK이다!' />
               </h2>
               <p className='mb-[80px] text-[30px] font-medium'>
-                나만의 '맛' 으로, 커스터마이즈의 즐거움을 경험해 보세요.
+                {`나만의 '맛' 으로, 커스터마이즈의 즐거움을 경험해 보세요.`}
               </p>
               <p className='text-[20px] font-medium leading-10'>
                 매일 같은 도시락이 주는 지루함을 바꿀 준비 되셨나요?
@@ -46,7 +46,7 @@ const Home = () => {
               </p>
             </div>
 
-            <img src={character} aria-hidden />
+            <img src={character} alt='' aria-hidden />
           </div>
           <Bg01 />
         </article>
@@ -58,7 +58,7 @@ const Home = () => {
                 메뉴 선택도 A TO Z
               </p>
               <h3 className='text-[35px] font-semibold text-white'>
-                "밥食으로 만드는 나만의 맛있는 이야기, 도시락"
+                {`"밥食으로 만드는 나만의 맛있는 이야기, 도시락"`}
               </h3>
             </div>
             <div className='flex items-center'>
@@ -84,7 +84,7 @@ const Home = () => {
             </div>
           </div>
           <div className='relative flex items-center pb-[270px]'>
-            <img className='absolute right-0' src={truck} aria-hidden />
+            <img className='absolute right-0' src={truck} alt='' aria-hidden />
             <div className='inner mx-auto w-[1590px]'>
               <p className='text-[20px] leading-10 text-white'>
                 바쁜 일상 속에서도 건강하고 신선한 식사를 놓치지 마세요!
