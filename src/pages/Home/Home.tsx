@@ -40,7 +40,7 @@ const Home = () => {
           </div>
         </button>
         {/* article1 - main banner */}
-        <article className='relative h-[100vh] overflow-hidden bg-white'>
+        <article className='h-custom relative overflow-hidden bg-white'>
           <div className='inner mx-auto flex w-[1590px] justify-between pt-[230px]'>
             <div className='z-10'>
               <h2 className='mb-[26px]'>
