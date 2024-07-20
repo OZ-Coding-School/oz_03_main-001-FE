@@ -1,11 +1,11 @@
 import mainTxt from '../../assets/images/mainTxt.png';
 import character from '../../assets/images/character.png';
-import arrowRight from '../../assets/images/arrowRight.png';
 import truck from '../../assets/images/truck.png';
 import munuh from '../../assets/images/munuh-profile.png';
 import tigim from '../../assets/images/tigim-profile.png';
 import kori from '../../assets/images/kori-profile.png';
 
+import './customClass.css';
 import Carousel from './Carousel';
 import Footer from '../../components/layout/Footer';
 import Bg01 from './bgAnimation/Bg01';
@@ -16,12 +16,27 @@ const Home = () => {
   return (
     <section>
       <div className='mx-auto max-w-[1920px] overflow-x-hidden'>
-        <button className='fixed bottom-[65px] left-1/2 z-40 flex h-[60px] w-[275px] -translate-x-1/2 transform items-center rounded-full bg-white shadow-btn'>
+        <button className='group fixed bottom-[65px] left-1/2 z-40 flex h-[60px] w-[275px] -translate-x-1/2 transform items-center rounded-full bg-white shadow-btn hover:bg-tigim'>
           <div className='mx-auto flex items-center'>
-            <span className='mr-[25px] text-lg font-medium'>
+            <span className='mr-[25px] text-lg font-medium group-hover:text-white'>
               나만의 도시락 만들러 가기
             </span>
-            <img src={arrowRight} aria-hidden alt='' />
+            <svg
+              width='8'
+              height='15'
+              viewBox='0 0 8 15'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M1.5 1.21771L7 7.53087L1.5 13.844'
+                stroke='#333333'
+                stroke-width='2'
+                stroke-linecap='round'
+                stroke-linejoin='round'
+                className='group-hover-stroke-white'
+              />
+            </svg>
           </div>
         </button>
         {/* article1 - main banner */}
@@ -32,7 +47,8 @@ const Home = () => {
                 <img src={mainTxt} alt='도시락도 ROCK이다!' />
               </h2>
               <p className='mb-[80px] text-[30px] font-medium'>
-                나만의 '맛' 으로, 커스터마이즈의 즐거움을 경험해 보세요.
+                나만의 &lsquo;맛&rsquo; 으로, 커스터마이즈의 즐거움을 경험해
+                보세요.
               </p>
               <p className='text-[20px] font-medium leading-10'>
                 매일 같은 도시락이 주는 지루함을 바꿀 준비 되셨나요?
@@ -58,7 +74,7 @@ const Home = () => {
                 메뉴 선택도 A TO Z
               </p>
               <h3 className='text-[35px] font-semibold text-white'>
-                "밥食으로 만드는 나만의 맛있는 이야기, 도시락"
+                &ldquo;밥食으로 만드는 나만의 맛있는 이야기, 도시락&rdquo;
               </h3>
             </div>
             <div className='flex items-center'>
@@ -272,7 +288,7 @@ const Home = () => {
                       매번 먹던 도시락 먹고 또 먹는 중 이였는데
                       <br />
                       저만의 도시락을 만들어 먹을 수 있다니.. <br />
-                      신박해서 한번 시켜봤는데 좋네요 :)
+                      신박해서 한번 시켜봤는데 좋네요 : &#41;
                       <br />
                       이제 매일 새로운 구성으로 질림 없이 밥을 먹고있습니다.{' '}
                       <br />
