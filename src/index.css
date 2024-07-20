@@ -73,3 +73,9 @@ ol {
 address {
   font-style: normal;
 }
+
+/*드래그 텍스트*/
+::selection {
+  background-color: #f6b75a;
+  color: white;
+}
