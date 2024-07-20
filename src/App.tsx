@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from 'react-router-dom';
 import Header from './components/layout/Header';
 import Home from './pages/Home/Home';
 // import Login from './pages/Login';
@@ -8,12 +13,15 @@ import Order from './pages/Order/Order';
 // import OrderDetail from './pages/OrderDetail';
 // import OrderHistories from './pages/OrderHistories';
 // import OrderHistory from './pages/OrderHistory';
+// import All from './pages/All';
 
-function App() {
+const App = () => {
+  const location = useLocation();
+  const noHeaderPaths: string[] = ['/login', '/join', '/all', '/welcome']; // Header를 숨길 경로들
+
   return (
-    <Router>
-      {/* <Header /> */}
-
+    <>
+      {!noHeaderPaths.includes(location.pathname) && <Header />}
       <Routes>
         <Route path='/' element={<Home />} />
         {/* <Route path='/login' element={<Login />} /> */}
@@ -22,10 +30,19 @@ function App() {
         <Route path='/order' element={<Order />} />
         {/* <Route path='/orderdetail' element={<OrderDetail />} />
         <Route path='/orderhistories' element={<OrderHistories />} />
-        <Route path='/orderhistories/:id' element={<OrderHistory />} /> */}
+        <Route path='/orderhistories/:id' element={<OrderHistory />} /> 
+        <Route path='/all' element={<All />} /> */}
       </Routes>
+    </>
+  );
+};
+
+const Root = () => {
+  return (
+    <Router>
+      <App />
     </Router>
   );
-}
+};
 
-export default App;
+export default Root;
