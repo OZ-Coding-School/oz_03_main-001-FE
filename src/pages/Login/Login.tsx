@@ -6,13 +6,27 @@ import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';
 import { Link, useNavigate } from 'react-router-dom';
 
-/** 
-로그인 버튼 클릭시
-회원가입이 되어있으면 - 메인페이지이동
-회원가입 되어있지 않으면 - 회원가입 페이지 이동
-
-로그인 (아이디 또는 비밀번호가 잘못 되었습니다. 정확히 입력해주세요)
-**/
+// 1. 아이디
+// 	1. 유효성 검사 없음
+// 2. 비밀번호
+// 	1. 유효성 검사 없음
+// 3. 로그인 버튼을 눌렀을때
+// 	- 버튼 비활성화 해제
+// 	- 아이디, 비밀번호 플레이스 홀더 부분을 원래 ui로 변경 -> 이미 한번 틀렸을 경우를 대비
+// 	1. 유저가 입력한 아이디, 비밀번호를 서버에 전송
+// 		- success
+// 			- 유저정보
+// 			  1. 토큰으로 받으면 어떻게 생겨먹은 토큰인지 (진짜 토큰인지, 아니면 response class인지)
+// 				  1. 그 토큰을 웹에서 어떻게 활용할 수 있는지 -> 소셜 로그인?
+// 			  2. 쿠키로 받는다는건 뭘 의미하는지?
+// 			  3. 토큰을 어느시점에 받아올건지.
+// 		- failed
+// 			- 에러코드
+// 			  1 -> 아이디가 틀렸습니다 노출
+// 			  2 -> 비밀번호가 틀렸습니다 노출
+// 			  3 -> 둘다 틀렸습니다 노출
+// 4. 성공이면 메인페이 이동
+// 5. 실패이면 실패 이유 노출
 
 const Login: React.FC = () => {
   const {
@@ -22,29 +36,6 @@ const Login: React.FC = () => {
     //그래서 해당 이벤트가 끝나고 다시 버튼을 활성화 시켜주기 위한 속성
     //양삭이 현재 제출중인상태인지 아닌지 알수있다.
   } = useForm({ mode: 'onChange' });
-
-  const [serverError, setServerError] = useState('');
-  const navigate = useNavigate();
-
-  const onSubmit = async (data: any) => {
-    // 서버에 로그인 요청을 보내는 부분
-    try {
-      // 여기에 실제 로그인 로직을 추가하세요.
-      // 예: const response = await loginUser(data.username, data.password);
-
-      // 여기서는 예시로 서버 응답을 가정합니다.
-      const isLoginSuccessful =
-        data.id === 'testuser' && data.password === 'Test@1234'; // 간단한 로그인 검증 예시
-
-      if (isLoginSuccessful) {
-        navigate('/main'); // 메인 페이지로 이동
-      } else {
-        setServerError('아이디나 비밀번호가 틀렸습니다. 정확히 입력해 주세요.');
-      }
-    } catch (error) {
-      setServerError('로그인 중 오류가 발생했습니다.');
-    }
-  };
 
   return (
     <div>
