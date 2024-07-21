@@ -4,7 +4,7 @@ import dosilockLogo from '../../assets/images/dosilockLogo.png';
 import googleLogo from '../../assets/images/googleLogo.png';
 import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 /** 
 로그인 버튼 클릭시
@@ -23,12 +23,28 @@ const Login: React.FC = () => {
     //양삭이 현재 제출중인상태인지 아닌지 알수있다.
   } = useForm({ mode: 'onChange' });
 
-  // const onValid = (date: any) => {
-  //   console.log(date);
-  // };
-  // const onInvalid = (error: any) => {
-  //   console.log(error);
-  // };
+  const [serverError, setServerError] = useState('');
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: any) => {
+    // 서버에 로그인 요청을 보내는 부분
+    try {
+      // 여기에 실제 로그인 로직을 추가하세요.
+      // 예: const response = await loginUser(data.username, data.password);
+
+      // 여기서는 예시로 서버 응답을 가정합니다.
+      const isLoginSuccessful =
+        data.id === 'testuser' && data.password === 'Test@1234'; // 간단한 로그인 검증 예시
+
+      if (isLoginSuccessful) {
+        navigate('/main'); // 메인 페이지로 이동
+      } else {
+        setServerError('아이디나 비밀번호가 틀렸습니다. 정확히 입력해 주세요.');
+      }
+    } catch (error) {
+      setServerError('로그인 중 오류가 발생했습니다.');
+    }
+  };
 
   return (
     <div>
@@ -51,37 +67,51 @@ const Login: React.FC = () => {
             <input
               {...register('id', {
                 required: true,
+                pattern: {
+                  value: /^[a-zA-Z][a-zA-Z0-9_-]{4,19}$/,
+                  message: '아이디를 정확히 입력해 주세요',
+                },
               })}
+              aria-invalid={
+                isSubmitted ? (errors.id ? 'true' : 'false') : undefined
+              }
               type='text'
               placeholder='아이디'
-              required //반드시 값을 입력해야할때
-              className='h-[60px] w-[410px] rounded-[12px] border px-4 py-2'
-              style={{ border: ' 1px solid border' }}
-              aria-invalid={errors.id ? 'true' : 'false'}
+              //   required //반드시 값을 입력해야할때
+              className='h-[60px] w-[410px] rounded-[12px] border border-border px-4 py-2'
+              style={{ border: ' 1px solid #E6E6E6' }}
             />
+            {errors.id && <small>{String(errors.id.message)}</small>}
+
             <input
+              {...register('password', {
+                required: true,
+                pattern: {
+                  value:
+                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?!.*\s).{8,}$/,
+                  message: '비밀번호를 정확히 입력해주세요',
+                },
+              })}
               aria-invalid={
                 isSubmitted ? (errors.password ? 'true' : 'false') : undefined
               }
-              {...register('password', {
-                required: true,
-                minLength: {
-                  value: 8,
-                  message: '비밀번호는 8자 이상이에요',
-                },
-              })}
               id='password'
               type='password'
               placeholder='비밀번호'
               required //반드시 값을 입력해야할때
               className='mt-[14px] h-[60px] w-[410px] rounded-[12px] border px-4 py-2'
-              style={{ border: ' 1px solid border' }}
+              style={{ border: ' 1px solid #E6E6E6' }}
             />
+            {errors.password && (
+              <small>{String(errors.password.message)}</small>
+            )}
             <button
               disabled={!isValid || isSubmitting} //양식이 제출되는 중에는 버튼 비활성화
               type='submit'
               className={`mt-9 h-[60px] w-[410px] rounded-[12px] border bg-primary text-center text-lg font-bold leading-[30px] text-white ${
-                !isValid || isSubmitting ? 'opacity-50' : 'hover:bg-primary-hover' 
+                !isValid || isSubmitting
+                  ? 'opacity-50'
+                  : 'hover:bg-primary-hover'
               }`}
             >
               로그인
@@ -90,7 +120,7 @@ const Login: React.FC = () => {
           <div className='mb-[12px] flex flex-col items-center'>
             <Link
               to='join'
-              className='text-main font-semibold /* var(--gray-300) mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base leading-10'
+              className='/* var(--gray-300) mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base font-semibold leading-10 text-main'
             >
               회원가입
             </Link>
