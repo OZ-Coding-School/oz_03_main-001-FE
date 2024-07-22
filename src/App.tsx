@@ -14,6 +14,7 @@ import Order from './pages/Order/Order';
 // import OrderHistories from './pages/OrderHistories';
 // import OrderHistory from './pages/OrderHistory';
 // import All from './pages/All';
+import CustomCursor from './components/layout/CustomCursor';
 
 const App = () => {
   const location = useLocation();
@@ -22,6 +23,7 @@ const App = () => {
   return (
     <>
       {!noHeaderPaths.includes(location.pathname) && <Header />}
+      <CustomCursor />
       <Routes>
         <Route path='/' element={<Home />} />
         {/* <Route path='/login' element={<Login />} /> */}
