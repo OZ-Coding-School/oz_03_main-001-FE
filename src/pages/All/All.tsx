@@ -35,10 +35,14 @@ const All = () => {
   // 체크 된 알레르기 목록 관리
   const [checkAllList, setCheckedList] = useState<string[]>([]);
 
+  // 알레르기 미 체크시 메세지 관리
+  const [errorAll, setErrorAll] = useState('');
+
   // 체크 상태 관리 함수 -> 체크상태와 아이디 받아옴
   const handleCheckAll = (checked: boolean, id: string) => {
     if (id === 'no_all') {
       setNoAll(checked);
+      setErrorAll('');
       // 알레르기 없음이 체크되었다면 다른 알레르기 체크 상태 초기화
       if (checked) {
         setCheckedList([]);
@@ -46,16 +50,24 @@ const All = () => {
     } else {
       if (checked) {
         setCheckedList([...checkAllList, id]);
+        setErrorAll('');
       } else if (!checked) {
         setCheckedList(checkAllList.filter((all) => all !== id));
       }
     }
   };
 
+  // 체크된 알레르기가 하나도 없다는 불린 값
+  const isCheckEmpty = checkAllList.length === 0 && !noAll;
+
   // 버튼 클릭 시 서버에 전송
   const postAll = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
+    if (isCheckEmpty) {
+      setErrorAll('알레르기가 없을 시 없음을 체크해주세요');
+      return false;
+    }
     // 알레르기 체크 상태에 따라 전송 배열 바꾸기
     const postData = noAll ? [] : checkAllList;
 
@@ -71,13 +83,12 @@ const All = () => {
       // 실패 시 에러
     } catch (error) {
       console.error('서버 요청 실패:', error);
-
       console.log(postData);
     }
   };
 
   return (
-    <div className='flex flex-col items-center justify-center gap-12 pt-[114px]'>
+    <div className='flex h-screen flex-col items-center justify-center gap-12'>
       <div>
         <img className='h-[73px] w-[200px]' src={logo} alt='로고' />
       </div>
@@ -94,7 +105,7 @@ const All = () => {
             name='알레르기 없음'
             type='checkbox'
             // eslint-disable-next-line tailwindcss/classnames-order
-            className='checked:bg-checkBox h-6 w-6 appearance-none rounded-[4px] checked:bg-contain checked:bg-center checked:bg-no-repeat'
+            className='h-6 w-6 appearance-none rounded-[4px] checked:bg-checkBox checked:bg-contain checked:bg-center checked:bg-no-repeat'
             style={{ border: '1px solid #D9D9D9' }}
             checked={noAll}
             onChange={(e) => handleCheckAll(e.target.checked, 'no_all')}
@@ -102,6 +113,11 @@ const All = () => {
           <label htmlFor='no_all' className='px-5 text-base font-normal'>
             알레르기 없음
           </label>
+          {errorAll && (
+            <span className='pl-1 text-xs font-medium text-primary-hover'>
+              {errorAll}
+            </span>
+          )}
         </div>
         <div className='flex flex-wrap gap-[20px] pb-[35px] pt-[35px]'>
           {allList.map((all, index) => {
@@ -120,7 +136,7 @@ const All = () => {
                     handleCheckAll(e.target.checked, e.target.id);
                   }}
                   // eslint-disable-next-line tailwindcss/classnames-order
-                  className='checked:bg-checkBox h-6 w-6 appearance-none rounded-[4px] checked:bg-contain checked:bg-center checked:bg-no-repeat'
+                  className='h-6 w-6 appearance-none rounded-[4px] checked:bg-checkBox checked:bg-contain checked:bg-center checked:bg-no-repeat'
                   style={{ border: '1px solid #D9D9D9' }}
                 />
                 <label
@@ -134,7 +150,9 @@ const All = () => {
           })}
         </div>
         <button
-          className='h-[70px] w-[549px] rounded-xl border border-border bg-primary px-[20px] py-[12px] text-lg font-bold text-white hover:bg-primary-hover'
+          className={`h-[70px] w-[549px] rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
+            isCheckEmpty ? 'bg-disabled' : 'bg-primary hover:bg-primary-hover'
+          }`}
           type='submit'
           onClick={postAll}
         >
