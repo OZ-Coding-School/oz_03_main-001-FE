@@ -17,6 +17,7 @@ body {
   margin: 0;
   box-sizing: border-box;
   padding: 0;
+  cursor: none;
 }
 
 * {
@@ -78,4 +79,20 @@ address {
 ::selection {
   background-color: #f6b75a;
   color: white;
+}
+
+/*스크롤바*/
+
+body::-webkit-scrollbar {
+  width: 10px;
+  background: #fff;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #f6b75a;
+  border-radius: 5px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #fff;
 }

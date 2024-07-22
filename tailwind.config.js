@@ -31,8 +31,8 @@ export default {
       },
       animation: {
         bg1_move: 'bg1_move 5s ease-in-out infinite;', 
-        bg2_move: 'bg2_move 7s ease-in-out infinite;', 
-        bg3_move: 'bg3_move 9s ease-in-out infinite;', 
+        bg2_move: 'bg2_move 5s ease-in-out infinite;', 
+        bg3_move: 'bg3_move 5s ease-in-out infinite;', 
       },
       boxShadow: {
         'btn': '2px 2px 10px 2px rgba(0, 0, 0, 0.15)',
