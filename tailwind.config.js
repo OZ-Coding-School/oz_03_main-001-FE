@@ -19,11 +19,12 @@ export default {
       "secondary": '#FFF4B8',
       "tigim": '#F6B75A',
       "tertiary": '#D5F5D2',
+      "disabled": '#EDB5A7',
 
       "checkBox": '#D9D9D9',
     },
     backgroundImage: {
-      'checkBox': "url('/src/assets/images/check.png')",
+      'checkBox': "url('/src/assets/images/checkBox.png')",
     },
   },
   plugins: [],
