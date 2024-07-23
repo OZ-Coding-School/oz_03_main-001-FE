@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      screens: {
+        'headerBreak': '1770px', 
+      },
       height: {
         'custom-calc1': 'calc(100vh - 290px)',
       },

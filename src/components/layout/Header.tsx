@@ -11,7 +11,7 @@ const Header = () => {
       {location.pathname === '/' ? <div className='h-[42px] bg-white' /> : null}
 
       <header className='sticky left-0 right-0 top-0 z-50 bg-white'>
-        <div className='inner mx-auto flex h-[75px] w-[1770px] items-center justify-between'>
+        <div className='inner headerBreak:w-[1775px] mx-auto flex h-[75px] w-[95%] items-center justify-between'>
           <div className='flex items-center'>
             <h1>
               <Link to='/'>
