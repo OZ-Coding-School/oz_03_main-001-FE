@@ -58,5 +58,5 @@ export default {
       "disabled": '#EDB5A7'
     },
   },
-  plugins: [],
+  plugins: [require ( 'tailwind-scrollbar' ), ],
 }
