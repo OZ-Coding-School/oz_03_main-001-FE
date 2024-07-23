@@ -25,10 +25,7 @@ const Dish: React.FC<Props> = ({
   },
 }) => {
   return (
-    <button
-      className='flex cursor-pointer flex-col justify-evenly rounded-xl bg-white p-4 shadow-md'
-      //   onClick={}
-    >
+    <button className='flex cursor-pointer flex-col justify-evenly rounded-xl bg-white p-4 shadow-md'>
       <p>{name}</p>
       <div
         // src={image_url}
