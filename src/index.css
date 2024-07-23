@@ -3,13 +3,6 @@
 @tailwind utilities;
 
 /*reset*/
-@font-face {
-  font-family: 'pretendard';
-  src: url('assets/fonts/pretendard') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
 
 :root,
 html,
@@ -22,7 +15,7 @@ body {
 
 * {
   margin: 0;
-  font-family: pretendard;
+  font-family: Pretendard, Pretendard-Regular;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
