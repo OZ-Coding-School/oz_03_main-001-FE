@@ -1,41 +1,74 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import dosilockLogo from '../../assets/images/dosilockLogo.png';
 import googleLogo from '../../assets/images/googleLogo.png';
 import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';
 import { Link, useNavigate } from 'react-router-dom';
-
-// 1. 아이디
-// 	1. 유효성 검사 없음
-// 2. 비밀번호
-// 	1. 유효성 검사 없음
-// 3. 로그인 버튼을 눌렀을때
-// 	- 버튼 비활성화 해제
-// 	- 아이디, 비밀번호 플레이스 홀더 부분을 원래 ui로 변경 -> 이미 한번 틀렸을 경우를 대비
-// 	1. 유저가 입력한 아이디, 비밀번호를 서버에 전송
-// 		- success
-// 			- 유저정보
-// 			  1. 토큰으로 받으면 어떻게 생겨먹은 토큰인지 (진짜 토큰인지, 아니면 response class인지)
-// 				  1. 그 토큰을 웹에서 어떻게 활용할 수 있는지 -> 소셜 로그인?
-// 			  2. 쿠키로 받는다는건 뭘 의미하는지?
-// 			  3. 토큰을 어느시점에 받아올건지.
-// 		- failed
-// 			- 에러코드
-// 			  1 -> 아이디가 틀렸습니다 노출
-// 			  2 -> 비밀번호가 틀렸습니다 노출
-// 			  3 -> 둘다 틀렸습니다 노출
-// 4. 성공이면 메인페이 이동
-// 5. 실패이면 실패 이유 노출
+import { DevTool } from '@hookform/devtools';
+import { LoginRequest } from '../../types/loginTypes';
+import Modal from './Modal/Modal';
+import axios from 'axios';
 
 const Login: React.FC = () => {
+  // 모달 상태 관리
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [loginCheck, setLoginCheck] = useState<string | null>(null); // 로그인 실패 상태
+
+  //useForm
   const {
+    control,
     register, //입력을 받고자 하는 모든 필드에 반드시 register 함수를 사용
     handleSubmit,
     formState: { isSubmitting, errors, isValid, isSubmitted }, //이벤트가 미쳐 종료되기전 사용자가 다시클릭하면 양식중복,
     //그래서 해당 이벤트가 끝나고 다시 버튼을 활성화 시켜주기 위한 속성
     //양삭이 현재 제출중인상태인지 아닌지 알수있다.
-  } = useForm({ mode: 'onChange' });
+    watch, //사용자가 입력하는 값을 실시간으로 볼수있음
+  } = useForm<LoginRequest>({ mode: 'onChange' });
+  // console.log(watch);
+
+  const navigate = useNavigate();
+
+  // 로그인 로직
+  const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
+    try {
+      const response = await axios.post('/api/v1/users/login', {
+        body: JSON.stringify({
+          user_id: data.user_id,
+          password: data.password,
+        }),
+      });
+      // console.log(response);
+
+      const result = response.data;
+
+      if (response.status === 200) {
+        //성공
+        setLoginCheck(null);
+        sessionStorage.setItem('token', result.token);
+        sessionStorage.setItem('user_id', result.user_id);
+        sessionStorage.setItem('password', result.password);
+        console.log('로그인 성공, 로그인 유저:', result.user_id);
+        navigate('/'); //홈페이지로 이동
+      } else if (response.status === 400) {
+        //잘못된 값 입력됐을때 에러
+        setLoginCheck('잘못된 값이 입력되었습니다.');
+        console.log(setLoginCheck);
+      } else if (response.status === 500) {
+        //서버 내부 에러
+        setLoginCheck(
+          '서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'
+        );
+        console.log(setLoginCheck);
+        // setModalOpen(true);
+      }
+    } catch (error) {
+      console.error('로그인 요청 중 에러 발생:', error);
+      setLoginCheck('오류가 발생했습니다. 다시 시도해 주세요.');
+      // setModalOpen(true);
+    }
+  };
 
   return (
     <div>
@@ -48,39 +81,44 @@ const Login: React.FC = () => {
 
         {/* 여기서부터 제출 폼 */}
         <form
-          onSubmit={handleSubmit((date) => alert(JSON.stringify(date)))}
-          className='h-[533px] w-[490px] rounded-[28px] border border-border'
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          className='w-[490px] rounded-[28px] border border-border px-[43px] pb-[46px] pt-[40px]'
+          autoComplete='off'
         >
-          <div className='mb-[14px] ml-[43px] mt-[39px] text-xl font-medium leading-10 text-main'>
+          <div className='mb-[14px] text-xl font-medium leading-10 text-main'>
             로그인
           </div>
           <div className='flex flex-col items-center'>
             <input
-              {...register('id', {
-                required: true,
-                pattern: {
-                  value: /^[a-zA-Z][a-zA-Z0-9_-]{4,19}$/,
-                  message: '아이디를 정확히 입력해 주세요',
+              {...register('user_id', {
+                required: {
+                  value: true,
+                  message: '아이디를 입력해주세요',
                 },
+                // minLength: {
+                //   value: 1,
+                //   message: '아이디를 입력해주세요',
+                // },
               })}
               aria-invalid={
-                isSubmitted ? (errors.id ? 'true' : 'false') : undefined
+                isSubmitted ? (errors.user_id ? 'true' : 'false') : undefined
               }
               type='text'
               placeholder='아이디'
               //   required //반드시 값을 입력해야할때
-              className='h-[60px] w-[410px] rounded-[12px] border border-border px-4 py-2'
+              className='h-[60px] w-[410px] rounded-[12px] border border-border px-[20px] py-[12px]'
               style={{ border: ' 1px solid #E6E6E6' }}
             />
-            {errors.id && <small>{String(errors.id.message)}</small>}
+            <div className='l-75 w-full pl-[15px] text-left text-primary'>
+              {errors.user_id && <small>{String({ loginCheck })}</small>}
+            </div>
 
             <input
               {...register('password', {
-                required: true,
-                pattern: {
-                  value:
-                    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?!.*\s).{8,}$/,
-                  message: '비밀번호를 정확히 입력해주세요',
+                required: {
+                  value: true,
+                  message: '비밀번호를 입력해주세요',
                 },
               })}
               aria-invalid={
@@ -90,23 +128,28 @@ const Login: React.FC = () => {
               type='password'
               placeholder='비밀번호'
               required //반드시 값을 입력해야할때
-              className='mt-[14px] h-[60px] w-[410px] rounded-[12px] border px-4 py-2'
+              className='mt-[14px] h-[60px] w-[410px] rounded-[12px] border px-[20px] py-[12px]'
               style={{ border: ' 1px solid #E6E6E6' }}
             />
-            {errors.password && (
-              <small>{String(errors.password.message)}</small>
-            )}
-            <button
-              disabled={!isValid || isSubmitting} //양식이 제출되는 중에는 버튼 비활성화
-              type='submit'
-              className={`mt-9 h-[60px] w-[410px] rounded-[12px] border bg-primary text-center text-lg font-bold leading-[30px] text-white ${
-                !isValid || isSubmitting
-                  ? 'opacity-50'
-                  : 'hover:bg-primary-hover'
-              }`}
-            >
-              로그인
-            </button>
+            <div className='l-75 w-full pl-[15px] text-left text-primary'>
+              {errors.password && <small>{String({ loginCheck })}</small>}
+            </div>
+            <div className='relative'>
+              <button
+                disabled={!isValid || isSubmitting} //양식이 제출되는 중에는 버튼 비활성화
+                type='submit'
+                className={`mt-9 h-[60px] w-[410px] rounded-[12px] border bg-primary text-center text-lg font-bold leading-[30px] text-white ${
+                  !isValid || isSubmitting
+                    ? 'opacity-50'
+                    : 'hover:bg-primary-hover'
+                }`}
+              >
+                로그인
+              </button>
+              <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                {modalMessage}
+              </Modal>
+            </div>
           </div>
           <div className='mb-[12px] flex flex-col items-center'>
             <Link
@@ -125,9 +168,38 @@ const Login: React.FC = () => {
             <img src={naverLogo} className='ml-[9px] h-[50px] w-[50px]' />
           </div>
         </form>
+        <DevTool control={control} />
       </div>
     </div>
   );
 };
 
 export default Login;
+
+// 1. 아이디
+// 	1. 유효성 검사 없음
+// 2. 비밀번호
+// 	1. 유효성 검사 없음
+// 3. 로그인 버튼을 눌렀을때
+// 	- 버튼 비활성화 해제
+// 	- 아이디, 비밀번호 플레이스 홀더 부분을 원래 ui로 변경 -> 이미 한번 틀렸을 경우를 대비
+// 	1. 유저가 입력한 아이디, 비밀번호를 서버에 전송
+// 		- success
+// 			- 유저정보
+// 			  1. 토큰으로 받으면 어떻게 생겨먹은 토큰인지 (진짜 토큰인지, 아니면 response class인지)
+// 				  1. 그 토큰을 웹에서 어떻게 활용할 수 있는지 -> 소셜 로그인?
+// 			  2. 쿠키로 받는다는건 뭘 의미하는지?
+// 			  3. 토큰을 어느시점에 받아올건지.
+// 		- failed
+// 			- 에러코드
+// 			  1 -> 아이디 글자수 맞춰 입력해달라 (0)
+// 			  2 -> 비밀번호 글자수 맞춰 입력해달라 (0)
+// 			  3 -> 둘다 틀렸습니다 노출
+// 4. 성공이면 메인페이 이동
+// 5. 실패이면 실패 이유 노출
+//없었을때 테두리 글자랑 똑같은색
+
+//로그인 눌렀을때 기존정보에 서버와 아이디가 다르면
+//“ 아이디와 비밀번호를 정확히 입력해주세요 “ 라고 메세지 뜨게하기
+
+//api/v1/users/login
