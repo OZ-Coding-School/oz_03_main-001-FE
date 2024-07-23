@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../../assets/images/dosirockLogo.png';
 // import footerBack from '../../assets/images/character-footer.png';
 
@@ -7,17 +7,20 @@ const Footer = () => {
     <footer className="bg-[url('./assets/images/character-footer.png')] bg-right-bottom bg-no-repeat">
       <div className='mx-auto w-[1590px] border-t-[1px] border-t-border'>
         <div className='mt-[47px] flex items-center'>
-          <a href='/' aria-label='도시락도 락이다 홈'>
-            <img src={Logo} aria-hidden className='w-[120px]' />
-          </a>
+          <Link to={'/'} aria-label='도시락도 락이다 홈'>
+            <img src={Logo} alt='' aria-hidden className='w-[120px]' />
+          </Link>
           <span className='ml-[30px] h-[17px] w-0.5 bg-gray20' />
-          <a href='/order' className='w-[113px] text-center text-caption'>
+          <Link to={'/order'} className='w-[113px] text-center text-caption'>
             주문하기
-          </a>
+          </Link>
           <span className='h-[17px] w-0.5 bg-gray20' />
-          <a href='/' className='w-[113px] text-center text-caption'>
+          <Link
+            to={'/community'}
+            className='w-[113px] text-center text-caption'
+          >
             커뮤니티
-          </a>
+          </Link>
           <span className='h-[17px] w-0.5 bg-gray20' />
         </div>
 
