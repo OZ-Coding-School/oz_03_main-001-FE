@@ -6,14 +6,14 @@ import {
 } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Home from './pages/Home/Home';
-import Login from './pages/Login';
+import Login from './pages/Login/Login';
 import Join from './pages/Join/Join';
+import All from './pages/All/All';
 import Welcome from './pages/Welcome/Welcome';
 import Order from './pages/Order/Order';
-// import OrderDetail from './pages/OrderDetail';
+import OrderDetail from './pages/OrderDetail/OrderDetail';
 // import OrderHistory from './pages/OrderHistory';
 import OrderHistories from './pages/OrderHistories/OrderHistories';
-// import All from './pages/All';
 import CustomCursor from './components/layout/CustomCursor';
 
 const App = () => {
@@ -31,9 +31,9 @@ const App = () => {
         <Route path='/all' element={<All />} />
         <Route path='/welcome' element={<Welcome />} />
         <Route path='/order' element={<Order />} />
-        <Route path='/orderhistories' element={<OrderHistories />} />
-        {/* <Route path='/orderdetail' element={<OrderDetail />} />
-        <Route path='/orderhistories/:id' element={<OrderHistory />} /> */}
+        <Route path='/orderdetail' element={<OrderDetail />} />
+        <Route path='/orderhistories' element={<OrderHistories />}
+        {/* <Route path='/orderhistories/:id' element={<OrderHistory />} /> */}
       </Routes>
     </>
   );

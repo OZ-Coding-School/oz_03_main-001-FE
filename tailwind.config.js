@@ -70,5 +70,5 @@ export default {
       'checkBox': "url('/src/assets/images/checkBox.png')",
     },
   },
-  plugins: [],
+  plugins: [require ( 'tailwind-scrollbar' ), ],
 }
