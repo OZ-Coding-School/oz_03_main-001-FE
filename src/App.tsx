@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import Header from './components/layout/Header';
 import Home from './pages/Home/Home';
-// import Login from './pages/Login';
+import Login from './pages/Login';
 import Join from './pages/Join/Join';
 import Welcome from './pages/Welcome/Welcome';
 import Order from './pages/Order/Order';
@@ -26,7 +26,7 @@ const App = () => {
       <CustomCursor />
       <Routes>
         <Route path='/' element={<Home />} />
-        {/* <Route path='/login' element={<Login />} /> */}
+        <Route path='/login' element={<Login />} />
         <Route path='/join' element={<Join />} />
         <Route path='/welcome' element={<Welcome />} />
         <Route path='/order' element={<Order />} />
