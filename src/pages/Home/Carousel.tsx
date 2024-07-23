@@ -7,8 +7,12 @@ const CarouselLi = () => {
   return (
     <li className='embla__slide w-1/4 flex-none pl-[40px]'>
       <div className='shadow-type1 h-[474px] rounded-[28px] border-[1px] border-border bg-white px-[20px]'>
-        <div className='mx-auto mt-[20px] flex h-[392px] w-[398px] items-center justify-center rounded-2xl bg-[#fffadc]'>
-          <img src={image} alt='샘플 도시락 이미지' className='w-[50%]' />
+        <div className='mx-auto mt-[20px] flex h-[392px] items-center justify-center rounded-2xl bg-[#fffadc]'>
+          <img
+            src={image}
+            alt='샘플 도시락 이미지'
+            className='w-[50%] max-w-[197px]'
+          />
         </div>
         <a href='#' className='pl-[5px] text-lg leading-[60px]'>
           무슨무슨 도시락
