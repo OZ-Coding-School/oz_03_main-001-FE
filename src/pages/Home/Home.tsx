@@ -100,7 +100,7 @@ const Home = () => {
               </p>
             </div>
 
-            <img src={character} aria-hidden />
+            <img src={character} alt='' aria-hidden />
           </div>
         </motion.div>
         <Bg01 />

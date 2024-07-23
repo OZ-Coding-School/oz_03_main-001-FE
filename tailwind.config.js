@@ -61,7 +61,7 @@ export default {
       "secondary": '#FFF4B8',
       "tigim": '#F6B75A',
       "tertiary": '#D5F5D2',
-      "primary-hover": '#DC4E2F',
+      "disabled": '#EDB5A7'
     },
   },
   plugins: [],

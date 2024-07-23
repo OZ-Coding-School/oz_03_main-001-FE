@@ -1,7 +1,7 @@
-import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoScroll from 'embla-carousel-auto-scroll';
 import image from '../../assets/images/example1.png';
+import { Link } from 'react-router-dom';
 
 const CarouselLi = () => {
   return (
@@ -14,9 +14,9 @@ const CarouselLi = () => {
             className='w-[50%] max-w-[197px]'
           />
         </div>
-        <a href='#' className='pl-[5px] text-lg leading-[60px]'>
+        <Link to={''} className='pl-[5px] text-lg leading-[60px]'>
           무슨무슨 도시락
-        </a>
+        </Link>
       </div>
     </li>
   );
