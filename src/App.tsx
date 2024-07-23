@@ -11,8 +11,8 @@ import Join from './pages/Join/Join';
 import Welcome from './pages/Welcome/Welcome';
 import Order from './pages/Order/Order';
 // import OrderDetail from './pages/OrderDetail';
-// import OrderHistories from './pages/OrderHistories';
 // import OrderHistory from './pages/OrderHistory';
+import OrderHistories from './pages/OrderHistories/OrderHistories';
 // import All from './pages/All';
 import CustomCursor from './components/layout/CustomCursor';
 
@@ -30,8 +30,8 @@ const App = () => {
         <Route path='/join' element={<Join />} />
         <Route path='/welcome' element={<Welcome />} />
         <Route path='/order' element={<Order />} />
-        {/* <Route path='/orderdetail' element={<OrderDetail />} />
         <Route path='/orderhistories' element={<OrderHistories />} />
+        {/* <Route path='/orderdetail' element={<OrderDetail />} />
         <Route path='/orderhistories/:id' element={<OrderHistory />} /> 
         <Route path='/all' element={<All />} /> */}
       </Routes>

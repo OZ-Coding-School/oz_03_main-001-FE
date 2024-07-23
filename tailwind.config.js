@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      height: {
+        'custom-calc1': 'calc(100vh - 290px)',
+      },
       keyframes: {
         bg1_move: {
           '0%, 100%': {
