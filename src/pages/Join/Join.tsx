@@ -191,7 +191,7 @@ const Join = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center gap-7 pt-[114px]'>
+    <div className='flex h-screen flex-col items-center justify-center gap-7'>
       <div>
         <Link to={'/'}>
           <img className='h-[73px] w-[200px]' src={logo} alt='로고' />{' '}

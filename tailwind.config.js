@@ -3,6 +3,12 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      screens: {
+        'headerBreak': '1770px', 
+      },
+      height: {
+        'custom-calc1': 'calc(100vh - 290px)',
+      },
       keyframes: {
         bg1_move: {
           '0%, 100%': {
@@ -31,8 +37,8 @@ export default {
       },
       animation: {
         bg1_move: 'bg1_move 5s ease-in-out infinite;', 
-        bg2_move: 'bg2_move 7s ease-in-out infinite;', 
-        bg3_move: 'bg3_move 9s ease-in-out infinite;', 
+        bg2_move: 'bg2_move 5s ease-in-out infinite;', 
+        bg3_move: 'bg3_move 5s ease-in-out infinite;', 
       },
       boxShadow: {
         'btn': '2px 2px 10px 2px rgba(0, 0, 0, 0.15)',
@@ -55,7 +61,13 @@ export default {
       "secondary": '#FFF4B8',
       "tigim": '#F6B75A',
       "tertiary": '#D5F5D2',
-      "disabled": '#EDB5A7'
+      
+      "disabled": '#EDB5A7',
+
+      "checkBox": '#D9D9D9',
+    },
+    backgroundImage: {
+      'checkBox': "url('/src/assets/images/checkBox.png')",
     },
   },
   plugins: [require ( 'tailwind-scrollbar' ), ],
