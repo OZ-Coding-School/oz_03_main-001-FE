@@ -3,7 +3,7 @@ import { useJoinStore } from '../../store/useJoinStore';
 import logo from '../../assets/images/dosirockLogo.png';
 import Modal from './Modal/Modal';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Join = () => {
   // 페이지 이동을 위한 네비게이트
@@ -172,33 +172,13 @@ const Join = () => {
             setEmailError('이미 사용 중인 이메일입니다.');
             setIdError('이미 사용 중인 아이디입니다.');
 
-            setModalOpen(true);
-            setModalMessage('아이디와 이메일을 확인해 주세요.');
-
-            setTimeout(() => {
-              setModalOpen(false);
-            }, 4000);
-
             // 이메일만 문제
           } else if (response.data === 'duplicate_email') {
             setEmailError('이미 사용 중인 이메일입니다.');
 
-            setModalOpen(true);
-            setModalMessage('이메일을 확인해 주세요.');
-
-            setTimeout(() => {
-              setModalOpen(false);
-            }, 4000);
             // 아이디 문제
           } else if (response.data === 'duplicate_id') {
             setIdError('이미 사용 중인 아이디입니다.');
-
-            setModalOpen(true);
-            setModalMessage('아이디를 확인해 주세요.');
-
-            setTimeout(() => {
-              setModalOpen(false);
-            }, 4000);
           }
         }
         // 에러가 발생하면 에러 문구 모달창 띄우기
@@ -211,9 +191,11 @@ const Join = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center gap-7 pt-[114px]'>
+    <div className='flex h-screen flex-col items-center justify-center gap-7'>
       <div>
-        <img className='h-[73px] w-[200px]' src={logo} alt='로고' />
+        <Link to={'/'}>
+          <img className='h-[73px] w-[200px]' src={logo} alt='로고' />{' '}
+        </Link>
       </div>
       <form className='w-[490px] rounded-[28px] border border-border px-[40px] pb-[46px] pt-[40px]'>
         <span className='text-xl font-medium leading-10 text-main'>
@@ -300,9 +282,7 @@ const Join = () => {
           <button
             id='submit-button'
             className={`h-[60px] w-[410px] rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
-              isValueEmpty
-                ? 'bg-primary hover:bg-primary-hover'
-                : 'bg-gray20 hover:bg-gray30'
+              isValueEmpty ? 'bg-primary hover:bg-primary-hover' : 'bg-disabled'
             }`}
             type='submit'
             onClick={postJoin}
