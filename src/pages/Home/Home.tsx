@@ -1,11 +1,12 @@
+import { motion, Variants } from 'framer-motion';
 import mainTxt from '../../assets/images/mainTxt.png';
 import character from '../../assets/images/character.png';
-import arrowRight from '../../assets/images/arrowRight.png';
 import truck from '../../assets/images/truck.png';
 import munuh from '../../assets/images/munuh-profile.png';
 import tigim from '../../assets/images/tigim-profile.png';
 import kori from '../../assets/images/kori-profile.png';
 
+import './customClass.css';
 import Carousel from './Carousel';
 import Footer from '../../components/layout/Footer';
 import Bg01 from './bgAnimation/Bg01';
@@ -13,26 +14,79 @@ import Bg02 from './bgAnimation/Bg02';
 import Bg03 from './bgAnimation/Bg03';
 
 const Home = () => {
+  const motionSettings = {
+    initial: { opacity: 0, y: 50 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: {
+      ease: 'easeInOut',
+      duration: 0.8,
+    },
+  };
+
+  const cardVariants: Variants = {
+    offscreen: {
+      opacity: 0,
+      y: 50,
+      // rotateY: 180,
+    },
+    onscreen: {
+      opacity: 1,
+      y: 0,
+      // rotateY: 360,
+      transition: {
+        type: 'spring',
+        bounce: 0.5,
+        duration: 0.8,
+      },
+    },
+  };
+
+  const motionLiSettings = {
+    className: 'card-container',
+    initial: 'offscreen',
+    whileInView: 'onscreen',
+    viewport: { once: true, amount: 0.8 },
+    variants: cardVariants,
+  };
+
   return (
     <section>
-      <div className='mx-auto max-w-[1920px] overflow-x-hidden'>
-        <button className='fixed bottom-[65px] left-1/2 z-40 flex h-[60px] w-[275px] -translate-x-1/2 transform items-center rounded-full bg-white shadow-btn'>
-          <div className='mx-auto flex items-center'>
-            <span className='mr-[25px] text-lg font-medium'>
-              나만의 도시락 만들러 가기
-            </span>
-            <img src={arrowRight} aria-hidden alt='' />
-          </div>
-        </button>
-        {/* article1 - main banner */}
-        <article className='relative h-[100vh] overflow-hidden bg-white'>
-          <div className='inner mx-auto flex w-[1590px] justify-between pt-[230px]'>
+      <button className='group fixed bottom-[65px] left-1/2 z-40 flex h-[60px] w-[275px] -translate-x-1/2 transform items-center rounded-full bg-white shadow-btn hover:bg-tigim'>
+        <div className='mx-auto flex items-center'>
+          <span className='mr-[25px] text-lg font-medium group-hover:text-white'>
+            나만의 도시락 만들러 가기
+          </span>
+          <svg
+            width='8'
+            height='15'
+            viewBox='0 0 8 15'
+            fill='none'
+            xmlns='http://www.w3.org/2000/svg'
+          >
+            <path
+              d='M1.5 1.21771L7 7.53087L1.5 13.844'
+              stroke='#333333'
+              stroke-width='2'
+              stroke-linecap='round'
+              stroke-linejoin='round'
+              className='group-hover-stroke-white'
+            />
+          </svg>
+        </div>
+      </button>
+
+      {/* article1 - main banner */}
+      <article className='h-custom relative overflow-hidden bg-white'>
+        <motion.div {...motionSettings}>
+          <div className='inner mx-auto flex w-[1590px] justify-between pt-[150px]'>
             <div className='z-10'>
               <h2 className='mb-[26px]'>
                 <img src={mainTxt} alt='도시락도 ROCK이다!' />
               </h2>
               <p className='mb-[80px] text-[30px] font-medium'>
-                나만의 '맛' 으로, 커스터마이즈의 즐거움을 경험해 보세요.
+                나만의 &lsquo;맛&rsquo; 으로, 커스터마이즈의 즐거움을 경험해
+                보세요.
               </p>
               <p className='text-[20px] font-medium leading-10'>
                 매일 같은 도시락이 주는 지루함을 바꿀 준비 되셨나요?
@@ -48,19 +102,23 @@ const Home = () => {
 
             <img src={character} aria-hidden />
           </div>
-          <Bg01 />
-        </article>
-        {/* article2 */}
-        <article className='bg-primary'>
-          <div className='inner mx-auto mb-[330px] w-[1590px] pt-[112px]'>
+        </motion.div>
+        <Bg01 />
+      </article>
+      {/* article2 */}
+      <article className='bg-primary'>
+        <div className='inner mx-auto mb-[330px] w-[1590px] pt-[112px]'>
+          <motion.div {...motionSettings}>
             <div className='mb-[190px] text-center'>
               <p className='mb-[40px] text-[20px] font-medium text-secondary'>
                 메뉴 선택도 A TO Z
               </p>
               <h3 className='text-[35px] font-semibold text-white'>
-                "밥食으로 만드는 나만의 맛있는 이야기, 도시락"
+                &ldquo;밥食으로 만드는 나만의 맛있는 이야기, 도시락&rdquo;
               </h3>
             </div>
+          </motion.div>
+          <motion.div {...motionSettings}>
             <div className='flex items-center'>
               <div className='preView border-black h-[485px] w-[864px] rounded-[19px] border-4 bg-white'></div>
               <p className='ml-[60px] text-[20px] leading-10 text-white'>
@@ -82,9 +140,10 @@ const Home = () => {
                 있습니다.
               </p>
             </div>
-          </div>
+          </motion.div>
+        </div>
+        <motion.div {...motionSettings}>
           <div className='relative flex items-center pb-[270px]'>
-            <img className='absolute right-0' src={truck} aria-hidden />
             <div className='inner mx-auto w-[1590px]'>
               <p className='text-[20px] leading-10 text-white'>
                 바쁜 일상 속에서도 건강하고 신선한 식사를 놓치지 마세요!
@@ -104,10 +163,15 @@ const Home = () => {
                 지금 주문하시고 하루의 시작을 더 특별하게 만들어 보세요!
               </p>
             </div>
+            <div className='absolute left-1/2 h-full w-[1920px] translate-x-[-50%]'>
+              <img className='absolute right-0' src={truck} aria-hidden />
+            </div>
           </div>
-        </article>
-        {/* article3 */}
-        <article className='relative overflow-hidden'>
+        </motion.div>
+      </article>
+      {/* article3 */}
+      <article className='relative overflow-hidden'>
+        <motion.div {...motionSettings}>
           <div className='inner mx-auto w-[1590px] pt-[200px]'>
             <div className='text-center'>
               <span className='mx-auto mb-[30px] block h-[9px] w-[60px] rounded-full bg-secondary' />
@@ -118,7 +182,9 @@ const Home = () => {
             </div>
           </div>
           <Carousel />
-          <div className='inner mx-auto mb-[200px] w-[1590px] pt-[200px]'>
+        </motion.div>
+        <div className='inner mx-auto mb-[200px] w-[1590px] pt-[200px]'>
+          <motion.div {...motionSettings}>
             <div className='mb-[120px] text-center'>
               <span className='mx-auto mb-[30px] block h-[9px] w-[60px] rounded-full bg-secondary' />
               <h4 className='mb-[37px] text-3xl font-semibold'>
@@ -126,9 +192,11 @@ const Home = () => {
               </h4>
               <p className='text-xl'>고객님들의 생생한 후기를 만나보세요!</p>
             </div>
-            <div className='mx-auto flex w-[1435px] justify-between'>
-              <ul>
-                <li className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
+          </motion.div>
+          <div className='mx-auto flex w-[1435px] justify-between'>
+            <ul>
+              <motion.li {...motionLiSettings}>
+                <div className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
                   <div className='flex w-full items-center'>
                     <div className='w-[175px] text-center'>
                       <img
@@ -151,8 +219,10 @@ const Home = () => {
                       편리하고 다이어트에도 효과본것같아욤.
                     </p>
                   </div>
-                </li>
-                <li className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
+                </div>
+              </motion.li>
+              <motion.li {...motionLiSettings}>
+                <div className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
                   <div className='flex w-full items-center'>
                     <div className='w-[175px] text-center'>
                       <img
@@ -175,8 +245,10 @@ const Home = () => {
                       가득 담아서 주문할 수 있어서 좋아요.
                     </p>
                   </div>
-                </li>
-                <li className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
+                </div>
+              </motion.li>
+              <motion.li {...motionLiSettings}>
+                <div className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
                   <div className='flex w-full items-center'>
                     <div className='w-[175px] text-center'>
                       <img
@@ -200,14 +272,16 @@ const Home = () => {
                       안심되고 좋습니다. 또 시켜먹을게요.
                     </p>
                   </div>
-                </li>
-              </ul>
-              <ul className='mt-[85px]'>
-                <li className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
+                </div>
+              </motion.li>
+            </ul>
+            <ul className='mt-[85px]'>
+              <motion.li {...motionLiSettings}>
+                <div className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
                   <div className='flex w-full items-center'>
                     <div className='w-[175px] text-center'>
                       <img
-                        src={munuh}
+                        src={tigim}
                         className='mx-auto mb-[30px]'
                         aria-hidden
                         alt=''
@@ -228,12 +302,14 @@ const Home = () => {
                       앞으로도 자주 시켜먹을것 같아요.
                     </p>
                   </div>
-                </li>
-                <li className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
+                </div>
+              </motion.li>
+              <motion.li {...motionLiSettings}>
+                <div className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
                   <div className='flex w-full items-center'>
                     <div className='w-[175px] text-center'>
                       <img
-                        src={kori}
+                        src={munuh}
                         className='mx-auto mb-[30px]'
                         aria-hidden
                         alt=''
@@ -252,12 +328,14 @@ const Home = () => {
                       감사합니다. ^^
                     </p>
                   </div>
-                </li>
-                <li className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
+                </div>
+              </motion.li>
+              <motion.li {...motionLiSettings}>
+                <div className='mb-[45px] flex h-[245px] w-[660px] items-center justify-center rounded-[18px] bg-secondary bg-opacity-30 backdrop-blur-[50px]'>
                   <div className='flex w-full items-center'>
                     <div className='w-[175px] text-center'>
                       <img
-                        src={tigim}
+                        src={kori}
                         className='mx-auto mb-[30px]'
                         aria-hidden
                         alt=''
@@ -272,22 +350,22 @@ const Home = () => {
                       매번 먹던 도시락 먹고 또 먹는 중 이였는데
                       <br />
                       저만의 도시락을 만들어 먹을 수 있다니.. <br />
-                      신박해서 한번 시켜봤는데 좋네요 :)
+                      신박해서 한번 시켜봤는데 좋네요 : &#41;
                       <br />
                       이제 매일 새로운 구성으로 질림 없이 밥을 먹고있습니다.{' '}
                       <br />
                       저와 같은 분들이 계시다면 진심 추천입니다
                     </p>
                   </div>
-                </li>
-              </ul>
-            </div>
+                </div>
+              </motion.li>
+            </ul>
           </div>
-          <Bg02 />
-          <Bg03 />
-          <Footer />
-        </article>
-      </div>
+        </div>
+        <Bg02 />
+        <Bg03 />
+        <Footer />
+      </article>
     </section>
   );
 };
