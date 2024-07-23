@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import dosilockLogo from '../../assets/images/dosilockLogo.png';
+import dosilockLogo from '../../assets/images/dosirockLogo.png';
 import googleLogo from '../../assets/images/googleLogo.png';
 import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { DevTool } from '@hookform/devtools';
 import { LoginRequest } from '../../types/loginTypes';
 import Modal from './Modal/Modal';
 import axios from 'axios';
@@ -73,11 +72,13 @@ const Login: React.FC = () => {
   return (
     <div>
       <div className='flex h-screen flex-col items-center justify-center'>
-        <img
-          src={dosilockLogo}
-          alt='Logo'
-          className='mb-[28px] flex h-[73px] w-[200px]'
-        />
+        <Link to='/'>
+          <img
+            src={dosilockLogo}
+            alt='Logo'
+            className='mb-[28px] flex h-[73px] w-[200px]'
+          />
+        </Link>
 
         {/* 여기서부터 제출 폼 */}
         <form
@@ -153,7 +154,7 @@ const Login: React.FC = () => {
           </div>
           <div className='mb-[12px] flex flex-col items-center'>
             <Link
-              to='join'
+              to='/join'
               className='/* var(--gray-300) mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base font-semibold leading-10 text-main'
             >
               회원가입
@@ -163,12 +164,23 @@ const Login: React.FC = () => {
             </div>
           </div>
           <div className='flex flex-row justify-center'>
-            <img src={googleLogo} className='mr-[9px] h-[50px] w-[50px]' />
-            <img src={kakaoLogo} className='mx-[9px] h-[50px] w-[50px]' />
-            <img src={naverLogo} className='ml-[9px] h-[50px] w-[50px]' />
+            <img
+              src={googleLogo}
+              className='mr-[9px] h-[50px] w-[50px]'
+              alt='google'
+            />
+            <img
+              src={kakaoLogo}
+              className='mx-[9px] h-[50px] w-[50px]'
+              alt='kakao'
+            />
+            <img
+              src={naverLogo}
+              className='ml-[9px] h-[50px] w-[50px]'
+              alt='naver'
+            />
           </div>
         </form>
-        <DevTool control={control} />
       </div>
     </div>
   );

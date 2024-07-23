@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import logo from '../../assets/images/dosilockLogo.png';
+import logo from '../../assets/images/dosirockLogo.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -105,7 +105,7 @@ const All = () => {
             name='알레르기 없음'
             type='checkbox'
             // eslint-disable-next-line tailwindcss/classnames-order
-            className='h-6 w-6 appearance-none rounded-[4px] checked:bg-checkBox checked:bg-contain checked:bg-center checked:bg-no-repeat'
+            className='checked:bg-checkBox h-6 w-6 appearance-none rounded-[4px] checked:bg-contain checked:bg-center checked:bg-no-repeat'
             style={{ border: '1px solid #D9D9D9' }}
             checked={noAll}
             onChange={(e) => handleCheckAll(e.target.checked, 'no_all')}
@@ -136,7 +136,7 @@ const All = () => {
                     handleCheckAll(e.target.checked, e.target.id);
                   }}
                   // eslint-disable-next-line tailwindcss/classnames-order
-                  className='h-6 w-6 appearance-none rounded-[4px] checked:bg-checkBox checked:bg-contain checked:bg-center checked:bg-no-repeat'
+                  className='checked:bg-checkBox h-6 w-6 appearance-none rounded-[4px] checked:bg-contain checked:bg-center checked:bg-no-repeat'
                   style={{ border: '1px solid #D9D9D9' }}
                 />
                 <label

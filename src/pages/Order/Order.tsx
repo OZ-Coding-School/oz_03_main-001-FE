@@ -131,7 +131,7 @@ const Order = () => {
   }, [setDishList]);
 
   return (
-    <div className='flex h-screen w-screen flex-row bg-background p-8 pt-[107px]'>
+    <div className='flex h-[calc(100vh-75px)] w-screen flex-row bg-background p-8'>
       <div className='h-full w-64 rounded-xl bg-white'>
         <p className='m-4 text-lg font-medium'>카테고리</p>
         <ul>
