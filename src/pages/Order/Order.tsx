@@ -28,6 +28,7 @@ const Order = () => {
     const dummyDishList = [
       {
         id: 1,
+
         name: '불고기 도시락',
         description: '맛있는 불고기와 밥',
         kcal: '650 kcal',
@@ -38,6 +39,7 @@ const Order = () => {
       },
       {
         id: 2,
+
         name: '치킨 샐러드',
         description: '신선한 야채와 치킨',
         kcal: '350 kcal',
@@ -48,6 +50,7 @@ const Order = () => {
       },
       {
         id: 3,
+
         name: '연어 스테이크',
         description: '구운 연어와 감자',
         kcal: '500 kcal',
@@ -58,6 +61,7 @@ const Order = () => {
       },
       {
         id: 4,
+
         name: '비빔밥',
         description: '다양한 야채와 고추장',
         kcal: '550 kcal',
@@ -68,6 +72,7 @@ const Order = () => {
       },
       {
         id: 5,
+
         name: '카레 라이스',
         description: '매콤한 카레와 밥',
         kcal: '600 kcal',
@@ -78,6 +83,7 @@ const Order = () => {
       },
       {
         id: 6,
+
         name: '스파게티 볼로네제',
         description: '토마토 소스와 소고기',
         kcal: '650 kcal',
@@ -88,6 +94,7 @@ const Order = () => {
       },
       {
         id: 7,
+
         name: '타코',
         description: '멕시코식 타코',
         kcal: '450 kcal',
@@ -98,6 +105,7 @@ const Order = () => {
       },
       {
         id: 8,
+
         name: '치킨 커틀릿',
         description: '튀긴 치킨과 소스',
         kcal: '700 kcal',
@@ -108,6 +116,7 @@ const Order = () => {
       },
       {
         id: 9,
+
         name: '야끼소바',
         description: '볶은 면과 야채',
         kcal: '600 kcal',
@@ -118,6 +127,7 @@ const Order = () => {
       },
       {
         id: 10,
+
         name: '쌀국수',
         description: '베트남식 쌀국수',
         kcal: '400 kcal',
@@ -234,22 +244,24 @@ const Order = () => {
           </label>
         </div>
         <div className='my-8 grid h-5/6 grid-cols-5 justify-between gap-4'>
-          {dishList.map((dish) => (
-            <Dish key={dish.id} dish={dish} />
+          {dishList.map((dish, i) => (
+            <Dish key={i} dish={dish} />
           ))}
         </div>
         <div className='h-10 bg-gray30'>page</div>
       </div>
       <div className='flex w-64 flex-col justify-between rounded-xl bg-white p-4'>
         <p className='text-lg font-medium'>장바구니</p>
-        <div className='my-4 h-full'>
+        <ul className='my-4 flex h-full flex-col gap-4 overflow-auto'>
           {basket.map((box) => (
-            <Box key={box.id} box={box} />
+            <li key={box.id}>
+              <Box box={box} />
+            </li>
           ))}
-        </div>
+        </ul>
         <button
           className='flex w-full items-center justify-center rounded-xl bg-gray30 p-3 font-semibold text-white hover:bg-dark'
-          onClick={() => createBox}
+          onClick={createBox}
         >
           도시락 추가하기 <FaPlus className='ml-2' />
         </button>

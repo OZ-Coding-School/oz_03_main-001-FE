@@ -11,9 +11,15 @@ type DishData = {
   detailcategory: string[];
 };
 
+type pickedDish = {
+  id: number;
+  dish: DishData;
+};
+
 type Box = {
   id: number;
-  pickedDishList: DishData[];
+  pickedDishList: pickedDish[];
+  boxPrice: number;
 };
 
 type Store = {
@@ -28,7 +34,7 @@ type Store = {
   addToPickedDishList: (boxId: number, dishData: DishData) => void;
   currentBoxId: number;
   setCurrentBoxId: (current: number) => void;
-  removePickedDish: (boxId: number, dishId: number) => void;
+  removePickedDish: (boxId: number, uniqueId: number) => void;
   removeBox: (boxId: number) => void;
 };
 
@@ -40,32 +46,39 @@ const useOrderStore = create<Store>()((set) => ({
   setCurrentCategory: (current) => set({ currentCategory: current }),
   dishList: [],
   setDishList: (dishList) => set({ dishList }),
-  basket: [{ id: 1, pickedDishList: [] }],
+  basket: [{ id: 1, pickedDishList: [], boxPrice: 0 }],
   createBox: () =>
     set((state) => ({
       basket: [
         ...state.basket,
-        { id: state.basket.length + 1, pickedDishList: [] },
+        // { id: state.basket.length + 1, pickedDishList: [] },
+        { id: Date.now(), pickedDishList: [], boxPrice: 0 },
       ],
     })),
   addToPickedDishList: (boxId, dishData) =>
     set((state) => ({
       basket: state.basket.map((box) =>
         box.id === boxId
-          ? { ...box, pickedDishList: [...box.pickedDishList, dishData] }
+          ? {
+              ...box,
+              pickedDishList: [
+                ...box.pickedDishList,
+                { id: Date.now(), dish: dishData },
+              ],
+            }
           : box
       ),
     })),
   currentBoxId: 1,
   setCurrentBoxId: (current) => set({ currentBoxId: current }),
-  removePickedDish: (boxId, dishId) =>
+  removePickedDish: (boxId, id) =>
     set((state) => ({
       basket: state.basket.map((box) =>
         box.id === boxId
           ? {
               ...box,
               pickedDishList: box.pickedDishList.filter(
-                (dish) => dish.id !== dishId
+                (pickedDish) => pickedDish.id !== id
               ),
             }
           : box
