@@ -67,7 +67,8 @@ export default {
       "checkBox": '#D9D9D9',
     },
     backgroundImage: {
-      'checkBox': "url('/src/assets/images/checkBox.png')",
+      'checkBox': "url('/src/assets/images/checkBox.svg')",
+      'checkBox_check': "url('/src/assets/images/checkBox_check.svg')"
     },
   },
   plugins: [require ( 'tailwind-scrollbar' ), ],
