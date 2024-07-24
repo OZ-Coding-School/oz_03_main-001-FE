@@ -3,7 +3,7 @@ import OrderList from './OrderList';
 
 const OrderDetail = () => {
   return (
-    <div className='flex flex-nowrap justify-between px-[73px] pb-[47px] pt-[88px]'>
+    <div className='flex flex-nowrap justify-between px-[73px] pb-[47px] pt-[13px]'>
       <section className='w-[49%]'>
         <nav className='flex flex-nowrap items-center'>
           <span className='text-sm font-bold text-main'>주문하기</span>
