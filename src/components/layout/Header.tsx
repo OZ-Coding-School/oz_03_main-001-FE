@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import Logo from '../../assets/images/dosirockLogo.png';
 import iconOrderHistory from '../../assets/images/orderHistory.png';
 import iconLogout from '../../assets/images/logout.png';
@@ -59,22 +60,25 @@ const Header = () => {
             </Link>
           </div>
           {/* 비로그인 시 */}
-          <button className='h-[38px] w-[85px] rounded-full bg-border font-medium hover:bg-gray20'>
+          {/* <button className='h-[38px] w-[85px] rounded-full bg-border font-medium hover:bg-gray20'>
             <Link to='/login'>로그인</Link>
-          </button>
+          </button> */}
 
           {/* 로그인 시 */}
-          {/* <div className='relative' ref={dropdownRef}>
+          <div className='relative' ref={dropdownRef}>
             <button
-              className='h-[38px] w-[85px] rounded-full bg-border font-medium hover:bg-gray20'
+              className='flex h-[38px] items-center rounded-full bg-white px-[20px] font-medium hover:bg-background'
               onClick={() => {
                 setIsDropdownOpen(!isDropdownOpen);
               }}
             >
-              My
+              <span className='mr-[10px]'>
+                <span className='userName font-semibold'>홍길동</span> 님
+              </span>
+              {isDropdownOpen ? <IoChevronUp /> : <IoChevronDown />}
             </button>
             {isDropdownOpen && <UserMenu />}
-          </div> */}
+          </div>
         </div>
       </header>
       <div></div>
