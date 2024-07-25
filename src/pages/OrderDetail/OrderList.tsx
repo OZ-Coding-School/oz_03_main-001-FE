@@ -1,11 +1,15 @@
-const OrderList = () => {
+type OrderListProps = {
+  name: string;
+  details: string;
+  price: number;
+};
+
+const OrderList = ({ name, details, price }: OrderListProps) => {
   return (
     <div className='flex flex-col justify-center rounded-lg border border-border px-[25px] py-[20px]'>
-      <p className='text-lg font-medium text-main'>도시락1</p>
-      <p className='pt-[10px] text-base font-normal text-caption'>
-        잡곡밥, 미역국, 노드말이, 리액트 장조림, 깃허브 닭갈비
-      </p>
-      <p className='text-right'>7,300원</p>
+      <p className='text-lg font-medium text-main'>{name}</p>
+      <p className='pt-[10px] text-base font-normal text-caption'>{details}</p>
+      <p className='text-right'>{price.toLocaleString()}원</p>
     </div>
   );
 };
