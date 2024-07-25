@@ -4,8 +4,8 @@ import arrowRight from '../../assets/images/arrowRight_gray.svg';
 import OrderList from './OrderList';
 import '../../assets/css/customScroll.css';
 import { useEffect, useState } from 'react';
-import LoadingIcon from './loding/LodingIcon';
-import LoadingMessage from './loding/LodingMessage';
+import LoadingIcon from '../../components/common/loding/LodingIcon';
+import LoadingMessage from '../../components/common/loding/LodingMessage';
 import { useNavigate } from 'react-router-dom';
 
 // 도시락 데이터 타입 정의
@@ -134,7 +134,7 @@ const OrderDetail = () => {
           ) : (
             <div className='flex w-[100%] flex-wrap items-center justify-center pt-[250px]'>
               <LoadingIcon />
-              <LoadingMessage />
+              <LoadingMessage message={`도시락 정보를 불러오는 중입니다...`} />
             </div>
           )}
         </div>
