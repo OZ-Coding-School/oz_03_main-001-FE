@@ -88,7 +88,7 @@ const Header = () => {
 
 const UserMenu = () => {
   return (
-    <ul className='absolute left-1/2 top-[50px] w-[160px] -translate-x-1/2 rounded-lg border border-background bg-white shadow-box'>
+    <ul className='absolute left-1/2 top-[50px] w-[160px] -translate-x-1/2 overflow-hidden rounded-lg border border-background bg-white shadow-box'>
       <li className='relative hover:bg-background'>
         <img
           src={iconOrderHistory}
