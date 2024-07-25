@@ -70,7 +70,7 @@ const All = () => {
     e.preventDefault();
 
     if (isCheckEmpty) {
-      setErrorAll('알레르기가 없을 시 없음을 체크해주세요');
+      setErrorAll('* 알레르기가 없을 시 없음을 체크해주세요');
       return false;
     }
     // 알레르기 체크 상태에 따라 전송 배열 바꾸기
@@ -112,7 +112,7 @@ const All = () => {
             name='알레르기 없음'
             type='checkbox'
             // eslint-disable-next-line tailwindcss/classnames-order
-            className='checked:bg-checkBox_check h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-contain checked:bg-center checked:bg-no-repeat'
+            className='h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
             checked={noAll}
             onChange={(e) => handleCheckAll(e.target.checked, 'no_all')}
           />
@@ -142,7 +142,7 @@ const All = () => {
                     handleCheckAll(e.target.checked, e.target.id);
                   }}
                   // eslint-disable-next-line tailwindcss/classnames-order
-                  className='checked:bg-checkBox_check h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-contain checked:bg-center checked:bg-no-repeat'
+                  className='h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
                 />
                 <label
                   htmlFor={all}
