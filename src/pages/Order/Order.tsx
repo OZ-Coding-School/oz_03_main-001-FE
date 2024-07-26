@@ -13,6 +13,7 @@ import Box from './Box';
 import DummyDishList from './DummyDishList.json';
 import Pagination from 'react-js-pagination';
 import './Pagination.scss';
+import '../../assets/css/customScroll.css';
 
 import { useEffect, useState } from 'react';
 
@@ -61,14 +62,14 @@ const Order = () => {
           <li>
             <button
               onClick={() => setCurrentCategory('recommend')}
-              className={`flex h-14 w-full cursor-pointer content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'recommend' ? 'bg-primary font-semibold text-white' : ''}`}
+              className={`flex h-14 w-full content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'recommend' ? 'bg-primary font-semibold text-white' : ''}`}
             >
               추천 도시락
             </button>
           </li>
           <li>
             <button
-              className='flex h-14 w-full cursor-pointer content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white'
+              className='flex h-14 w-full content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white'
               onClick={handleMenudropChange}
             >
               구성
@@ -78,7 +79,7 @@ const Order = () => {
               <li>
                 <button
                   onClick={() => setCurrentCategory('bob')}
-                  className={`flex h-14 w-full cursor-pointer content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'bob' ? 'bg-primary font-semibold text-white' : ''}`}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'bob' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   밥
                 </button>
@@ -86,7 +87,7 @@ const Order = () => {
               <li>
                 <button
                   onClick={() => setCurrentCategory('gook')}
-                  className={`flex h-14 w-full cursor-pointer content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'gook' ? 'bg-primary font-semibold text-white' : ''}`}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'gook' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   국 / 찌개
                 </button>
@@ -94,7 +95,7 @@ const Order = () => {
               <li>
                 <button
                   onClick={() => setCurrentCategory('chan')}
-                  className={`flex h-14 w-full cursor-pointer content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'chan' ? 'bg-primary font-semibold text-white' : ''}`}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'chan' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   반찬
                 </button>
@@ -105,7 +106,7 @@ const Order = () => {
             <li>
               <button
                 onClick={() => setCurrentCategory('others')}
-                className={`flex h-14 w-full cursor-pointer content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'others' ? 'bg-primary font-semibold text-white' : ''}`}
+                className={`flex h-14 w-full content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'others' ? 'bg-primary font-semibold text-white' : ''}`}
               >
                 기타
               </button>
@@ -130,11 +131,11 @@ const Order = () => {
             <input
               type='text'
               placeholder='검색어를 입력하세요.'
-              className='w-full'
+              className='w-full cursor-none'
             ></input>
             <FaMagnifyingGlass />
           </div>
-          <label className='ml-auto flex cursor-pointer select-none items-center'>
+          <label className='ml-auto flex cursor-none select-none items-center'>
             <div className='relative mx-2'>
               <input
                 type='checkbox'
@@ -175,7 +176,7 @@ const Order = () => {
       </div>
       <div className='flex w-64 flex-col justify-between rounded-xl bg-white p-4'>
         <p className='text-lg font-medium'>장바구니</p>
-        <ul className='my-4 flex h-full flex-col gap-4 overflow-auto'>
+        <ul className='customScroll my-4 -mr-3 flex h-full flex-col gap-4 overflow-auto pr-4'>
           {basket.map((box) => (
             <li key={box.id}>
               <Box box={box} />

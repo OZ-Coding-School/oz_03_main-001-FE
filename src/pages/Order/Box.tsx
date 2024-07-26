@@ -40,7 +40,7 @@ const Box: React.FC<Props> = ({ box }) => {
 
   return (
     <button
-      className={`flex w-full flex-col rounded-md border border-gray20 p-2 ${currentBoxId === box.id ? '' : 'bg-border'}`}
+      className={`flex w-56 flex-col rounded-md border border-gray20 p-2 ${currentBoxId === box.id ? '' : 'bg-border'}`}
       onClick={() => setCurrentBoxId(box.id)}
     >
       <div className='mb-2 flex w-full justify-between border border-x-0 border-t-0 border-dashed border-gray30 pb-2'>
@@ -48,7 +48,7 @@ const Box: React.FC<Props> = ({ box }) => {
           {isDroped ? <IoChevronDown /> : <IoChevronUp />}
           <p className='mx-2'>도시락</p>
         </button>
-        <IoClose className='cursor-pointer' onClick={() => removeBox(box.id)} />
+        <IoClose onClick={() => removeBox(box.id)} />
       </div>
       <ul
         className={`mb-2 w-full border border-x-0 border-t-0 border-dashed pb-2 text-gray30 ${isDroped ? '' : 'hidden'}`}
@@ -59,7 +59,7 @@ const Box: React.FC<Props> = ({ box }) => {
             <span className='flex items-center'>
               {pickedDish.dish.price}
               <IoClose
-                className='ml-2 cursor-pointer'
+                className='ml-2'
                 onClick={() => removePickedDish(box.id, pickedDish.id)}
               />
             </span>
