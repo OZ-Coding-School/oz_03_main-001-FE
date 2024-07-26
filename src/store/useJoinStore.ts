@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import create from 'zustand';
+import { create } from 'zustand';
 
 type JoinState = {
   nameValue: string;

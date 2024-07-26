@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import dosilockLogo from '../../assets/images/dosirockLogo.png';
+import dosirockLogo from '../../assets/images/dosirockLogo.png';
 import googleLogo from '../../assets/images/googleLogo.png';
 import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';
@@ -74,7 +74,7 @@ const Login: React.FC = () => {
       <div className='flex h-screen flex-col items-center justify-center'>
         <Link to='/'>
           <img
-            src={dosilockLogo}
+            src={dosirockLogo}
             alt='Logo'
             className='mb-[28px] flex h-[73px] w-[200px]'
           />
@@ -165,19 +165,19 @@ const Login: React.FC = () => {
           </div>
           <div className='flex flex-row justify-center'>
             <img
+              alt='googleLogo'
               src={googleLogo}
               className='mr-[9px] h-[50px] w-[50px]'
-              alt='google'
             />
             <img
+              alt='kakaoLogo'
               src={kakaoLogo}
               className='mx-[9px] h-[50px] w-[50px]'
-              alt='kakao'
             />
             <img
+              alt='naverLogo'
               src={naverLogo}
               className='ml-[9px] h-[50px] w-[50px]'
-              alt='naver'
             />
           </div>
         </form>
