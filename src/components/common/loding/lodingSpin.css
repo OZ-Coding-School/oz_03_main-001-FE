@@ -1,0 +1,16 @@
+@-webkit-keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-logoSpin {
+  -webkit-animation: spin 5s linear infinite;
+  animation: spin 5s linear infinite;
+}
