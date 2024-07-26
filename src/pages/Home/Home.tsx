@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { motion, Variants } from 'framer-motion';
 import mainTxt from '../../assets/images/mainTxt.png';
 import character from '../../assets/images/character.png';
@@ -52,7 +53,10 @@ const Home = () => {
 
   return (
     <section>
-      <button className='group fixed bottom-[65px] left-1/2 z-40 flex h-[60px] w-[275px] -translate-x-1/2 transform items-center rounded-full bg-white shadow-btn hover:bg-tigim'>
+      <Link
+        to='/order'
+        className='group fixed bottom-[65px] left-1/2 z-40 flex h-[60px] w-[275px] -translate-x-1/2 transform items-center rounded-full bg-white shadow-btn hover:bg-tigim'
+      >
         <div className='mx-auto flex items-center'>
           <span className='mr-[25px] text-lg font-medium group-hover:text-white'>
             나만의 도시락 만들러 가기
@@ -74,7 +78,7 @@ const Home = () => {
             />
           </svg>
         </div>
-      </button>
+      </Link>
 
       {/* article1 - main banner */}
       <article className='h-custom relative overflow-hidden bg-white'>
@@ -144,7 +148,7 @@ const Home = () => {
         </div>
         <motion.div {...motionSettings}>
           <div className='relative flex items-center pb-[270px]'>
-            <div className='inner mx-auto w-[1590px]'>
+            <div className='inner z-[1] mx-auto w-[1590px]'>
               <p className='text-[20px] leading-10 text-white'>
                 바쁜 일상 속에서도 건강하고 신선한 식사를 놓치지 마세요!
                 <br />
