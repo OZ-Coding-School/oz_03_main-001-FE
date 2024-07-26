@@ -13,43 +13,71 @@ type DishData = {
   detailcategory: string[];
 };
 
-type Box = {
+type pickedDish = {
   id: number;
-  pickedDishList: DishData[];
+  dish: DishData;
 };
 
-const Box = () => {
+type Box = {
+  id: number;
+  pickedDishList: pickedDish[];
+  boxPrice: number;
+};
+
+type Props = {
+  box: Box;
+};
+
+const Box: React.FC<Props> = ({ box }) => {
   const [isDroped, setIsDroped] = useState(false);
 
   const handleMenudropChange = () => {
     setIsDroped(!isDroped);
   };
 
-  const { currentBoxId, removeBox, removePickedDish } = useOrderStore();
+  const { currentBoxId, setCurrentBoxId, removeBox, removePickedDish } =
+    useOrderStore();
 
   return (
-    <div className='flex flex-col rounded-md border border-gray20 p-2'>
-      <div className='mb-2 flex justify-between border border-x-0 border-t-0 border-dashed border-gray30 pb-2'>
+    <button
+      className={`flex w-full flex-col rounded-md border border-gray20 p-2 ${currentBoxId === box.id ? '' : 'bg-border'}`}
+      onClick={() => setCurrentBoxId(box.id)}
+    >
+      <div className='mb-2 flex w-full justify-between border border-x-0 border-t-0 border-dashed border-gray30 pb-2'>
         <button onClick={handleMenudropChange} className='flex items-center'>
           {isDroped ? <IoChevronDown /> : <IoChevronUp />}
-          <p className='mx-2'>도시락{}</p>
+          <p className='mx-2'>도시락</p>
         </button>
-        <IoClose className='cursor-pointer' onClick={() => removeBox(key)} />
+        <IoClose className='cursor-pointer' onClick={() => removeBox(box.id)} />
       </div>
       <ul
-        className={`mb-2 border border-x-0 border-t-0 border-dashed pb-2 text-gray30 ${isDroped ? '' : 'hidden'}`}
+        className={`mb-2 w-full border border-x-0 border-t-0 border-dashed pb-2 text-gray30 ${isDroped ? '' : 'hidden'}`}
       >
-        <li className='flex justify-between'>
-          <span>qqq</span>
-          <span className='flex items-center'>
-            1,000 <IoClose className='ml-2 cursor-pointer' />
-          </span>
-        </li>
+        {box.pickedDishList.map((pickedDish) => (
+          <li key={pickedDish.id} className='flex justify-between'>
+            <span>{pickedDish.dish.name}</span>
+            <span className='flex items-center'>
+              {pickedDish.dish.price}
+              <IoClose
+                className='ml-2 cursor-pointer'
+                onClick={() => removePickedDish(box.id, pickedDish.id)}
+              />
+            </span>
+          </li>
+        ))}
       </ul>
-      <div className='flex justify-end'>
-        <span className='mr-0.5 font-medium'>10,000</span>원
+      <div className='flex w-full justify-end'>
+        <span className='mr-0.5 font-medium'>
+          {
+            (box.boxPrice = box.pickedDishList.reduce(
+              (sum, pickedDish) => sum + pickedDish.dish.price,
+              0
+            ))
+          }
+        </span>
+        원
       </div>
-    </div>
+    </button>
   );
 };
 

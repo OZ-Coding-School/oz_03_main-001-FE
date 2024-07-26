@@ -173,22 +173,7 @@ const Login: React.FC = () => {
             </div>
           </div>
           <div className='flex flex-row justify-center'>
-            {/* <img
-              src={googleLogo}
-              alt='구글로그인 로고'
-              className='mr-[9px] h-[50px] w-[50px]'
-            /> */}
             <SocialLogin />
-            {/* <img
-              src={kakaoLogo}
-              alt='카카오 로그인 로고'
-              className='mr-[9px] h-[50px] w-[50px]'
-            /> */}
-            {/* <img
-              src={naverLogo}
-              alt='네이버로그인 로고'
-              className='ml-[9px] h-[50px] w-[50px]'
-            /> */}
           </div>
         </form>
       </div>

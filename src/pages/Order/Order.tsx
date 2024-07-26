@@ -1,16 +1,31 @@
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
-import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
+import {
+  FaPlus,
+  FaMagnifyingGlass,
+  FaAngleLeft,
+  FaAngleRight,
+  FaAnglesLeft,
+  FaAnglesRight,
+} from 'react-icons/fa6';
 import useOrderStore from '../../store/useOrderStore';
 import Dish from './Dish';
 import Box from './Box';
+import DummyDishList from './DummyDishList.json';
+import Pagination from 'react-js-pagination';
+import './Pagination.scss';
 
 import { useEffect, useState } from 'react';
 
 const Order = () => {
   const [isDroped, setIsDroped] = useState(false);
+  const [page, setPage] = useState<number>(1);
 
   const handleMenudropChange = () => {
     setIsDroped(!isDroped);
+  };
+
+  const handlePageCange = (page: number) => {
+    setPage(page);
   };
 
   const {
@@ -22,116 +37,24 @@ const Order = () => {
     setDishList,
     basket,
     createBox,
+    currentPost,
+    setCurrentPost,
   } = useOrderStore();
 
   useEffect(() => {
-    const dummyDishList = [
-      {
-        id: 1,
-        name: '불고기 도시락',
-        description: '맛있는 불고기와 밥',
-        kcal: '650 kcal',
-        image_url: 'https://example.com/bulgogi.jpg',
-        price: 6500,
-        category: '한식',
-        detailcategory: ['불고기', '밥', '김치'],
-      },
-      {
-        id: 2,
-        name: '치킨 샐러드',
-        description: '신선한 야채와 치킨',
-        kcal: '350 kcal',
-        image_url: 'https://example.com/chicken_salad.jpg',
-        price: 7500,
-        category: '샐러드',
-        detailcategory: ['치킨', '양상추', '드레싱'],
-      },
-      {
-        id: 3,
-        name: '연어 스테이크',
-        description: '구운 연어와 감자',
-        kcal: '500 kcal',
-        image_url: 'https://example.com/salmon_steak.jpg',
-        price: 12000,
-        category: '양식',
-        detailcategory: ['연어', '감자', '샐러드'],
-      },
-      {
-        id: 4,
-        name: '비빔밥',
-        description: '다양한 야채와 고추장',
-        kcal: '550 kcal',
-        image_url: 'https://example.com/bibimbap.jpg',
-        price: 8000,
-        category: '한식',
-        detailcategory: ['밥', '야채', '고추장'],
-      },
-      {
-        id: 5,
-        name: '카레 라이스',
-        description: '매콤한 카레와 밥',
-        kcal: '600 kcal',
-        image_url: 'https://example.com/curry_rice.jpg',
-        price: 7000,
-        category: '일식',
-        detailcategory: ['카레', '밥', '감자'],
-      },
-      {
-        id: 6,
-        name: '스파게티 볼로네제',
-        description: '토마토 소스와 소고기',
-        kcal: '650 kcal',
-        image_url: 'https://example.com/spaghetti_bolognese.jpg',
-        price: 9000,
-        category: '양식',
-        detailcategory: ['스파게티', '토마토 소스', '소고기'],
-      },
-      {
-        id: 7,
-        name: '타코',
-        description: '멕시코식 타코',
-        kcal: '450 kcal',
-        image_url: 'https://example.com/taco.jpg',
-        price: 5000,
-        category: '멕시코식',
-        detailcategory: ['토르티야', '소고기', '채소'],
-      },
-      {
-        id: 8,
-        name: '치킨 커틀릿',
-        description: '튀긴 치킨과 소스',
-        kcal: '700 kcal',
-        image_url: 'https://example.com/chicken_cutlet.jpg',
-        price: 8500,
-        category: '양식',
-        detailcategory: ['치킨', '소스', '샐러드'],
-      },
-      {
-        id: 9,
-        name: '야끼소바',
-        description: '볶은 면과 야채',
-        kcal: '600 kcal',
-        image_url: 'https://example.com/yakisoba.jpg',
-        price: 6500,
-        category: '일식',
-        detailcategory: ['면', '야채', '소스'],
-      },
-      {
-        id: 10,
-        name: '쌀국수',
-        description: '베트남식 쌀국수',
-        kcal: '400 kcal',
-        image_url: 'https://example.com/pho.jpg',
-        price: 7000,
-        category: '베트남식',
-        detailcategory: ['쌀국수', '소고기', '야채'],
-      },
-    ];
-    setDishList(dummyDishList);
+    setDishList(DummyDishList);
   }, [setDishList]);
 
+  const postPerPage: number = 10;
+  const indexOfLastPost: number = page * postPerPage;
+  const indexOfFirstPost: number = indexOfLastPost - postPerPage;
+
+  useEffect(() => {
+    setCurrentPost(dishList.slice(indexOfFirstPost, indexOfLastPost));
+  }, [setCurrentPost, indexOfLastPost, indexOfFirstPost, dishList, page]);
+
   return (
-    <div className='flex h-screen w-screen flex-row bg-background p-8 pt-[107px]'>
+    <div className='flex h-[calc(100vh-75px)] w-screen flex-row bg-background p-8'>
       <div className='h-full w-64 rounded-xl bg-white'>
         <p className='m-4 text-lg font-medium'>카테고리</p>
         <ul>
@@ -234,22 +157,34 @@ const Order = () => {
           </label>
         </div>
         <div className='my-8 grid h-5/6 grid-cols-5 justify-between gap-4'>
-          {dishList.map((dish) => (
-            <Dish key={dish.id} dish={dish} />
+          {currentPost.map((dish, i) => (
+            <Dish key={i} dish={dish} />
           ))}
         </div>
-        <div className='h-10 bg-gray30'>page</div>
+        <Pagination
+          activePage={page}
+          itemsCountPerPage={10}
+          totalItemsCount={dishList.length}
+          pageRangeDisplayed={5}
+          prevPageText={<FaAngleLeft />}
+          nextPageText={<FaAngleRight />}
+          firstPageText={<FaAnglesLeft />}
+          lastPageText={<FaAnglesRight />}
+          onChange={handlePageCange}
+        />
       </div>
       <div className='flex w-64 flex-col justify-between rounded-xl bg-white p-4'>
         <p className='text-lg font-medium'>장바구니</p>
-        <div className='my-4 h-full'>
+        <ul className='my-4 flex h-full flex-col gap-4 overflow-auto'>
           {basket.map((box) => (
-            <Box key={box.id} box={box} />
+            <li key={box.id}>
+              <Box box={box} />
+            </li>
           ))}
-        </div>
+        </ul>
         <button
           className='flex w-full items-center justify-center rounded-xl bg-gray30 p-3 font-semibold text-white hover:bg-dark'
-          onClick={() => createBox}
+          onClick={createBox}
         >
           도시락 추가하기 <FaPlus className='ml-2' />
         </button>

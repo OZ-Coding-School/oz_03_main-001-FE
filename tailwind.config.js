@@ -42,6 +42,7 @@ export default {
       },
       boxShadow: {
         'btn': '2px 2px 10px 2px rgba(0, 0, 0, 0.15)',
+        'box': '2px 6px 16px 0 rgba(17,42,128,0.08)',
       }
     },
     colors: {
@@ -67,7 +68,8 @@ export default {
       "checkBox": '#D9D9D9',
     },
     backgroundImage: {
-      'checkBox': "url('/src/assets/images/checkBox.png')",
+      'checkBox': "url('/src/assets/images/checkBox.svg')",
+      'checkBox_check': "url('/src/assets/images/checkBox_check.svg')"
     },
   },
   plugins: [require ( 'tailwind-scrollbar' ), ],
