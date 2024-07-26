@@ -154,7 +154,7 @@ const Login: React.FC = () => {
           </div>
           <div className='mb-[12px] flex flex-col items-center'>
             <Link
-              to='join'
+              to='/join'
               className='/* var(--gray-300) mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base font-semibold leading-10 text-main'
             >
               회원가입
