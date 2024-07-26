@@ -15,6 +15,7 @@ import OrderDetail from './pages/OrderDetail/OrderDetail';
 // import OrderHistory from './pages/OrderHistory';
 import OrderHistories from './pages/OrderHistories/OrderHistories';
 import CustomCursor from './components/layout/CustomCursor';
+import LoginRedirect from './pages/Login/LoginRedirect';
 
 const App = () => {
   const location = useLocation();
@@ -27,7 +28,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/join' element={<Join />} /> 
+        <Route path='/loginredirect' element={<LoginRedirect />} />
+        <Route path='/join' element={<Join />} />
         <Route path='/all' element={<All />} />
         <Route path='/welcome' element={<Welcome />} />
         <Route path='/order' element={<Order />} />

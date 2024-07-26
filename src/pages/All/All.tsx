@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import logo from '../../assets/images/dosilockLogo.png';
+import logo from '../../assets/images/dosirockLogo.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
