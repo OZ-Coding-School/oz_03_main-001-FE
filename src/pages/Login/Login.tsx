@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { LoginRequest } from '../../types/loginTypes';
 import Modal from './Modal/Modal';
 import axios from 'axios';
-import Kakao from './Kakao';
+import SocialLogin from '../Login/SocialLogin';
 
 const Login: React.FC = () => {
   // 모달 상태 관리
@@ -173,22 +173,22 @@ const Login: React.FC = () => {
             </div>
           </div>
           <div className='flex flex-row justify-center'>
-            <img
+            {/* <img
               src={googleLogo}
               alt='구글로그인 로고'
               className='mr-[9px] h-[50px] w-[50px]'
-            />
-            <Kakao />
+            /> */}
+            <SocialLogin />
             {/* <img
               src={kakaoLogo}
               alt='카카오 로그인 로고'
               className='mr-[9px] h-[50px] w-[50px]'
             /> */}
-            <img
+            {/* <img
               src={naverLogo}
               alt='네이버로그인 로고'
               className='ml-[9px] h-[50px] w-[50px]'
-            />
+            /> */}
           </div>
         </form>
       </div>

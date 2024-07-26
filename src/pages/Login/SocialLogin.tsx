@@ -3,7 +3,7 @@ import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import googleLogo from '../../assets/images/googleLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';
 
-const Kakao = () => {
+const SocialLogin = () => {
   // const handleKakaoLogin = () => {
   //   const REST_API_KEY = 'YOUR_KAKAO_REST_API_KEY'; // 카카오 REST API 키
   //   const REDIRECT_URI = 'http://127.0.0.1:3000/kakao/callback'; // 프론트엔드 콜백 URL
@@ -25,7 +25,7 @@ const Kakao = () => {
           className='mr-[9px] h-[50px] w-[50px]'
         />
       </button>
-      <button onClick={kakaoLoginUrl} className='mr-[9px] h-[50px] w-[50px]'>
+      <button onClick={kakaoLoginUrl} className='ml-[9px] h-[50px] w-[50px]'>
         <img
           src={kakaoLogo}
           alt='카카오 로그인 로고'
@@ -43,7 +43,7 @@ const Kakao = () => {
   );
 };
 
-export default Kakao;
+export default SocialLogin;
 
 //페이지가 동작할건 로그인했을때 유즈이펙트 겟 요청을 백엔드가 준 정보를 조회할수있는 api 에 요청해서 가져오고
 //토큰도 받아온다.
