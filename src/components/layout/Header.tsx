@@ -96,7 +96,10 @@ const UserMenu = () => {
           aria-hidden
           className='absolute left-[20px] top-1/2 -translate-y-1/2'
         />
-        <Link to='' className='w-[160px] pl-[50px] text-[15px] leading-[50px]'>
+        <Link
+          to='/orderhistories'
+          className='w-[160px] pl-[50px] text-[15px] leading-[50px]'
+        >
           주문내역
         </Link>
       </li>
