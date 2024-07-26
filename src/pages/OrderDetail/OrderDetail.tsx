@@ -40,14 +40,19 @@ const OrderDetail = () => {
       try {
         const response = await axios.get('/api/v1/lunch');
         const items = response.data;
-        setMenuItems(items);
+        console.log('응답 데이터:', items);
 
-        // 가격 합산 로직
-        const totalPrice = items.reduce(
-          (sum: number, item: MenuItem) => sum + item.price,
-          0
-        );
-        setAllPrice(totalPrice);
+        if (Array.isArray(items)) {
+          setMenuItems(items);
+
+          const totalPrice = items.reduce(
+            (sum: number, item: MenuItem) => sum + item.price,
+            0
+          );
+          setAllPrice(totalPrice);
+        } else {
+          console.error('올바르지 않은 응답 형식:', items);
+        }
       } catch (error) {
         console.error('도시락 리스트를 가져오는 데 실패했습니다:', error);
       }
@@ -98,7 +103,7 @@ const OrderDetail = () => {
       await axios.post('/api/submit-order', data);
       navigate('/orderhistories');
     } catch (error) {
-      console.log('폼 데이터:', data); // 폼 데이터 콘솔에 출력
+      console.log('주문서 데이터:', data); // 폼 데이터 콘솔에 출력
       // console.error('주문 제출 실패:', error);
       // alert('주문 제출에 실패했습니다.');
     }
@@ -122,7 +127,12 @@ const OrderDetail = () => {
           className='customScroll flex flex-col items-center gap-3 overflow-y-auto pr-[3px]'
           style={{ height: 'calc(100% - 98px)' }}
         >
-          {Array.isArray(menuItems) && menuItems.length > 0 ? (
+          {menuItems.length === 0 ? (
+            <div className='flex w-[100%] flex-wrap items-center justify-center pt-[250px]'>
+              <LoadingIcon />
+              <LoadingMessage message={`도시락 정보를 불러오는 중입니다...`} />
+            </div>
+          ) : (
             menuItems.map((item) => (
               <OrderList
                 key={item.id}
@@ -131,11 +141,6 @@ const OrderDetail = () => {
                 price={item.price}
               />
             ))
-          ) : (
-            <div className='flex w-[100%] flex-wrap items-center justify-center pt-[250px]'>
-              <LoadingIcon />
-              <LoadingMessage message={`도시락 정보를 불러오는 중입니다...`} />
-            </div>
           )}
         </div>
       </section>
