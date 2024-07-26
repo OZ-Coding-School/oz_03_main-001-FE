@@ -1,0 +1,702 @@
+[
+  {
+    "id": 1,
+    "name": "김치볶음밥",
+    "description": "매콤한 김치와 밥",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/kimbap.jpg",
+    "price": 7000,
+    "category": "밥",
+    "detailcategory": ["김치", "밥", "계란"]
+  },
+  {
+    "id": 2,
+    "name": "콩나물밥",
+    "description": "신선한 콩나물과 밥",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/bean_sprout_rice.jpg",
+    "price": 6500,
+    "category": "밥",
+    "detailcategory": ["콩나물", "밥", "간장"]
+  },
+  {
+    "id": 3,
+    "name": "제육볶음",
+    "description": "매운 제육볶음",
+    "kcal": "700 kcal",
+    "image_url": "https://example.com/je_yuk_bokkeum.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["돼지고기", "양파", "고추장"]
+  },
+  {
+    "id": 4,
+    "name": "된장찌개",
+    "description": "구수한 된장찌개",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/miso_stew.jpg",
+    "price": 7000,
+    "category": "국",
+    "detailcategory": ["된장", "두부", "야채"]
+  },
+  {
+    "id": 5,
+    "name": "불고기",
+    "description": "달콤한 불고기",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/bulgogi.jpg",
+    "price": 7500,
+    "category": "반찬",
+    "detailcategory": ["소고기", "양파", "간장"]
+  },
+  {
+    "id": 6,
+    "name": "닭갈비",
+    "description": "매운 닭갈비",
+    "kcal": "650 kcal",
+    "image_url": "https://example.com/dakgalbi.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["닭고기", "고추장", "야채"]
+  },
+  {
+    "id": 7,
+    "name": "김치찌개",
+    "description": "매운 김치찌개",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/kimchi_stew.jpg",
+    "price": 7000,
+    "category": "국",
+    "detailcategory": ["김치", "돼지고기", "두부"]
+  },
+  {
+    "id": 8,
+    "name": "된장국",
+    "description": "구수한 된장국",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/ddeokbokki.jpg",
+    "price": 6000,
+    "category": "국",
+    "detailcategory": ["된장", "두부", "야채"]
+  },
+  {
+    "id": 9,
+    "name": "유부초밥",
+    "description": "달콤한 유부와 밥",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/yubu_sushi.jpg",
+    "price": 7000,
+    "category": "밥",
+    "detailcategory": ["유부", "밥", "초밥"]
+  },
+  {
+    "id": 10,
+    "name": "스파게티 볼로네제",
+    "description": "토마토 소스와 소고기",
+    "kcal": "650 kcal",
+    "image_url": "https://example.com/spaghetti_bolognese.jpg",
+    "price": 9000,
+    "category": "반찬",
+    "detailcategory": ["스파게티", "토마토 소스", "소고기"]
+  },
+  {
+    "id": 11,
+    "name": "미역국",
+    "description": "시원한 미역국",
+    "kcal": "300 kcal",
+    "image_url": "https://example.com/seaweed_soup.jpg",
+    "price": 6000,
+    "category": "국",
+    "detailcategory": ["미역", "소고기", "국물"]
+  },
+  {
+    "id": 12,
+    "name": "잡곡밥",
+    "description": "영양 가득한 잡곡밥",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/mixed_grain_rice.jpg",
+    "price": 6500,
+    "category": "밥",
+    "detailcategory": ["잡곡", "밥", "야채"]
+  },
+  {
+    "id": 13,
+    "name": "해물파전",
+    "description": "해물과 파로 만든 전",
+    "kcal": "700 kcal",
+    "image_url": "https://example.com/seafood_pancake.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["해물", "파", "밀가루"]
+  },
+  {
+    "id": 14,
+    "name": "순두부찌개",
+    "description": "매운 순두부찌개",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/sundubu_stew.jpg",
+    "price": 7000,
+    "category": "국",
+    "detailcategory": ["순두부", "고추가루", "야채"]
+  },
+  {
+    "id": 15,
+    "name": "된장비빔밥",
+    "description": "된장과 다양한 야채가 들어간 비빔밥",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/ddeokbokki.jpg",
+    "price": 7500,
+    "category": "밥",
+    "detailcategory": ["된장", "밥", "야채"]
+  },
+  {
+    "id": 16,
+    "name": "잡채",
+    "description": "달콤한 잡채",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/japchae.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["당면", "채소", "고기"]
+  },
+  {
+    "id": 17,
+    "name": "두부된장국",
+    "description": "된장과 두부가 들어간 국",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/tofu_miso_soup.jpg",
+    "price": 6500,
+    "category": "국",
+    "detailcategory": ["된장", "두부", "국물"]
+  },
+  {
+    "id": 18,
+    "name": "참치마요덮밥",
+    "description": "참치와 마요네즈 덮밥",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/tuna_mayo_rice.jpg",
+    "price": 7000,
+    "category": "밥",
+    "detailcategory": ["참치", "마요네즈", "밥"]
+  },
+  {
+    "id": 19,
+    "name": "김치전",
+    "description": "매콤한 김치전",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/kimchi_pancake.jpg",
+    "price": 7000,
+    "category": "반찬",
+    "detailcategory": ["김치", "밀가루", "파"]
+  },
+  {
+    "id": 20,
+    "name": "버섯국",
+    "description": "버섯이 들어간 국",
+    "kcal": "350 kcal",
+    "image_url": "https://example.com/mushroom_soup.jpg",
+    "price": 6500,
+    "category": "국",
+    "detailcategory": ["버섯", "국물", "야채"]
+  },
+  {
+    "id": 21,
+    "name": "삼겹살구이",
+    "description": "바삭하게 구운 삼겹살",
+    "kcal": "700 kcal",
+    "image_url": "https://example.com/grilled_pork_belly.jpg",
+    "price": 9000,
+    "category": "반찬",
+    "detailcategory": ["삼겹살", "양파", "소스"]
+  },
+  {
+    "id": 22,
+    "name": "오징어볶음",
+    "description": "매운 오징어볶음",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/stir_fried_squid.jpg",
+    "price": 7500,
+    "category": "반찬",
+    "detailcategory": ["오징어", "고추장", "채소"]
+  },
+  {
+    "id": 23,
+    "name": "미역국",
+    "description": "시원한 미역국",
+    "kcal": "300 kcal",
+    "image_url": "https://example.com/seaweed_soup.jpg",
+    "price": 6000,
+    "category": "국",
+    "detailcategory": ["미역", "소고기", "국물"]
+  },
+  {
+    "id": 24,
+    "name": "치킨너겟",
+    "description": "바삭한 치킨너겟",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/chicken_nuggets.jpg",
+    "price": 7000,
+    "category": "반찬",
+    "detailcategory": ["치킨", "빵가루", "소스"]
+  },
+  {
+    "id": 25,
+    "name": "새우튀김",
+    "description": "바삭한 새우튀김",
+    "kcal": "450 kcal",
+    "image_url": "https://example.com/shrimp_tempura.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["새우", "빵가루", "소스"]
+  },
+  {
+    "id": 26,
+    "name": "볶음밥",
+    "description": "다양한 재료가 들어간 볶음밥",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/fried_rice.jpg",
+    "price": 7000,
+    "category": "밥",
+    "detailcategory": ["밥", "야채", "고기"]
+  },
+  {
+    "id": 27,
+    "name": "떡국",
+    "description": "떡과 소고기 국물",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/rice_cake_soup.jpg",
+    "price": 6500,
+    "category": "국",
+    "detailcategory": ["떡", "소고기", "국물"]
+  },
+  {
+    "id": 28,
+    "name": "계란찜",
+    "description": "부드러운 계란찜",
+    "kcal": "300 kcal",
+    "image_url": "https://example.com/steamed_egg.jpg",
+    "price": 6000,
+    "category": "반찬",
+    "detailcategory": ["계란", "소금", "야채"]
+  },
+  {
+    "id": 29,
+    "name": "쇠고기무국",
+    "description": "쇠고기와 무가 들어간 국",
+    "kcal": "450 kcal",
+    "image_url": "https://example.com/beef_radish_soup.jpg",
+    "price": 6500,
+    "category": "국",
+    "detailcategory": ["쇠고기", "무", "국물"]
+  },
+  {
+    "id": 30,
+    "name": "참치김밥",
+    "description": "참치와 야채가 들어간 김밥",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/tuna_kimbap.jpg",
+    "price": 6000,
+    "category": "밥",
+    "detailcategory": ["참치", "김밥", "야채"]
+  },
+  {
+    "id": 31,
+    "name": "나물비빔밥",
+    "description": "다양한 나물이 들어간 비빔밥",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/namul_bibimbap.jpg",
+    "price": 7500,
+    "category": "밥",
+    "detailcategory": ["밥", "나물", "고추장"]
+  },
+  {
+    "id": 32,
+    "name": "버섯볶음",
+    "description": "다양한 버섯으로 만든 볶음",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/mushroom_stir_fry.jpg",
+    "price": 6500,
+    "category": "반찬",
+    "detailcategory": ["버섯", "간장", "야채"]
+  },
+  {
+    "id": 33,
+    "name": "오이냉국",
+    "description": "시원한 오이냉국",
+    "kcal": "200 kcal",
+    "image_url": "https://example.com/cucumber_cold_soup.jpg",
+    "price": 6000,
+    "category": "국",
+    "detailcategory": ["오이", "국물", "식초"]
+  },
+  {
+    "id": 34,
+    "name": "소고기덮밥",
+    "description": "소고기와 밥을 함께",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/beef_donburi.jpg",
+    "price": 7500,
+    "category": "밥",
+    "detailcategory": ["소고기", "밥", "간장"]
+  },
+  {
+    "id": 35,
+    "name": "순두부찌개",
+    "description": "매운 순두부찌개",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/sundubu_stew.jpg",
+    "price": 7000,
+    "category": "국",
+    "detailcategory": ["순두부", "고추가루", "야채"]
+  },
+  {
+    "id": 36,
+    "name": "생선조림",
+    "description": "달콤하게 조린 생선",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/braised_fish.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["생선", "간장", "야채"]
+  },
+  {
+    "id": 37,
+    "name": "된장찌개",
+    "description": "구수한 된장찌개",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/miso_stew.jpg",
+    "price": 7000,
+    "category": "국",
+    "detailcategory": ["된장", "두부", "야채"]
+  },
+  {
+    "id": 38,
+    "name": "부대찌개",
+    "description": "다양한 재료가 들어간 찌개",
+    "kcal": "700 kcal",
+    "image_url": "https://example.com/budae_jjigae.jpg",
+    "price": 8000,
+    "category": "국",
+    "detailcategory": ["햄", "소시지", "찌개"]
+  },
+  {
+    "id": 39,
+    "name": "계란볶음밥",
+    "description": "계란과 밥을 볶은 요리",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/egg_fried_rice.jpg",
+    "price": 6500,
+    "category": "밥",
+    "detailcategory": ["계란", "밥", "야채"]
+  },
+  {
+    "id": 40,
+    "name": "떡갈비",
+    "description": "달콤한 떡갈비",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/ddeokgalbi.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["갈비", "떡", "소스"]
+  },
+  {
+    "id": 41,
+    "name": "비빔국수",
+    "description": "매운 비빔국수",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/spicy_noodles.jpg",
+    "price": 7000,
+    "category": "밥",
+    "detailcategory": ["면", "고추장", "야채"]
+  },
+  {
+    "id": 42,
+    "name": "오징어볶음",
+    "description": "매운 오징어볶음",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/stir_fried_squid.jpg",
+    "price": 7500,
+    "category": "반찬",
+    "detailcategory": ["오징어", "고추장", "야채"]
+  },
+  {
+    "id": 43,
+    "name": "소면국수",
+    "description": "가볍게 먹기 좋은 소면국수",
+    "kcal": "300 kcal",
+    "image_url": "https://example.com/somen_noodles.jpg",
+    "price": 6000,
+    "category": "국",
+    "detailcategory": ["소면", "육수", "야채"]
+  },
+  {
+    "id": 44,
+    "name": "치킨너겟",
+    "description": "바삭한 치킨너겟",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/chicken_nuggets.jpg",
+    "price": 7000,
+    "category": "반찬",
+    "detailcategory": ["치킨", "빵가루", "소스"]
+  },
+  {
+    "id": 45,
+    "name": "잡곡밥",
+    "description": "영양 가득한 잡곡밥",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/mixed_grain_rice.jpg",
+    "price": 6500,
+    "category": "밥",
+    "detailcategory": ["잡곡", "밥", "야채"]
+  },
+  {
+    "id": 46,
+    "name": "김치국",
+    "description": "매운 김치국",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/kimchi_soup.jpg",
+    "price": 6500,
+    "category": "국",
+    "detailcategory": ["김치", "국물", "돼지고기"]
+  },
+  {
+    "id": 47,
+    "name": "어묵탕",
+    "description": "어묵이 들어간 국물",
+    "kcal": "350 kcal",
+    "image_url": "https://example.com/fish_cake_soup.jpg",
+    "price": 6000,
+    "category": "국",
+    "detailcategory": ["어묵", "국물", "야채"]
+  },
+  {
+    "id": 48,
+    "name": "소고기무국",
+    "description": "쇠고기와 무가 들어간 국",
+    "kcal": "450 kcal",
+    "image_url": "https://example.com/beef_radish_soup.jpg",
+    "price": 6500,
+    "category": "국",
+    "detailcategory": ["쇠고기", "무", "국물"]
+  },
+  {
+    "id": 49,
+    "name": "소고기볶음",
+    "description": "달콤하게 볶은 소고기",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/beef_stir_fry.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["소고기", "간장", "양파"]
+  },
+  {
+    "id": 50,
+    "name": "고추장찌개",
+    "description": "매운 고추장찌개",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/gochujang_stew.jpg",
+    "price": 7000,
+    "category": "국",
+    "detailcategory": ["고추장", "돼지고기", "야채"]
+  },
+  {
+    "id": 51,
+    "name": "계란볶음밥",
+    "description": "계란과 밥을 볶은 요리",
+    "kcal": "550 kcal",
+    "image_url": "https://example.com/egg_fried_rice.jpg",
+    "price": 6500,
+    "category": "밥",
+    "detailcategory": ["계란", "밥", "야채"]
+  },
+  {
+    "id": 52,
+    "name": "오징어볶음",
+    "description": "매운 오징어볶음",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/stir_fried_squid.jpg",
+    "price": 7500,
+    "category": "반찬",
+    "detailcategory": ["오징어", "고추장", "야채"]
+  },
+  {
+    "id": 53,
+    "name": "카레라이스",
+    "description": "카레와 밥",
+    "kcal": "650 kcal",
+    "image_url": "https://example.com/curry_rice.jpg",
+    "price": 7000,
+    "category": "밥",
+    "detailcategory": ["카레", "밥", "야채"]
+  },
+  {
+    "id": 54,
+    "name": "해물찜",
+    "description": "다양한 해물찜",
+    "kcal": "700 kcal",
+    "image_url": "https://example.com/seafood_stew.jpg",
+    "price": 9000,
+    "category": "반찬",
+    "detailcategory": ["해물", "소스", "야채"]
+  },
+  {
+    "id": 55,
+    "name": "된장국",
+    "description": "구수한 된장국",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/ddeokbokki.jpg",
+    "price": 6000,
+    "category": "국",
+    "detailcategory": ["된장", "두부", "국물"]
+  },
+  {
+    "id": 56,
+    "name": "삼계탕",
+    "description": "닭과 인삼이 들어간 탕",
+    "kcal": "700 kcal",
+    "image_url": "https://example.com/samgyetang.jpg",
+    "price": 10000,
+    "category": "국",
+    "detailcategory": ["닭", "인삼", "야채"]
+  },
+  {
+    "id": 57,
+    "name": "소면",
+    "description": "시원한 소면",
+    "kcal": "300 kcal",
+    "image_url": "https://example.com/somen.jpg",
+    "price": 6000,
+    "category": "국",
+    "detailcategory": ["소면", "육수", "채소"]
+  },
+  {
+    "id": 58,
+    "name": "도시락",
+    "description": "다양한 반찬과 밥",
+    "kcal": "650 kcal",
+    "image_url": "https://example.com/lunch_box.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["밥", "반찬", "김치"]
+  },
+  {
+    "id": 59,
+    "name": "오므라이스",
+    "description": "계란으로 감싼 볶음밥",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/omelet_rice.jpg",
+    "price": 7500,
+    "category": "밥",
+    "detailcategory": ["계란", "밥", "야채"]
+  },
+  {
+    "id": 60,
+    "name": "부추전",
+    "description": "부추와 밀가루로 만든 전",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/chive_pancake.jpg",
+    "price": 7000,
+    "category": "반찬",
+    "detailcategory": ["부추", "밀가루", "계란"]
+  },
+  {
+    "id": 61,
+    "name": "돼지갈비",
+    "description": "달콤하게 조리한 돼지갈비",
+    "kcal": "650 kcal",
+    "image_url": "https://example.com/pork_ribs.jpg",
+    "price": 9000,
+    "category": "반찬",
+    "detailcategory": ["돼지갈비", "간장", "야채"]
+  },
+  {
+    "id": 62,
+    "name": "참치회",
+    "description": "싱싱한 참치회",
+    "kcal": "350 kcal",
+    "image_url": "https://example.com/tuna_sashimi.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["참치", "간장", "와사비"]
+  },
+  {
+    "id": 63,
+    "name": "알탕",
+    "description": "매운 알탕",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/fish_roe_stew.jpg",
+    "price": 7500,
+    "category": "국",
+    "detailcategory": ["알", "국물", "야채"]
+  },
+  {
+    "id": 64,
+    "name": "칼국수",
+    "description": "손으로 뜯은 면이 들어간 국수",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/knife_noodles.jpg",
+    "price": 7000,
+    "category": "국",
+    "detailcategory": ["칼국수", "육수", "야채"]
+  },
+  {
+    "id": 65,
+    "name": "제육볶음",
+    "description": "매운 제육볶음",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/spicy_pork_stir_fry.jpg",
+    "price": 7500,
+    "category": "반찬",
+    "detailcategory": ["돼지고기", "고추장", "야채"]
+  },
+  {
+    "id": 66,
+    "name": "해물파전",
+    "description": "해물이 듬뿍 들어간 파전",
+    "kcal": "600 kcal",
+    "image_url": "https://example.com/seafood_pancake.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["해물", "부침가루", "야채"]
+  },
+  {
+    "id": 67,
+    "name": "된장국",
+    "description": "구수한 된장국",
+    "kcal": "400 kcal",
+    "image_url": "https://example.com/miso_soup.jpg",
+    "price": 6500,
+    "category": "국",
+    "detailcategory": ["된장", "두부", "국물"]
+  },
+  {
+    "id": 68,
+    "name": "된장찌개",
+    "description": "구수한 된장찌개",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/miso_stew.jpg",
+    "price": 7000,
+    "category": "국",
+    "detailcategory": ["된장", "두부", "야채"]
+  },
+  {
+    "id": 69,
+    "name": "닭강정",
+    "description": "매운 닭강정",
+    "kcal": "700 kcal",
+    "image_url": "https://example.com/spicy_chicken.jpg",
+    "price": 8000,
+    "category": "반찬",
+    "detailcategory": ["닭고기", "고추장", "소스"]
+  },
+  {
+    "id": 70,
+    "name": "잡채",
+    "description": "다양한 재료가 들어간 잡채",
+    "kcal": "500 kcal",
+    "image_url": "https://example.com/japchae.jpg",
+    "price": 7500,
+    "category": "반찬",
+    "detailcategory": ["당면", "야채", "고기"]
+  }
+]

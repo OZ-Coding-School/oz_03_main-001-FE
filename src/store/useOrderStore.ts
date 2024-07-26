@@ -36,6 +36,8 @@ type Store = {
   setCurrentBoxId: (current: number) => void;
   removePickedDish: (boxId: number, uniqueId: number) => void;
   removeBox: (boxId: number) => void;
+  currentPost: DishData[];
+  setCurrentPost: (currentPost: DishData[]) => void;
 };
 
 const useOrderStore = create<Store>()((set) => ({
@@ -88,6 +90,8 @@ const useOrderStore = create<Store>()((set) => ({
     set((state) => ({
       basket: state.basket.filter((box) => box.id !== boxId),
     })),
+  currentPost: [],
+  setCurrentPost: (currentPost) => set({ currentPost }),
 }));
 
 export default useOrderStore;
