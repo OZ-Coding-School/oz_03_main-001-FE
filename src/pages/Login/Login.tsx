@@ -165,17 +165,17 @@ const Login: React.FC = () => {
           </div>
           <div className='flex flex-row justify-center'>
             <img
-              alt='google'
+              alt='googleLogo'
               src={googleLogo}
               className='mr-[9px] h-[50px] w-[50px]'
             />
             <img
-              alt='kakao'
+              alt='kakaoLogo'
               src={kakaoLogo}
               className='mx-[9px] h-[50px] w-[50px]'
             />
             <img
-              alt='naver'
+              alt='naverLogo'
               src={naverLogo}
               className='ml-[9px] h-[50px] w-[50px]'
             />
