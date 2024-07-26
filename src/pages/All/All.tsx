@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import logo from '../../assets/images/dosilockLogo.png';
+import logo from '../../assets/images/dosirockLogo.png';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Modal from './Modal/Modal';
 
 const All = () => {
   const allList = [
@@ -29,6 +30,10 @@ const All = () => {
   ];
 
   const navigate = useNavigate();
+
+  // 모달 상태 관리
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   // '알레르기 없음' 체크 상태 관리
   const [noAll, setNoAll] = useState<boolean>(false);
@@ -65,7 +70,7 @@ const All = () => {
     e.preventDefault();
 
     if (isCheckEmpty) {
-      setErrorAll('알레르기가 없을 시 없음을 체크해주세요');
+      setErrorAll('* 알레르기가 없을 시 없음을 체크해주세요');
       return false;
     }
     // 알레르기 체크 상태에 따라 전송 배열 바꾸기
@@ -84,6 +89,8 @@ const All = () => {
     } catch (error) {
       console.error('서버 요청 실패:', error);
       console.log(postData);
+      setModalOpen(true);
+      setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
     }
   };
 
@@ -105,8 +112,7 @@ const All = () => {
             name='알레르기 없음'
             type='checkbox'
             // eslint-disable-next-line tailwindcss/classnames-order
-            className='h-6 w-6 appearance-none rounded-[4px] checked:bg-checkBox checked:bg-contain checked:bg-center checked:bg-no-repeat'
-            style={{ border: '1px solid #D9D9D9' }}
+            className='h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
             checked={noAll}
             onChange={(e) => handleCheckAll(e.target.checked, 'no_all')}
           />
@@ -136,8 +142,7 @@ const All = () => {
                     handleCheckAll(e.target.checked, e.target.id);
                   }}
                   // eslint-disable-next-line tailwindcss/classnames-order
-                  className='h-6 w-6 appearance-none rounded-[4px] checked:bg-checkBox checked:bg-contain checked:bg-center checked:bg-no-repeat'
-                  style={{ border: '1px solid #D9D9D9' }}
+                  className='h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
                 />
                 <label
                   htmlFor={all}
@@ -149,15 +154,20 @@ const All = () => {
             );
           })}
         </div>
-        <button
-          className={`h-[70px] w-[549px] rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
-            isCheckEmpty ? 'bg-disabled' : 'bg-primary hover:bg-primary-hover'
-          }`}
-          type='submit'
-          onClick={postAll}
-        >
-          입력 완료
-        </button>
+        <div className='relative'>
+          <button
+            className={`h-[70px] w-[549px] rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
+              isCheckEmpty ? 'bg-disabled' : 'bg-primary hover:bg-primary-hover'
+            }`}
+            type='submit'
+            onClick={postAll}
+          >
+            입력 완료
+          </button>
+          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+            {modalMessage}
+          </Modal>
+        </div>
       </form>
     </div>
   );

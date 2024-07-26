@@ -205,7 +205,7 @@ const Join = () => {
           <div>
             <input
               id='name-input'
-              className={`h-[60px] w-[410px] rounded-xl border px-[20px] py-[12px] ${nameError ? 'border-primary' : 'border-border'}`}
+              className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${nameError ? 'border-primary' : 'border-border'}`}
               type='text'
               placeholder='이름'
               value={nameValue}
@@ -220,7 +220,7 @@ const Join = () => {
           <div>
             <input
               id='email-input'
-              className={`h-[60px] w-[410px] rounded-xl border px-[20px] py-[12px] ${emailError ? 'border-primary' : 'border-border'}`}
+              className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${emailError ? 'border-primary' : 'border-border'}`}
               type='email'
               placeholder='이메일'
               value={emailValue}
@@ -235,7 +235,7 @@ const Join = () => {
           <div>
             <input
               id='id-input'
-              className={`h-[60px] w-[410px] rounded-xl border px-[20px] py-[12px] ${idError ? 'border-primary' : 'border-border'}`}
+              className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${idError ? 'border-primary' : 'border-border'}`}
               type='text'
               placeholder='아이디'
               value={idValue}
@@ -250,7 +250,7 @@ const Join = () => {
           <div>
             <input
               id='password-input'
-              className={`h-[60px] w-[410px] rounded-xl border px-[20px] py-[12px] ${passError ? 'border-primary' : 'border-border'}`}
+              className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${passError ? 'border-primary' : 'border-border'}`}
               type='password'
               placeholder='비밀번호'
               value={passValue}
@@ -265,7 +265,7 @@ const Join = () => {
           <div>
             <input
               id='re-password-input'
-              className={`h-[60px] w-[410px] rounded-xl border px-[20px] py-[12px] ${rePassError ? 'border-primary' : 'border-border'}`}
+              className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${rePassError ? 'border-primary' : 'border-border'}`}
               type='password'
               placeholder='비밀번호 확인'
               value={rePassValue}
@@ -281,7 +281,7 @@ const Join = () => {
         <div className='relative'>
           <button
             id='submit-button'
-            className={`h-[60px] w-[410px] rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
+            className={`h-[60px] w-[410px] cursor-none rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
               isValueEmpty ? 'bg-primary hover:bg-primary-hover' : 'bg-disabled'
             }`}
             type='submit'
