@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import dosirockLogo from '../../assets/images/dosirockLogo.png';
 import googleLogo from '../../assets/images/googleLogo.png';
-import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginRequest } from '../../types/loginTypes';
 import Modal from './Modal/Modal';
 import axios from 'axios';
+import SocialLogin from '../Login/SocialLogin';
 
 const Login: React.FC = () => {
   // 모달 상태 관리
@@ -17,13 +17,11 @@ const Login: React.FC = () => {
 
   //useForm
   const {
-    control,
     register, //입력을 받고자 하는 모든 필드에 반드시 register 함수를 사용
     handleSubmit,
-    formState: { isSubmitting, errors, isValid, isSubmitted }, //이벤트가 미쳐 종료되기전 사용자가 다시클릭하면 양식중복,
-    //그래서 해당 이벤트가 끝나고 다시 버튼을 활성화 시켜주기 위한 속성
-    //양삭이 현재 제출중인상태인지 아닌지 알수있다.
-    watch, //사용자가 입력하는 값을 실시간으로 볼수있음
+    formState: { isSubmitting, errors, isValid, isSubmitted },
+    //폼의 정보를 포함한 객체 { 제출중인지 상태여부 , 각 필드의 오류메세지나 상태를 저장 , 모든 필드가 유효한지 여부 (버튼비활성화위함) , 폼이 한번이라도 제출된 적 있는지 여부}
+    //watch, //사용자가 입력하는 값을 실시간으로 볼수있음
   } = useForm<LoginRequest>({ mode: 'onChange' });
   // console.log(watch);
 
@@ -32,23 +30,23 @@ const Login: React.FC = () => {
   // 로그인 로직
   const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
     try {
-      const response = await axios.post('/api/v1/users/login', {
-        body: JSON.stringify({
-          user_id: data.user_id,
+      const response = await axios.post(
+        '/api/v1/users/login',
+        {
+          id: data.id,
           password: data.password,
-        }),
-      });
+        },
+        { withCredentials: true }
+      );
       // console.log(response);
 
       const result = response.data;
 
       if (response.status === 200) {
         //성공
+        sessionStorage.setItem('id', result.id);
+        console.log('로그인 성공, 로그인 유저:', result.id);
         setLoginCheck(null);
-        sessionStorage.setItem('token', result.token);
-        sessionStorage.setItem('user_id', result.user_id);
-        sessionStorage.setItem('password', result.password);
-        console.log('로그인 성공, 로그인 유저:', result.user_id);
         navigate('/'); //홈페이지로 이동
       } else if (response.status === 400) {
         //잘못된 값 입력됐을때 에러
@@ -64,8 +62,8 @@ const Login: React.FC = () => {
       }
     } catch (error) {
       console.error('로그인 요청 중 에러 발생:', error);
-      setLoginCheck('오류가 발생했습니다. 다시 시도해 주세요.');
-      // setModalOpen(true);
+      setModalMessage('오류가 발생했습니다. 다시 시도해 주세요.');
+      setModalOpen(true);
     }
   };
 
@@ -92,7 +90,7 @@ const Login: React.FC = () => {
           </div>
           <div className='flex flex-col items-center'>
             <input
-              {...register('user_id', {
+              {...register('id', {
                 required: {
                   value: true,
                   message: '아이디를 입력해주세요',
@@ -103,16 +101,19 @@ const Login: React.FC = () => {
                 // },
               })}
               aria-invalid={
-                isSubmitted ? (errors.user_id ? 'true' : 'false') : undefined
+                isSubmitted ? (errors.id ? 'true' : 'false') : undefined
               }
               type='text'
               placeholder='아이디'
               //   required //반드시 값을 입력해야할때
               className='h-[60px] w-[410px] rounded-[12px] border border-border px-[20px] py-[12px]'
-              style={{ border: ' 1px solid #E6E6E6' }}
+              style={{
+                border: ' 1px solid ',
+                borderColor: errors.id ? 'red' : '#E6E6E6',
+              }}
             />
             <div className='l-75 w-full pl-[15px] text-left text-primary'>
-              {errors.user_id && <small>{String({ loginCheck })}</small>}
+              {errors.id && <small>아이디를 입력해주세요</small>}
             </div>
 
             <input
@@ -130,10 +131,13 @@ const Login: React.FC = () => {
               placeholder='비밀번호'
               required //반드시 값을 입력해야할때
               className='mt-[14px] h-[60px] w-[410px] rounded-[12px] border px-[20px] py-[12px]'
-              style={{ border: ' 1px solid #E6E6E6' }}
+              style={{
+                border: ' 1px solid ',
+                borderColor: errors.id ? 'red' : '#E6E6E6',
+              }}
             />
             <div className='l-75 w-full pl-[15px] text-left text-primary'>
-              {errors.password && <small>{String({ loginCheck })}</small>}
+              {errors.password && <small>비밀번호를 입력해주세요</small>}
             </div>
             <div className='relative'>
               <button
@@ -147,6 +151,11 @@ const Login: React.FC = () => {
               >
                 로그인
               </button>
+              {/* {modalMessage && (
+                <div className='l-75 mt-1 w-full pl-[15px] text-left text-[12.8px] text-primary'>
+                  {modalMessage}
+                </div>
+              )} */}
               <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
                 {modalMessage}
               </Modal>
@@ -164,21 +173,7 @@ const Login: React.FC = () => {
             </div>
           </div>
           <div className='flex flex-row justify-center'>
-            <img
-              alt='googleLogo'
-              src={googleLogo}
-              className='mr-[9px] h-[50px] w-[50px]'
-            />
-            <img
-              alt='kakaoLogo'
-              src={kakaoLogo}
-              className='mx-[9px] h-[50px] w-[50px]'
-            />
-            <img
-              alt='naverLogo'
-              src={naverLogo}
-              className='ml-[9px] h-[50px] w-[50px]'
-            />
+            <SocialLogin />
           </div>
         </form>
       </div>

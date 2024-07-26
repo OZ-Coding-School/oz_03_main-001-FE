@@ -13,7 +13,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className={`absolute left-[310px] top-[5.5px] flex h-[49px] w-[300px] items-center justify-between rounded-xl bg-secondary pl-[3px] pr-3`}
+      className={`absolute left-[350px] top-[42px] flex h-[49px] w-[300px] items-center justify-between rounded-xl bg-secondary pl-[3px] pr-3`}
     >
       <div className='flex items-center justify-between'>
         <img className='relative right-[13px]' src={Polygon1} alt='세모' />
