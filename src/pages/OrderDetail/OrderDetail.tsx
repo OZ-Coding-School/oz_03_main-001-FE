@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import arrowRight from '../../assets/images/arrowRight_gray.svg';
-import OrderList from './OrderList';
+import OrderList from '../../components/common/OrderList';
 import '../../assets/css/customScroll.css';
 import { useEffect, useState } from 'react';
 import LoadingIcon from '../../components/common/loding/LodingIcon';
@@ -35,6 +35,7 @@ const OrderDetail = () => {
   // 도시락의 가격 관리
   const [allPrice, setAllPrice] = useState<number>(0);
 
+  // 도시락 정보 가져오는 건 요성님이 전역에 저장해 준 정보 가져오기
   useEffect(() => {
     const getMenuItems = async () => {
       try {
@@ -73,9 +74,6 @@ const OrderDetail = () => {
     },
   });
 
-  // 폼제출 여부 상태 관리
-  const [submitted, setSubmitted] = useState(false);
-
   // watch를 이용해 각 필드의 상태를 감시
   const name = watch('name');
   const phone = watch('phone');
@@ -85,6 +83,9 @@ const OrderDetail = () => {
   // 모든 필드가 채워져 있으면 트루
   const isFormEmpty = name && phone && address && detailedAddress;
 
+  // 폼제출 여부 상태 관리
+  const [submitted, setSubmitted] = useState(false);
+
   // 필드 값과 폼 제출 여부를 받아 클래스 값 변경
   const getBorderClass = (fieldValue: string) => {
     if (submitted && !fieldValue) {
@@ -93,6 +94,17 @@ const OrderDetail = () => {
     return 'border-border';
   };
 
+  // 현재 날짜를 YYYY.MM.DD 형식으로 계산
+  const getCurrentDate = () => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
+    const day = String(now.getDate()).padStart(2, '0');
+
+    return `${year}.${month}.${day}`;
+  };
+  const currentDate = getCurrentDate();
+
   const onSubmit = async (data: FormData) => {
     setSubmitted(true); // 제출 시 상태 변경
 
@@ -100,12 +112,14 @@ const OrderDetail = () => {
       if (!isFormEmpty) {
         return false;
       }
-      await axios.post('/api/submit-order', data);
+      // 폼 데이터에 날짜 추가
+      const formDataWithDate = { ...data, orderDate: currentDate };
+
+      await axios.post('/api/v1/orders', formDataWithDate);
       navigate('/orderhistories');
     } catch (error) {
-      console.log('주문서 데이터:', data); // 폼 데이터 콘솔에 출력
-      // console.error('주문 제출 실패:', error);
-      // alert('주문 제출에 실패했습니다.');
+      console.log('주문서 데이터:', { ...data, orderDate: currentDate });
+      alert('주문서 제출에 실패했습니다.');
     }
   };
 
