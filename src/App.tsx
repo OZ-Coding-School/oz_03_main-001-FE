@@ -14,6 +14,7 @@ import Order from './pages/Order/Order';
 import OrderDetail from './pages/OrderDetail/OrderDetail';
 // import OrderHistory from './pages/OrderHistory';
 import OrderHistories from './pages/OrderHistories/OrderHistories';
+import Community from './pages/Community/Community';
 import CustomCursor from './components/layout/CustomCursor';
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
         <Route path='/order' element={<Order />} />
         <Route path='/orderdetail' element={<OrderDetail />} />
         <Route path='/orderhistories' element={<OrderHistories />} />
+        <Route path='/Community' element={<Community />} />
         {/* <Route path='/orderhistories/:id' element={<OrderHistory />} /> */}
       </Routes>
     </>
