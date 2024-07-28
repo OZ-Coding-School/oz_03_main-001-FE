@@ -43,8 +43,10 @@ const Order = () => {
   } = useOrderStore();
 
   useEffect(() => {
-    setDishList(DummyDishList);
-  }, [setDishList]);
+    setDishList(
+      DummyDishList.filter((dish) => dish.category === currentCategory)
+    );
+  }, [setDishList, currentCategory]);
 
   const postPerPage: number = 10;
   const indexOfLastPost: number = page * postPerPage;
@@ -52,7 +54,14 @@ const Order = () => {
 
   useEffect(() => {
     setCurrentPost(dishList.slice(indexOfFirstPost, indexOfLastPost));
-  }, [setCurrentPost, indexOfLastPost, indexOfFirstPost, dishList, page]);
+  }, [
+    setCurrentPost,
+    indexOfLastPost,
+    indexOfFirstPost,
+    dishList,
+    page,
+    currentCategory,
+  ]);
 
   return (
     <div className='flex h-[calc(100vh-75px)] w-screen flex-row bg-background p-8'>
@@ -78,24 +87,24 @@ const Order = () => {
             <ul className={isDroped ? '' : 'hidden'}>
               <li>
                 <button
-                  onClick={() => setCurrentCategory('bob')}
-                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'bob' ? 'bg-primary font-semibold text-white' : ''}`}
+                  onClick={() => setCurrentCategory('밥')}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === '밥' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   밥
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => setCurrentCategory('gook')}
-                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'gook' ? 'bg-primary font-semibold text-white' : ''}`}
+                  onClick={() => setCurrentCategory('국')}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === '국' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   국 / 찌개
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => setCurrentCategory('chan')}
-                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'chan' ? 'bg-primary font-semibold text-white' : ''}`}
+                  onClick={() => setCurrentCategory('반찬')}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === '반찬' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   반찬
                 </button>
