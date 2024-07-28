@@ -40,6 +40,8 @@ const Order = () => {
     createBox,
     currentPost,
     setCurrentPost,
+    totalPrice,
+    setTotalPrice,
   } = useOrderStore();
 
   useEffect(() => {
@@ -62,6 +64,10 @@ const Order = () => {
     page,
     currentCategory,
   ]);
+
+  useEffect(() => {
+    setTotalPrice(basket.reduce((sum, box) => sum + box.boxPrice, 0));
+  }, [basket, setTotalPrice]);
 
   return (
     <div className='flex h-[calc(100vh-75px)] w-screen flex-row bg-background p-8'>
@@ -201,7 +207,10 @@ const Order = () => {
         <div className='flex items-end justify-between py-4'>
           <p>금액</p>
           <p>
-            <span className='mr-0.5 text-2xl font-semibold'>10,000</span>원
+            <span className='mr-0.5 text-2xl font-semibold'>
+              {totalPrice.toLocaleString()}
+            </span>
+            원
           </p>
         </div>
         <button className='w-full rounded-xl bg-primary p-3 font-semibold text-white hover:bg-primary-hover'>

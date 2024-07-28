@@ -38,6 +38,8 @@ type Store = {
   removeBox: (boxId: number) => void;
   currentPost: DishData[];
   setCurrentPost: (currentPost: DishData[]) => void;
+  totalPrice: number;
+  setTotalPrice: (totalPrice: number) => void;
 };
 
 const useOrderStore = create<Store>()((set) => ({
@@ -92,6 +94,8 @@ const useOrderStore = create<Store>()((set) => ({
     })),
   currentPost: [],
   setCurrentPost: (currentPost) => set({ currentPost }),
+  totalPrice: 0,
+  setTotalPrice: (totalPrice) => set({ totalPrice }),
 }));
 
 export default useOrderStore;
