@@ -57,7 +57,7 @@ const Box: React.FC<Props> = ({ box }) => {
           <li key={pickedDish.id} className='flex justify-between'>
             <span>{pickedDish.dish.name}</span>
             <span className='flex items-center'>
-              {pickedDish.dish.price}
+              {pickedDish.dish.price.toLocaleString()}
               <IoClose
                 className='ml-2'
                 onClick={() => removePickedDish(box.id, pickedDish.id)}
@@ -68,12 +68,10 @@ const Box: React.FC<Props> = ({ box }) => {
       </ul>
       <div className='flex w-full justify-end'>
         <span className='mr-0.5 font-medium'>
-          {
-            (box.boxPrice = box.pickedDishList.reduce(
-              (sum, pickedDish) => sum + pickedDish.dish.price,
-              0
-            ))
-          }
+          {(box.boxPrice = box.pickedDishList.reduce(
+            (sum, pickedDish) => sum + pickedDish.dish.price,
+            0
+          )).toLocaleString()}
         </span>
         원
       </div>

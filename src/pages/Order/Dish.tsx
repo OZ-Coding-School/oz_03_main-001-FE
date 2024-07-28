@@ -30,7 +30,7 @@ const Dish: React.FC<Props> = ({ dish }) => {
         className='h-2/3 w-full bg-gray20 shadow-inner'
       />
       <div>
-        <span className='mr-0.5 text-xl'>{dish.price}</span>
+        <span className='mr-0.5 text-xl'>{dish.price.toLocaleString()}</span>
         <span>원</span>
       </div>
     </button>
