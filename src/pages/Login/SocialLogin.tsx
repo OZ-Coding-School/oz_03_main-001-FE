@@ -18,21 +18,30 @@ const SocialLogin = () => {
 
   return (
     <div>
-      <button onClick={kakaoLoginUrl} className='mr-[9px] h-[50px] w-[50px]'>
+      <button
+        onClick={kakaoLoginUrl}
+        className='mr-[9px] h-[50px] w-[50px] cursor-none'
+      >
         <img
           src={googleLogo}
           alt='구글로그인 로고'
           className='mr-[9px] h-[50px] w-[50px]'
         />
       </button>
-      <button onClick={kakaoLoginUrl} className='ml-[9px] h-[50px] w-[50px]'>
+      <button
+        onClick={kakaoLoginUrl}
+        className='ml-[9px] h-[50px] w-[50px] cursor-none'
+      >
         <img
           src={kakaoLogo}
           alt='카카오 로그인 로고'
           className='h-[full] w-[full]'
         />
       </button>
-      <button onClick={kakaoLoginUrl} className='ml-[9px] h-[50px] w-[50px]'>
+      <button
+        onClick={kakaoLoginUrl}
+        className='ml-[9px] h-[50px] w-[50px] cursor-none'
+      >
         <img
           src={naverLogo}
           alt='네이버로그인 로고'
