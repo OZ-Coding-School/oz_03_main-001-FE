@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import dosirockLogo from '../../assets/images/dosirockLogo.png';
-import googleLogo from '../../assets/images/googleLogo.png';
-import naverLogo from '../../assets/images/naverLogo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginRequest } from '../../types/loginTypes';
 import Modal from './Modal/Modal';
