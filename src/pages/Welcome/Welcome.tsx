@@ -1,17 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dosilockLogo from '../../assets/images/dosilockLogo.png';
 import welcome from '../../assets/images/welcome.png';
 import { Link } from 'react-router-dom';
+import ReactCanvasConfetti from './confetti';
 
 const Welcome: React.FC = () => {
+  const [fire, setFire] = useState(false);
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 confetti 효과를 실행
+    setFire(true);
+    // 일정 시간 후 fire 상태를 false로 변경하여 한 번만 발사되도록 합니다.
+    const timer = setTimeout(() => setFire(false), 1000);
+
+    // 클린업 함수로 타이머를 해제합니다.
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className='flex h-screen items-center justify-center'>
+      <div>
+        <ReactCanvasConfetti fire={fire} className='pointer-events-none' />
+      </div>
       <div className='flex h-[728px] w-[609px] flex-col items-center justify-center'>
-        <img
-          src={dosilockLogo}
-          alt='Logo'
-          className='mb-[66px] h-[73px] w-[200px]'
-        />
+        <Link to='/'>
+          <img
+            src={dosilockLogo}
+            alt='Logo'
+            className='mb-[66px] h-[73px] w-[200px]'
+          />
+        </Link>
         <div>
           <img
             src={welcome}
