@@ -77,9 +77,12 @@ const All = () => {
     const postData = noAll ? [] : checkAllList;
 
     try {
-      const response = await axios.post('/api/v1/users/allergies', {
-        allergies: postData,
-      });
+      const response = await axios.post(
+        'http://api.dosirock.store/v1/users/allergies',
+        {
+          allergies: postData,
+        }
+      );
       console.error('서버 요청 성공:', response);
       console.log(postData);
       // 성공 시 페이지 이동

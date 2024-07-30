@@ -154,12 +154,15 @@ const Join = () => {
     ) {
       //서버에 포스트 시도
       try {
-        const response = await axios.post('/api/v1/users/singup', {
-          username: nameValue,
-          email: emailValue,
-          id: idValue,
-          password: passValue,
-        });
+        const response = await axios.post(
+          'http://api.dosirock.store/v1/users/singup',
+          {
+            username: nameValue,
+            email: emailValue,
+            id: idValue,
+            password: passValue,
+          }
+        );
 
         // 성공하면 알레르기로 페이지 이동
         if (response.data.success) {
