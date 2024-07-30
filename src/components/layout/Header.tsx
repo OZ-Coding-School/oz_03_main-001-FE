@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import Logo from '../../assets/images/dosirockLogo.png';
 import iconOrderHistory from '../../assets/images/orderHistory.png';

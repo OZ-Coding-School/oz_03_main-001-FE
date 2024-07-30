@@ -47,7 +47,7 @@ const Bg02 = () => {
           ref={Bg02PathRef}
           d={Bg02OriginPath}
           fill='#EC6446'
-          fill-opacity='0.05'
+          fillOpacity='0.05'
         />
       </svg>
     </div>

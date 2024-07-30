@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import dosirockLogo from '../../assets/images/dosirockLogo.png';
-import googleLogo from '../../assets/images/googleLogo.png';
-import naverLogo from '../../assets/images/naverLogo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginRequest } from '../../types/loginTypes';
 import Modal from './Modal/Modal';
@@ -31,7 +29,7 @@ const Login: React.FC = () => {
   const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
     try {
       const response = await axios.post(
-        '/api/v1/users/login',
+        'https://api.dosirock.store/v1/users/login',
         {
           id: data.id,
           password: data.password,
@@ -51,13 +49,13 @@ const Login: React.FC = () => {
       } else if (response.status === 400) {
         //잘못된 값 입력됐을때 에러
         setLoginCheck('잘못된 값이 입력되었습니다.');
-        console.log(setLoginCheck);
+        console.log(loginCheck);
       } else if (response.status === 500) {
         //서버 내부 에러
         setLoginCheck(
           '서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'
         );
-        console.log(setLoginCheck);
+        console.log(loginCheck);
         // setModalOpen(true);
       }
     } catch (error) {

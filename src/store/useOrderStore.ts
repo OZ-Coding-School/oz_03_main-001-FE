@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { create } from 'zustand';
 
 type DishData = {
@@ -27,8 +28,6 @@ type Store = {
   currentCategory: string;
   toggleAllergy: () => void;
   setCurrentCategory: (current: string) => void;
-  dishList: DishData[];
-  setDishList: (dishList: DishData[]) => void;
   basket: Box[];
   createBox: () => void;
   addToPickedDishList: (boxId: number, dishData: DishData) => void;
@@ -38,6 +37,8 @@ type Store = {
   removeBox: (boxId: number) => void;
   currentPost: DishData[];
   setCurrentPost: (currentPost: DishData[]) => void;
+  totalPrice: number;
+  setTotalPrice: (totalPrice: number) => void;
 };
 
 const useOrderStore = create<Store>()((set) => ({
@@ -46,8 +47,6 @@ const useOrderStore = create<Store>()((set) => ({
   toggleAllergy: () =>
     set((state) => ({ isAllergyChecked: !state.isAllergyChecked })),
   setCurrentCategory: (current) => set({ currentCategory: current }),
-  dishList: [],
-  setDishList: (dishList) => set({ dishList }),
   basket: [{ id: 1, pickedDishList: [], boxPrice: 0 }],
   createBox: () =>
     set((state) => ({
@@ -92,6 +91,8 @@ const useOrderStore = create<Store>()((set) => ({
     })),
   currentPost: [],
   setCurrentPost: (currentPost) => set({ currentPost }),
+  totalPrice: 0,
+  setTotalPrice: (totalPrice) => set({ totalPrice }),
 }));
 
 export default useOrderStore;

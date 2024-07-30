@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import logo from '../../assets/images/dosirockLogo.png';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Modal from './Modal/Modal';
 
 const All = () => {
@@ -77,9 +77,12 @@ const All = () => {
     const postData = noAll ? [] : checkAllList;
 
     try {
-      const response = await axios.post('/api/v1/users/allergies', {
-        allergies: postData,
-      });
+      const response = await axios.post(
+        'https://api.dosirock.store/v1/users/allergies',
+        {
+          allergies: postData,
+        }
+      );
       console.error('서버 요청 성공:', response);
       console.log(postData);
       // 성공 시 페이지 이동
@@ -96,9 +99,9 @@ const All = () => {
 
   return (
     <div className='flex h-screen flex-col items-center justify-center gap-12'>
-      <div>
-        <img className='h-[73px] w-[200px]' src={logo} alt='로고' />
-      </div>
+      <Link to='/'>
+        <img className='h-[73px] w-[200px] cursor-none' src={logo} alt='로고' />
+      </Link>
       <form className='w-[630px] rounded-[28px] border border-border px-[40px] pb-[46px] pt-[40px]'>
         <p className='h-10 text-xl font-medium leading-10 text-main'>
           추가정보 입력

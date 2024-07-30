@@ -10,21 +10,24 @@ import {
 import useOrderStore from '../../store/useOrderStore';
 import Dish from './Dish';
 import Box from './Box';
-import DummyDishList from './DummyDishList.json';
 import Pagination from 'react-js-pagination';
 import './Pagination.scss';
+import '../../assets/css/customScroll.css';
+import axios from 'axios';
 
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Order = () => {
   const [isDroped, setIsDroped] = useState(false);
   const [page, setPage] = useState<number>(1);
+  const [totalItemsCount, setTotalItemsCount] = useState(0);
 
   const handleMenudropChange = () => {
     setIsDroped(!isDroped);
   };
 
-  const handlePageCange = (page: number) => {
+  const handlePageChange = (page: number) => {
     setPage(page);
   };
 
@@ -33,42 +36,56 @@ const Order = () => {
     currentCategory,
     toggleAllergy,
     setCurrentCategory,
-    dishList,
-    setDishList,
     basket,
     createBox,
     currentPost,
     setCurrentPost,
+    totalPrice,
+    setTotalPrice,
   } = useOrderStore();
 
   useEffect(() => {
-    setDishList(DummyDishList);
-  }, [setDishList]);
+    const getApiMenus = async () => {
+      try {
+        const params = {
+          page: page,
+          size: 10,
+          category: currentCategory,
+        };
 
-  const postPerPage: number = 10;
-  const indexOfLastPost: number = page * postPerPage;
-  const indexOfFirstPost: number = indexOfLastPost - postPerPage;
+        const response = await axios.get(
+          'https://api.dosirock.store/v1/menus/',
+          { params }
+        );
+        setCurrentPost(response.data.results);
+        setTotalItemsCount(response.data.total_count);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getApiMenus();
+  }, [setCurrentPost, page, currentCategory]);
 
   useEffect(() => {
-    setCurrentPost(dishList.slice(indexOfFirstPost, indexOfLastPost));
-  }, [setCurrentPost, indexOfLastPost, indexOfFirstPost, dishList, page]);
+    setTotalPrice(basket.reduce((sum, box) => sum + box.boxPrice, 0));
+  }, [basket, setTotalPrice]);
 
   return (
-    <div className='flex h-[calc(100vh-75px)] w-screen flex-row bg-background p-8'>
+    <div className='bottom-0 flex h-[calc(100vh-75px)] w-screen flex-row bg-background p-8'>
       <div className='h-full w-64 rounded-xl bg-white'>
         <p className='m-4 text-lg font-medium'>카테고리</p>
         <ul>
           <li>
             <button
               onClick={() => setCurrentCategory('recommend')}
-              className={`flex h-14 w-full cursor-pointer content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'recommend' ? 'bg-primary font-semibold text-white' : ''}`}
+              className={`flex h-14 w-full content-center items-center justify-between px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'recommend' ? 'bg-primary font-semibold text-white' : ''}`}
             >
               추천 도시락
             </button>
           </li>
           <li>
             <button
-              className='flex h-14 w-full cursor-pointer content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white'
+              className='flex h-14 w-full content-center items-center justify-between px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white'
               onClick={handleMenudropChange}
             >
               구성
@@ -78,15 +95,15 @@ const Order = () => {
               <li>
                 <button
                   onClick={() => setCurrentCategory('bob')}
-                  className={`flex h-14 w-full cursor-pointer content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'bob' ? 'bg-primary font-semibold text-white' : ''}`}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'bob' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   밥
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => setCurrentCategory('gook')}
-                  className={`flex h-14 w-full cursor-pointer content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'gook' ? 'bg-primary font-semibold text-white' : ''}`}
+                  onClick={() => setCurrentCategory('guk')}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'guk' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   국 / 찌개
                 </button>
@@ -94,7 +111,7 @@ const Order = () => {
               <li>
                 <button
                   onClick={() => setCurrentCategory('chan')}
-                  className={`flex h-14 w-full cursor-pointer content-center items-center justify-between bg-border px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'chan' ? 'bg-primary font-semibold text-white' : ''}`}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'chan' ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   반찬
                 </button>
@@ -105,7 +122,7 @@ const Order = () => {
             <li>
               <button
                 onClick={() => setCurrentCategory('others')}
-                className={`flex h-14 w-full cursor-pointer content-center items-center justify-between px-4 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'others' ? 'bg-primary font-semibold text-white' : ''}`}
+                className={`flex h-14 w-full content-center items-center justify-between px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'others' ? 'bg-primary font-semibold text-white' : ''}`}
               >
                 기타
               </button>
@@ -113,14 +130,14 @@ const Order = () => {
           </li>
         </ul>
       </div>
-      <div className='bg-backgound mx-8 flex w-9/12 flex-col justify-between'>
+      <div className='bg-backgound bottom-0 mx-8 flex w-9/12 flex-col justify-between'>
         <div className='flex h-10 flex-row items-center justify-between'>
           <p className='w-1/12 text-caption'>
             {currentCategory === 'recommend'
               ? '추천도시락'
               : currentCategory === 'bob'
                 ? '밥'
-                : currentCategory === 'gook'
+                : currentCategory === 'guk'
                   ? '국 / 찌개'
                   : currentCategory === 'chan'
                     ? '반찬'
@@ -130,11 +147,11 @@ const Order = () => {
             <input
               type='text'
               placeholder='검색어를 입력하세요.'
-              className='w-full'
+              className='w-full cursor-none'
             ></input>
             <FaMagnifyingGlass />
           </div>
-          <label className='ml-auto flex cursor-pointer select-none items-center'>
+          <label className='ml-auto flex cursor-none select-none items-center'>
             <div className='relative mx-2'>
               <input
                 type='checkbox'
@@ -156,7 +173,7 @@ const Order = () => {
             <span>알러지 유발 식품 제외</span>
           </label>
         </div>
-        <div className='my-8 grid h-5/6 grid-cols-5 justify-between gap-4'>
+        <div className='grid grid-cols-5 grid-rows-2 gap-[2vh]'>
           {currentPost.map((dish, i) => (
             <Dish key={i} dish={dish} />
           ))}
@@ -164,18 +181,18 @@ const Order = () => {
         <Pagination
           activePage={page}
           itemsCountPerPage={10}
-          totalItemsCount={dishList.length}
+          totalItemsCount={totalItemsCount}
           pageRangeDisplayed={5}
           prevPageText={<FaAngleLeft />}
           nextPageText={<FaAngleRight />}
           firstPageText={<FaAnglesLeft />}
           lastPageText={<FaAnglesRight />}
-          onChange={handlePageCange}
+          onChange={handlePageChange}
         />
       </div>
       <div className='flex w-64 flex-col justify-between rounded-xl bg-white p-4'>
         <p className='text-lg font-medium'>장바구니</p>
-        <ul className='my-4 flex h-full flex-col gap-4 overflow-auto'>
+        <ul className='customScroll my-4 flex h-full flex-col gap-4 overflow-auto pb-2'>
           {basket.map((box) => (
             <li key={box.id}>
               <Box box={box} />
@@ -183,7 +200,7 @@ const Order = () => {
           ))}
         </ul>
         <button
-          className='flex w-full items-center justify-center rounded-xl bg-gray30 p-3 font-semibold text-white hover:bg-dark'
+          className='flex w-full items-center justify-center rounded-xl bg-gray30 p-3 font-semibold text-white duration-100 hover:bg-dark hover:font-extrabold'
           onClick={createBox}
         >
           도시락 추가하기 <FaPlus className='ml-2' />
@@ -191,12 +208,18 @@ const Order = () => {
         <div className='flex items-end justify-between py-4'>
           <p>금액</p>
           <p>
-            <span className='mr-0.5 text-2xl font-semibold'>10,000</span>원
+            <span className='mr-0.5 text-2xl font-semibold'>
+              {totalPrice.toLocaleString()}
+            </span>
+            원
           </p>
         </div>
-        <button className='w-full rounded-xl bg-primary p-3 font-semibold text-white hover:bg-primary-hover'>
+        <Link
+          to='/orderDetail'
+          className='flex w-full justify-center rounded-xl bg-primary p-3 font-semibold text-white duration-100 hover:bg-primary-hover hover:font-extrabold'
+        >
           주문하기
-        </button>
+        </Link>
       </div>
     </div>
   );
