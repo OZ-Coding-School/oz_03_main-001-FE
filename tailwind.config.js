@@ -41,7 +41,7 @@ export default {
         bg3_move: 'bg3_move 5s ease-in-out infinite;', 
       },
       boxShadow: {
-        'btn': '2px 2px 10px 2px rgba(0, 0, 0, 0.15)',
+        'btn': '2px 2px 10px 2px rgba(0, 0, 0, 0.10)',
         'box': '2px 6px 16px 0 rgba(17,42,128,0.08)',
       }
     },
