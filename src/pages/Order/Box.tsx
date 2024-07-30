@@ -40,7 +40,7 @@ const Box: React.FC<Props> = ({ box }) => {
 
   return (
     <button
-      className={`flex w-56 flex-col rounded-md border border-gray20 p-2 ${currentBoxId === box.id ? '' : 'bg-border'}`}
+      className={`flex w-full flex-col rounded-md border border-gray20 p-2 duration-75 hover:shadow-md ${currentBoxId === box.id ? '' : 'bg-border'}`}
       onClick={() => setCurrentBoxId(box.id)}
     >
       <div className='mb-2 flex w-full justify-between border border-x-0 border-t-0 border-dashed border-gray30 pb-2'>

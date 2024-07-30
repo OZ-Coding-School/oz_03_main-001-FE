@@ -27,8 +27,6 @@ type Store = {
   currentCategory: string;
   toggleAllergy: () => void;
   setCurrentCategory: (current: string) => void;
-  dishList: DishData[];
-  setDishList: (dishList: DishData[]) => void;
   basket: Box[];
   createBox: () => void;
   addToPickedDishList: (boxId: number, dishData: DishData) => void;
@@ -48,8 +46,6 @@ const useOrderStore = create<Store>()((set) => ({
   toggleAllergy: () =>
     set((state) => ({ isAllergyChecked: !state.isAllergyChecked })),
   setCurrentCategory: (current) => set({ currentCategory: current }),
-  dishList: [],
-  setDishList: (dishList) => set({ dishList }),
   basket: [{ id: 1, pickedDishList: [], boxPrice: 0 }],
   createBox: () =>
     set((state) => ({

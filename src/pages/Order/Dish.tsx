@@ -20,14 +20,14 @@ const Dish: React.FC<Props> = ({ dish }) => {
 
   return (
     <button
-      className='flex cursor-pointer flex-col justify-evenly rounded-xl bg-white p-4 shadow-md'
+      className='flex h-[30vh] w-full flex-col justify-evenly rounded-xl bg-white p-[1.5vh] shadow-md duration-100 hover:-m-2 hover:shadow-2xl'
       onClick={() => addToPickedDishList(currentBoxId, dish)}
     >
       <p>{dish.name}</p>
-      <div
-        // src={image_url}
-        // alt={name}
-        className='h-2/3 w-full bg-gray20 shadow-inner'
+      <img
+        src={dish.image_url}
+        alt={dish.name}
+        className='h-[20vh] w-[100vh] bg-gray20'
       />
       <div>
         <span className='mr-0.5 text-xl'>{dish.price.toLocaleString()}</span>
