@@ -1,4 +1,3 @@
-import React from 'react';
 import kakaoLogo from '../../assets/images/kakaoLogo.png';
 import googleLogo from '../../assets/images/googleLogo.png';
 import naverLogo from '../../assets/images/naverLogo.png';

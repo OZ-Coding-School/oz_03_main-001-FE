@@ -1,4 +1,3 @@
-import React from 'react';
 import OrderItem from './OrderItem';
 import '../../assets/css/customScroll.css';
 

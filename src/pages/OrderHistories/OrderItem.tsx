@@ -1,5 +1,3 @@
-import React from 'react';
-
 const OrderItem = () => {
   return (
     <li className='mb-[12px] flex h-[70px] items-center rounded-lg border border-border text-center text-[17px]'>

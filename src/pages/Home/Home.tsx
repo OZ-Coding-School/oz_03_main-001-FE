@@ -71,9 +71,9 @@ const Home = () => {
             <path
               d='M1.5 1.21771L7 7.53087L1.5 13.844'
               stroke='#333333'
-              stroke-width='2'
-              stroke-linecap='round'
-              stroke-linejoin='round'
+              strokeWidth='2'
+              strokeLinecap='round'
+              strokeLinejoin='round'
               className='group-hover-stroke-white'
             />
           </svg>
@@ -168,7 +168,12 @@ const Home = () => {
               </p>
             </div>
             <div className='absolute left-1/2 h-full w-[1920px] translate-x-[-50%]'>
-              <img className='absolute right-0' src={truck} aria-hidden />
+              <img
+                className='absolute right-0'
+                src={truck}
+                aria-hidden
+                alt=''
+              />
             </div>
           </div>
         </motion.div>
