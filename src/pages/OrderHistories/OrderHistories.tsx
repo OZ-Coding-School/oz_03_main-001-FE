@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import OrderItem from './OrderItem';
 import '../../assets/css/customScroll.css';
@@ -38,12 +38,12 @@ interface Order {
   items: Item[];
 }
 
-interface ApiResponse {
-  total_count: number;
-  total_pages: number;
-  current_page: number;
-  results: Order[];
-}
+// interface ApiResponse {
+//   total_count: number;
+//   total_pages: number;
+//   current_page: number;
+//   results: Order[];
+// }
 
 const OrderHistories = () => {
   // 주문내역 안보여줄때
