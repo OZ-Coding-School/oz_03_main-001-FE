@@ -3,32 +3,12 @@ import axios from 'axios';
 import arrowRight from '../../assets/images/arrowRight_gray.svg';
 import OrderList from '../../components/common/OrderList';
 import '../../assets/css/customScroll.css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import LoadingIcon from '../../components/common/loding/LodingIcon';
 import LoadingMessage from '../../components/common/loding/LodingMessage';
 import { useNavigate } from 'react-router-dom';
-
-// API 응답 타입 정의
-type ApiResponse = {
-  results: LunchSet[];
-};
-
-// 도시락 세트 타입 정의
-type LunchSet = {
-  name: string;
-  description: string;
-  total_price: number;
-  total_kcal: number;
-  image_url: string;
-  menus: {
-    quantity: number;
-    menu: {
-      id: number;
-      name: string;
-      category: string;
-    };
-  }[];
-};
+import useOrderStore from '../../store/useOrderStore';
+import Modal from './Modal/Modal';
 
 // 폼 데이터 타입 정의
 type FormData = {
@@ -45,39 +25,15 @@ type FormData = {
 const OrderDetail = () => {
   const navigate = useNavigate();
 
-  // 가져온 도시락 정보 관리
-  const [menuItems, setMenuItems] = useState<LunchSet[]>([]);
-  // 총 가격 관리
-  const [totalPrice, setTotalPrice] = useState(0);
+  // 모달 상태 관리
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
-  // 페이지가 렌더링 되었을 때 도시락 정보 가져오기
-  useEffect(() => {
-    const getMenuItems = async () => {
-      try {
-        const response = await axios.get<ApiResponse>(
-          'https://api.dosirock.store/v1/lunch'
-        );
-        const dosirockItems: LunchSet[] = response.data.results;
-        console.log('응답 데이터:', dosirockItems);
-
-        if (Array.isArray(dosirockItems)) {
-          setMenuItems(dosirockItems);
-
-          const totalPrice = dosirockItems.reduce(
-            (acc, item) => acc + item.total_price,
-            0
-          );
-          setTotalPrice(totalPrice);
-        } else {
-          console.error('올바르지 않은 응답 형식:', dosirockItems);
-        }
-      } catch (error) {
-        console.error('도시락 리스트를 가져오는 데 실패했습니다:', error);
-      }
-    };
-
-    getMenuItems();
-  }, [menuItems]);
+  // zustand store에서 상태 및 액션 가져오기
+  const { currentPost, totalPrice } = useOrderStore((state) => ({
+    currentPost: state.currentPost,
+    totalPrice: state.totalPrice,
+  }));
 
   const { register, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
@@ -100,6 +56,14 @@ const OrderDetail = () => {
 
   // 모든 필드가 채워져 있으면 트루
   const isFormEmpty = name && contact_number && address && detail_address;
+
+  const handlePhoneInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const input = event.target.value;
+    const filteredInput = input.replace(/[^\d]/g, ''); // 숫자 이외의 문자를 모두 제거
+    setValue('contact_number', filteredInput); // setValue를 사용하여 폼 값 업데이트
+  };
 
   // 폼제출 여부 상태 관리
   const [submitted, setSubmitted] = useState(false);
@@ -131,15 +95,17 @@ const OrderDetail = () => {
       ...data,
       created_at: currentDate,
       total_price: totalPrice,
-      items: menuItems.map((item) => ({
+      items: currentPost.map((item) => ({
         quantity: 1,
         lunch: {
           name: item.name,
           description: item.name,
-          menus: item.menus.map((menuItem) => ({
-            id: menuItem.menu.id,
-            quantity: 1,
-          })),
+          menus: [
+            {
+              id: item.id,
+              quantity: 1,
+            },
+          ],
         },
       })),
     };
@@ -155,16 +121,10 @@ const OrderDetail = () => {
       navigate('/orderhistories');
     } catch (error) {
       console.log('주문서 데이터:', formDataWithDate);
-      alert('주문서 제출에 실패했습니다.');
-    }
-  };
 
-  const handlePhoneInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const input = event.target.value;
-    const filteredInput = input.replace(/[^\d]/g, ''); // 숫자 이외의 문자를 모두 제거
-    setValue('contact_number', filteredInput); // setValue를 사용하여 폼 값 업데이트
+      setModalOpen(true);
+      setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
+    }
   };
 
   return (
@@ -185,20 +145,18 @@ const OrderDetail = () => {
           className='customScroll flex flex-col items-center gap-3 overflow-y-auto pr-[3px]'
           style={{ height: 'calc(100% - 98px)' }}
         >
-          {menuItems.length === 0 ? (
+          {currentPost.length === 0 ? (
             <div className='flex w-[100%] flex-wrap items-center justify-center pt-[250px]'>
               <LoadingIcon />
               <LoadingMessage message={`도시락 정보를 불러오는 중입니다...`} />
             </div>
           ) : (
-            menuItems.map((item) => (
+            currentPost.map((item) => (
               <OrderList
-                key={item.name}
+                key={item.id}
                 name={item.name}
-                details={item.menus
-                  .map((menuItem) => menuItem.menu.name)
-                  .join(', ')}
-                price={item.total_price}
+                details={item.description}
+                price={item.price}
               />
             ))
           )}
@@ -328,16 +286,21 @@ const OrderDetail = () => {
                     {totalPrice.toString()}원
                   </p>
                 </div>
-                <button
-                  type='submit'
-                  className={`${
-                    isFormEmpty
-                      ? 'bg-primary hover:bg-primary-hover'
-                      : 'bg-disabled'
-                  } h-20 w-[200px] rounded-xl text-center text-xl font-medium text-white`}
-                >
-                  주문하기
-                </button>
+                <div className='relative'>
+                  <button
+                    type='submit'
+                    className={`${
+                      isFormEmpty
+                        ? 'bg-primary hover:bg-primary-hover'
+                        : 'bg-disabled'
+                    } h-20 w-[200px] rounded-xl text-center text-xl font-medium text-white`}
+                  >
+                    주문하기
+                  </button>
+                  <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
+                    {modalMessage}
+                  </Modal>
+                </div>
               </div>
             </div>
           </div>
