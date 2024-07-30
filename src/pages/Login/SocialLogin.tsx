@@ -12,7 +12,8 @@ const SocialLogin = () => {
 
   // 카카오 로그인으로 리디렉션 (백엔드 리디렉션 url입력)
   const kakaoLoginUrl = () => {
-    window.location.href = 'http://127.0.0.1:8000/api/v1/users/kakao/callback/';
+    window.location.href =
+      'https://127.0.0.1:8000/api/v1/users/kakao/callback/';
   };
 
   return (

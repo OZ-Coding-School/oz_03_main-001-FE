@@ -155,7 +155,7 @@ const Join = () => {
       //서버에 포스트 시도
       try {
         const response = await axios.post(
-          'http://api.dosirock.store/v1/users/singup',
+          'https://api.dosirock.store/v1/users/singup',
           {
             username: nameValue,
             email: emailValue,

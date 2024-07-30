@@ -29,7 +29,7 @@ const Login: React.FC = () => {
   const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
     try {
       const response = await axios.post(
-        'http://api.dosirock.store/v1/users/login',
+        'https://api.dosirock.store/v1/users/login',
         {
           id: data.id,
           password: data.password,

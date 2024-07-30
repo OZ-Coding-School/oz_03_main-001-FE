@@ -40,7 +40,7 @@ const OrderHistory = () => {
     const getOrderData = async () => {
       try {
         const lunchResponses = await axios.get(
-          `http://api.dosirock.store/v1/lunch/${id}`
+          `https://api.dosirock.store/v1/lunch/${id}`
         );
         const lunchData = lunchResponses.data;
         console.log('응답 데이터:', lunchData);
@@ -53,7 +53,7 @@ const OrderHistory = () => {
         }
 
         const orderResponse = await axios.get(
-          `http://api.dosirock.store/v1/orders/${id}`
+          `https://api.dosirock.store/v1/orders/${id}`
         );
         const orderData: OrderInfo = orderResponse.data;
         console.log('응답 데이터:', orderData);

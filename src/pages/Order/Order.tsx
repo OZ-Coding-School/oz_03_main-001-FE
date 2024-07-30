@@ -54,7 +54,7 @@ const Order = () => {
         };
 
         const response = await axios.get(
-          'http://api.dosirock.store/v1/menus/',
+          'https://api.dosirock.store/v1/menus/',
           { params }
         );
         setCurrentPost(response.data.results);

@@ -78,7 +78,7 @@ const All = () => {
 
     try {
       const response = await axios.post(
-        'http://api.dosirock.store/v1/users/allergies',
+        'https://api.dosirock.store/v1/users/allergies',
         {
           allergies: postData,
         }

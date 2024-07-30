@@ -55,7 +55,7 @@ const OrderDetail = () => {
     const getMenuItems = async () => {
       try {
         const response = await axios.get<ApiResponse>(
-          'http://api.dosirock.store/v1/lunch'
+          'https://api.dosirock.store/v1/lunch'
         );
         const dosirockItems: LunchSet[] = response.data.results;
         console.log('응답 데이터:', dosirockItems);
@@ -148,7 +148,10 @@ const OrderDetail = () => {
         return false;
       }
 
-      await axios.post('http://api.dosirock.store/v1/orders', formDataWithDate);
+      await axios.post(
+        'https://api.dosirock.store/v1/orders',
+        formDataWithDate
+      );
       navigate('/orderhistories');
     } catch (error) {
       console.log('주문서 데이터:', formDataWithDate);
