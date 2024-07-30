@@ -216,7 +216,7 @@ const Order = () => {
         </div>
         <Link
           to='/orderDetail'
-          className='w-full rounded-xl bg-primary p-3 font-semibold text-white duration-100 hover:bg-primary-hover hover:font-extrabold'
+          className='flex w-full justify-center rounded-xl bg-primary p-3 font-semibold text-white duration-100 hover:bg-primary-hover hover:font-extrabold'
         >
           주문하기
         </Link>
