@@ -48,7 +48,9 @@ interface Order {
 const OrderHistories = () => {
   // 주문내역 안보여줄때
   const [hasOrders, setHasOrders] = useState<boolean>(false);
-  const [noOrderMessage, setNoOrderMessage] = useState<string>('');
+  const [noOrderMessage, setNoOrderMessage] = useState<string>(
+    '도시락 주문내역을 가져오는 데 실패했습니다.'
+  );
   // 주문내역
   const [orderLists, setOrderLists] = useState<Order[]>([]);
 
@@ -56,7 +58,7 @@ const OrderHistories = () => {
     const getOrderHistories = async () => {
       try {
         const response = await axios.get(
-          'http://api.dosirock.store/v1/orders/'
+          'https://api.dosirock.store/v1/orders/'
         );
         console.log('응답 데이터 :', response.data);
 
@@ -77,6 +79,7 @@ const OrderHistories = () => {
       } catch (error) {
         console.log('도시락 주문내역을 가져오는 데 실패했습니다:', error);
         setHasOrders(false);
+        setNoOrderMessage('도시락 주문내역을 가져오는 데 실패했습니다.');
       }
     };
 
@@ -246,9 +249,7 @@ const OrderHistories = () => {
         </h2>
         <div>
           {hasOrders ? (
-            <>
-              <HasOrder orderLists={orderLists} />
-            </>
+            <HasOrder orderLists={orderLists} />
           ) : (
             <NoOrder message={noOrderMessage} />
           )}
