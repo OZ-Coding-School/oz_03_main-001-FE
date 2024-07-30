@@ -13,12 +13,16 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className='absolute left-[380px] top-[10px] flex h-[49px] w-[300px] items-center justify-between rounded-xl bg-secondary pl-[3px] pr-3'
+      className='absolute bottom-[110px] right-0 flex h-[49px] w-[300px] items-center justify-between rounded-xl bg-secondary pl-[3px] pr-3'
       aria-modal='true'
       role='dialog'
     >
       <div className='flex items-center justify-between'>
-        <img className='relative right-[13px]' src={Polygon1} alt='세모' />
+        <img
+          className='relative left-[180px] top-[29px] -rotate-90'
+          src={Polygon1}
+          alt='세모'
+        />
         <span className='text-base font-semibold text-primary'>{children}</span>
       </div>
       <button onClick={onClose}>

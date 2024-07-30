@@ -49,16 +49,13 @@ const All = () => {
       setNoAll(checked);
       setErrorAll('');
       // 알레르기 없음이 체크되었다면 다른 알레르기 체크 상태 초기화
-      if (checked) {
-        setCheckedList([]);
-      }
+      if (checked) setCheckedList([]);
     } else {
-      if (checked) {
-        setCheckedList([...checkAllList, id]);
-        setErrorAll('');
-      } else if (!checked) {
-        setCheckedList(checkAllList.filter((all) => all !== id));
-      }
+      // 현재 체크 된 배열에서 추가 및 필터링
+      setCheckedList((prevList) =>
+        checked ? [...prevList, id] : prevList.filter((all) => all !== id)
+      );
+      setErrorAll('');
     }
   };
 
@@ -71,7 +68,7 @@ const All = () => {
 
     if (isCheckEmpty) {
       setErrorAll('* 알레르기가 없을 시 없음을 체크해주세요');
-      return false;
+      return;
     }
     // 알레르기 체크 상태에 따라 전송 배열 바꾸기
     const postData = noAll ? [] : checkAllList;
@@ -79,19 +76,16 @@ const All = () => {
     try {
       const response = await axios.post(
         'https://api.dosirock.store/v1/users/allergies',
-        {
-          allergies: postData,
-        }
+        { allergies: postData }
       );
-      console.error('서버 요청 성공:', response);
-      console.log(postData);
+      console.log('서버 요청 성공:', response);
       // 성공 시 페이지 이동
       navigate('/welcome');
 
       // 실패 시 에러
     } catch (error) {
       console.error('서버 요청 실패:', error);
-      console.log(postData);
+
       setModalOpen(true);
       setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
     }
@@ -114,7 +108,6 @@ const All = () => {
             id='no_all'
             name='알레르기 없음'
             type='checkbox'
-            // eslint-disable-next-line tailwindcss/classnames-order
             className='h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
             checked={noAll}
             onChange={(e) => handleCheckAll(e.target.checked, 'no_all')}
@@ -129,33 +122,28 @@ const All = () => {
           )}
         </div>
         <div className='flex flex-wrap gap-[20px] pb-[35px] pt-[35px]'>
-          {allList.map((all, index) => {
-            return (
-              <div
-                key={index}
-                className='flex w-[120px] items-center justify-start'
+          {allList.map((all, index) => (
+            <div
+              key={index}
+              className='flex w-[120px] items-center justify-start'
+            >
+              <input
+                id={all}
+                name={all}
+                type='checkbox'
+                checked={checkAllList.includes(all)}
+                disabled={noAll}
+                onChange={(e) => handleCheckAll(e.target.checked, e.target.id)}
+                className='h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
+              />
+              <label
+                htmlFor={all}
+                className='px-5 text-base font-normal text-main'
               >
-                <input
-                  id={all}
-                  name={all}
-                  type='checkbox'
-                  checked={checkAllList.includes(all)}
-                  disabled={noAll}
-                  onChange={(e) => {
-                    handleCheckAll(e.target.checked, e.target.id);
-                  }}
-                  // eslint-disable-next-line tailwindcss/classnames-order
-                  className='h-6 w-6 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
-                />
-                <label
-                  htmlFor={all}
-                  className='px-5 text-base font-normal text-main'
-                >
-                  {all}
-                </label>
-              </div>
-            );
-          })}
+                {all}
+              </label>
+            </div>
+          ))}
         </div>
         <div className='relative'>
           <button
