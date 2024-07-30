@@ -8,51 +8,68 @@ import LoadingIcon from '../../components/common/loding/LodingIcon';
 import LoadingMessage from '../../components/common/loding/LodingMessage';
 import { useNavigate } from 'react-router-dom';
 
-// 도시락 데이터 타입 정의
-type MenuItem = {
-  id: number;
-  name: string; // 도시락 이름
-  details: string; // 밥, 국 반찬
-  price: number; // 가격
+// API 응답 타입 정의
+type ApiResponse = {
+  results: LunchSet[];
+};
+
+// 도시락 세트 타입 정의
+type LunchSet = {
+  name: string;
+  description: string;
+  total_price: number;
+  total_kcal: number;
+  image_url: string;
+  menus: {
+    quantity: number;
+    menu: {
+      id: number;
+      name: string;
+      category: string;
+    };
+  }[];
 };
 
 // 폼 데이터 타입 정의
 type FormData = {
   name: string;
-  phone: string;
+  contact_number: string;
   address: string;
-  detailedAddress: string;
-  deliveryMemo?: string;
-  requestCheckbox?: boolean;
-  cookingMemo?: string;
+  detail_address: string;
+  delivery_memo?: string;
+  is_disposable?: boolean;
+  cooking_memo?: string;
+  total_price: number;
 };
 
 const OrderDetail = () => {
   const navigate = useNavigate();
 
   // 가져온 도시락 정보 관리
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  // 도시락의 가격 관리
-  const [allPrice, setAllPrice] = useState<number>(0);
+  const [menuItems, setMenuItems] = useState<LunchSet[]>([]);
+  // 총 가격 관리
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  // 도시락 정보 가져오는 건 요성님이 전역에 저장해 준 정보 가져오기
+  // 페이지가 렌더링 되었을 때 도시락 정보 가져오기
   useEffect(() => {
     const getMenuItems = async () => {
       try {
-        const response = await axios.get('/api/v1/lunch');
-        const items = response.data;
-        console.log('응답 데이터:', items);
+        const response = await axios.get<ApiResponse>(
+          'http://api.dosirock.store/v1/lunch'
+        );
+        const dosirockItems: LunchSet[] = response.data.results;
+        console.log('응답 데이터:', dosirockItems);
 
-        if (Array.isArray(items)) {
-          setMenuItems(items);
+        if (Array.isArray(dosirockItems)) {
+          setMenuItems(dosirockItems);
 
-          const totalPrice = items.reduce(
-            (sum: number, item: MenuItem) => sum + item.price,
+          const totalPrice = dosirockItems.reduce(
+            (acc, item) => acc + item.total_price,
             0
           );
-          setAllPrice(totalPrice);
+          setTotalPrice(totalPrice);
         } else {
-          console.error('올바르지 않은 응답 형식:', items);
+          console.error('올바르지 않은 응답 형식:', dosirockItems);
         }
       } catch (error) {
         console.error('도시락 리스트를 가져오는 데 실패했습니다:', error);
@@ -60,28 +77,29 @@ const OrderDetail = () => {
     };
 
     getMenuItems();
-  }, []);
+  }, [menuItems]);
 
-  const { register, handleSubmit, watch } = useForm<FormData>({
+  const { register, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
       name: '',
-      phone: '',
+      contact_number: '',
       address: '',
-      detailedAddress: '',
-      deliveryMemo: '',
-      requestCheckbox: false,
-      cookingMemo: '',
+      detail_address: '',
+      delivery_memo: '',
+      is_disposable: false,
+      cooking_memo: '',
+      total_price: 0,
     },
   });
 
   // watch를 이용해 각 필드의 상태를 감시
   const name = watch('name');
-  const phone = watch('phone');
+  const contact_number = watch('contact_number');
   const address = watch('address');
-  const detailedAddress = watch('detailedAddress');
+  const detail_address = watch('detail_address');
 
   // 모든 필드가 채워져 있으면 트루
-  const isFormEmpty = name && phone && address && detailedAddress;
+  const isFormEmpty = name && contact_number && address && detail_address;
 
   // 폼제출 여부 상태 관리
   const [submitted, setSubmitted] = useState(false);
@@ -108,19 +126,42 @@ const OrderDetail = () => {
   const onSubmit = async (data: FormData) => {
     setSubmitted(true); // 제출 시 상태 변경
 
+    // 폼 데이터를 서버 형식에 맞게 가공
+    const formDataWithDate = {
+      ...data,
+      created_at: currentDate,
+      total_price: totalPrice,
+      items: menuItems.map((item) => ({
+        quantity: 1,
+        lunch: {
+          name: item.name,
+          description: item.name,
+          menus: item.menus.map((menuItem) => ({
+            id: menuItem.menu.id,
+            quantity: 1,
+          })),
+        },
+      })),
+    };
     try {
       if (!isFormEmpty) {
         return false;
       }
-      // 폼 데이터에 날짜 추가
-      const formDataWithDate = { ...data, orderDate: currentDate };
 
-      await axios.post('/api/v1/orders', formDataWithDate);
+      await axios.post('http://api.dosirock.store/v1/orders', formDataWithDate);
       navigate('/orderhistories');
     } catch (error) {
-      console.log('주문서 데이터:', { ...data, orderDate: currentDate });
+      console.log('주문서 데이터:', formDataWithDate);
       alert('주문서 제출에 실패했습니다.');
     }
+  };
+
+  const handlePhoneInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const input = event.target.value;
+    const filteredInput = input.replace(/[^\d]/g, ''); // 숫자 이외의 문자를 모두 제거
+    setValue('contact_number', filteredInput); // setValue를 사용하여 폼 값 업데이트
   };
 
   return (
@@ -149,10 +190,12 @@ const OrderDetail = () => {
           ) : (
             menuItems.map((item) => (
               <OrderList
-                key={item.id}
+                key={item.name}
                 name={item.name}
-                details={item.details}
-                price={item.price}
+                details={item.menus
+                  .map((menuItem) => menuItem.menu.name)
+                  .join(', ')}
+                price={item.total_price}
               />
             ))
           )}
@@ -194,9 +237,11 @@ const OrderDetail = () => {
                   <input
                     id='phone'
                     type='text'
-                    className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(phone)} px-[15px] py-[10px]`}
+                    placeholder='숫자를 입력해 주세요.'
+                    className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(contact_number)} px-[15px] py-[10px]`}
                     style={{ width: 'calc(100% - 95px)' }}
-                    {...register('phone')}
+                    {...register('contact_number')}
+                    onChange={handlePhoneInputChange}
                   />
                 </div>
               </div>
@@ -224,12 +269,12 @@ const OrderDetail = () => {
                   </div>
                 </div>
                 <input
-                  id='detailedAddress'
+                  id='detail_address'
                   type='text'
                   placeholder='상세 주소를 입력해 주세요.'
-                  className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(detailedAddress)} px-[15px] py-[10px]`}
+                  className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(detail_address)} px-[15px] py-[10px]`}
                   style={{ width: 'calc(100% - 95px)' }}
-                  {...register('detailedAddress')}
+                  {...register('detail_address')}
                 />
               </div>
               <div className='w-[100%]'>
@@ -241,7 +286,7 @@ const OrderDetail = () => {
                   placeholder='기사님께 전달해드릴 배송 메모를 입력해 주세요.'
                   className='h-[100px] cursor-none rounded-xl border border-border px-[15px] py-[10px] align-top'
                   style={{ width: 'calc(100% - 95px)', resize: 'none' }}
-                  {...register('deliveryMemo')}
+                  {...register('delivery_memo')}
                 />
               </div>
             </div>
@@ -252,14 +297,14 @@ const OrderDetail = () => {
                 </div>
                 <div className='flex items-center justify-center'>
                   <input
-                    id='requestCheckbox'
+                    id='is_disposable'
                     type='checkbox'
                     // eslint-disable-next-line tailwindcss/classnames-order
                     className='h-5 w-5 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
-                    {...register('requestCheckbox')}
+                    {...register('is_disposable')}
                   />
                   <label
-                    htmlFor='requestCheckbox'
+                    htmlFor='is_disposable'
                     className='pl-2 text-base font-normal text-caption'
                   >
                     일회용품도 함께 주세요
@@ -271,13 +316,13 @@ const OrderDetail = () => {
                 placeholder='도시락 주문시 요청 사항을 입력해 주세요.'
                 className='h-[115px] w-[100%] cursor-none rounded-xl border border-border px-[15px] py-[10px]'
                 style={{ resize: 'none' }}
-                {...register('cookingMemo')}
+                {...register('cooking_memo')}
               />
               <div className='flex items-center justify-between pt-[65px]'>
                 <div>
                   <p className='text-lg font-normal text-main'>총 결제금액</p>
                   <p className='text-3xl font-normal text-main'>
-                    {allPrice.toString()}원
+                    {totalPrice.toString()}원
                   </p>
                 </div>
                 <button
