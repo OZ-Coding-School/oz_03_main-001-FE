@@ -118,7 +118,6 @@ const ReactCanvasConfetti: React.FC<IProps> = (props) => {
         left: 0,
         width,
         height,
-
         ...style,
       }}
     />
