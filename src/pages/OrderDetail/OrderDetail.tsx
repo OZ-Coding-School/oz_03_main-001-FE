@@ -10,8 +10,8 @@ import LoadingIcon from '../../components/common/loding/LodingIcon';
 import LoadingMessage from '../../components/common/loding/LodingMessage';
 import { useNavigate } from 'react-router-dom';
 import useOrderStore from '../../store/useOrderStore';
-import Modal from './Modal/Modal';
 import payLogo3D from '../../assets/images/공지형_메일배너활용_3D.png';
+import { toast } from 'react-toastify';
 
 // 폼 데이터 타입 정의
 type FormData = {
@@ -51,10 +51,6 @@ const OrderDetail = () => {
   }, []);
 
   const navigate = useNavigate();
-
-  // 모달 상태 관리
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
 
   // zustand store에서 상태 및 액션 가져오기
   const { basket, totalPrice } = useOrderStore((state) => ({
@@ -120,15 +116,43 @@ const OrderDetail = () => {
   const onSubmit = async (data: FormData) => {
     setSubmitted(true); // 제출 시 상태 변경
 
-    // 필수 입력 필드가 비어 있는지 확인
-    if (!isFormEmpty) {
+    // 필수 입력 필드와 도시락 구성이 비어 있는지 확인
+    if (!isFormEmpty && totalPrice === 0) {
+      toast.warn('도시락 구성과 배송정보를 확인해 주세요!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+        style: { width: '380px' },
+      });
       return;
-    }
-
-    // 도시락 구성이 비어 있는지 확인
-    if (totalPrice === 0) {
-      setModalOpen(true);
-      setModalMessage('도시락 구성을 확인해 주세요.');
+    } else if (!isFormEmpty) {
+      toast.warn('배송 정보를 입력해 주세요!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+      return;
+    } else if (totalPrice === 0) {
+      toast.warn('도시락 구성을 채워 주세요!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
       return;
     }
 
@@ -193,11 +217,30 @@ const OrderDetail = () => {
             navigate('/orderhistories');
           } catch (error) {
             console.error('주문서 데이터:', formDataWithDate);
-            setModalOpen(true);
-            setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
+            toast.error('서버 문제로 잠시 후 다시 시도해 주세요!', {
+              position: 'top-center',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'dark',
+              style: { width: '380px' },
+            });
           }
         } else {
-          alert(`결제 실패: ${error_msg}`);
+          toast.error(error_msg, {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'light',
+            style: { width: '320px' },
+          });
         }
       });
     }
@@ -394,7 +437,7 @@ const OrderDetail = () => {
                     {totalPrice.toLocaleString()}원
                   </p>
                 </div>
-                <div className='relative'>
+                <div>
                   <img
                     src={payLogo3D}
                     alt='payLogo'
@@ -412,9 +455,6 @@ const OrderDetail = () => {
                   >
                     주문하기
                   </button>
-                  <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-                    {modalMessage}
-                  </Modal>
                 </div>
               </div>
             </div>
