@@ -36,23 +36,23 @@ const Welcome: React.FC = () => {
             alt='welcome 이미지'
             className='mb-[62px] h-[296px] w-[433px]'
           />
-          <div className='mb-[24px] text-center text-3xl font-medium leading-10 text-[#333333]'>
+          <div className='mb-[24px] text-center text-3xl font-medium leading-10 text-main'>
             회원가입이 완료되었습니다.
           </div>
-          <div className='font-xl mb-[61px] text-center font-normal leading-10 text-[#6F6F6F]'>
+          <div className='font-xl mb-[61px] text-center font-normal leading-10 text-caption'>
             이제 도시락도 락이다의 서비스를 이용해보세요!
           </div>
         </div>
         <div className='flex flex-row'>
           <Link
             to='/login'
-            className='mr-[27px] inline-block flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-[#EC6446] font-bold text-[#ffffff]'
+            className='mr-[27px] inline-block flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-primary font-bold text-white'
           >
             로그인 하기
           </Link>
           <Link
             to='/'
-            className='inline-block flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-[#3C3A37] font-bold text-[#ffffff]'
+            className='inline-block flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-[#3C3A37] font-bold text-white'
           >
             메인으로
           </Link>
