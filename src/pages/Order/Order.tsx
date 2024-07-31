@@ -18,8 +18,18 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+enum categoryEnum {
+  recommend = 'recommend',
+  bob = 'bob',
+  guk = 'guk',
+  chan = 'chan',
+  side = 'side',
+}
 const Order = () => {
   const [isDroped, setIsDroped] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState<categoryEnum>(
+    categoryEnum.recommend
+  );
   const [page, setPage] = useState<number>(1);
   const [totalItemsCount, setTotalItemsCount] = useState(0);
 
@@ -31,11 +41,14 @@ const Order = () => {
     setPage(page);
   };
 
+  const handleCategoryChange = (category: categoryEnum) => {
+    setCurrentCategory(category);
+    setPage(1);
+  };
+
   const {
     isAllergyChecked,
-    currentCategory,
     toggleAllergy,
-    setCurrentCategory,
     basket,
     createBox,
     currentPost,
@@ -49,7 +62,6 @@ const Order = () => {
       try {
         const params = {
           page: page,
-          size: 10,
           category: currentCategory,
         };
 
@@ -77,8 +89,8 @@ const Order = () => {
         <ul>
           <li>
             <button
-              onClick={() => setCurrentCategory('recommend')}
-              className={`flex h-14 w-full content-center items-center justify-between px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'recommend' ? 'bg-primary font-semibold text-white' : ''}`}
+              onClick={() => handleCategoryChange(categoryEnum.recommend)}
+              className={`flex h-14 w-full content-center items-center justify-between px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === categoryEnum.recommend ? 'bg-primary font-semibold text-white' : ''}`}
             >
               추천 도시락
             </button>
@@ -94,24 +106,24 @@ const Order = () => {
             <ul className={isDroped ? '' : 'hidden'}>
               <li>
                 <button
-                  onClick={() => setCurrentCategory('bob')}
-                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'bob' ? 'bg-primary font-semibold text-white' : ''}`}
+                  onClick={() => handleCategoryChange(categoryEnum.bob)}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === categoryEnum.bob ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   밥
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => setCurrentCategory('guk')}
-                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'guk' ? 'bg-primary font-semibold text-white' : ''}`}
+                  onClick={() => handleCategoryChange(categoryEnum.guk)}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === categoryEnum.guk ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   국 / 찌개
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => setCurrentCategory('chan')}
-                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'chan' ? 'bg-primary font-semibold text-white' : ''}`}
+                  onClick={() => handleCategoryChange(categoryEnum.chan)}
+                  className={`flex h-14 w-full content-center items-center justify-between bg-border px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === categoryEnum.chan ? 'bg-primary font-semibold text-white' : ''}`}
                 >
                   반찬
                 </button>
@@ -119,27 +131,25 @@ const Order = () => {
             </ul>
           </li>
           <li>
-            <li>
-              <button
-                onClick={() => setCurrentCategory('others')}
-                className={`flex h-14 w-full content-center items-center justify-between px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === 'others' ? 'bg-primary font-semibold text-white' : ''}`}
-              >
-                기타
-              </button>
-            </li>
+            <button
+              onClick={() => handleCategoryChange(categoryEnum.side)}
+              className={`flex h-14 w-full content-center items-center justify-between px-4 duration-100 hover:bg-primary hover:font-semibold hover:text-white ${currentCategory === categoryEnum.side ? 'bg-primary font-semibold text-white' : ''}`}
+            >
+              기타
+            </button>
           </li>
         </ul>
       </div>
       <div className='bg-backgound bottom-0 mx-8 flex w-9/12 flex-col justify-between'>
         <div className='flex h-10 flex-row items-center justify-between'>
           <p className='w-1/12 text-caption'>
-            {currentCategory === 'recommend'
+            {currentCategory === categoryEnum.recommend
               ? '추천도시락'
-              : currentCategory === 'bob'
+              : currentCategory === categoryEnum.bob
                 ? '밥'
-                : currentCategory === 'guk'
+                : currentCategory === categoryEnum.guk
                   ? '국 / 찌개'
-                  : currentCategory === 'chan'
+                  : currentCategory === categoryEnum.chan
                     ? '반찬'
                     : '기타'}
           </p>
@@ -214,12 +224,18 @@ const Order = () => {
             원
           </p>
         </div>
-        <Link
-          to='/orderDetail'
-          className='flex w-full justify-center rounded-xl bg-primary p-3 font-semibold text-white duration-100 hover:bg-primary-hover hover:font-extrabold'
-        >
-          주문하기
-        </Link>
+        {basket.length === 0 ? (
+          <div className='flex w-full justify-center rounded-xl bg-disabled p-3 font-semibold text-white duration-100'>
+            주문하기
+          </div>
+        ) : (
+          <Link
+            to='/orderdetail'
+            className='flex w-full justify-center rounded-xl bg-primary p-3 font-semibold text-white duration-100 hover:bg-primary-hover hover:font-extrabold'
+          >
+            주문하기
+          </Link>
+        )}
       </div>
     </div>
   );
