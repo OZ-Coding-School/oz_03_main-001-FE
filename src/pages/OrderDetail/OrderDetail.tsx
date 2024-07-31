@@ -398,7 +398,9 @@ const OrderDetail = () => {
                   <img
                     src={payLogo3D}
                     alt='payLogo'
-                    className='absolute -left-10 bottom-[0px] w-[100px]'
+                    className={`${
+                      isFormEmpty ? 'contrast-100' : 'contrast-75'
+                    } w-[100px]'absolute absolute -left-10 bottom-[0px] w-[100px]`}
                   />
                   <button
                     type='submit'
