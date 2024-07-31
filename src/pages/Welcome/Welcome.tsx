@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import dosilockLogo from '../../assets/images/dosilockLogo.png';
+import React from 'react';
+import dosirockLogo from '../../assets/images/dosirockLogo.png';
 import welcome from '../../assets/images/welcome.png';
 import { Link } from 'react-router-dom';
 import ReactCanvasConfetti from './confetti';
@@ -25,7 +25,7 @@ const Welcome: React.FC = () => {
       <div className='flex h-[728px] w-[609px] flex-col items-center justify-center'>
         <Link to='/'>
           <img
-            src={dosilockLogo}
+            src={dosirockLogo}
             alt='Logo'
             className='mb-[66px] h-[73px] w-[200px]'
           />

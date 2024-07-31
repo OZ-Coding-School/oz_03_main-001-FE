@@ -3,13 +3,6 @@
 @tailwind utilities;
 
 /*reset*/
-@font-face {
-  font-family: 'pretendard';
-  src: url('assets/fonts/pretendard') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
 
 :root,
 html,
@@ -17,11 +10,12 @@ body {
   margin: 0;
   box-sizing: border-box;
   padding: 0;
+  cursor: none;
 }
 
 * {
-  margin:0;
-  font-family: pretendard;
+  margin: 0;
+  font-family: Pretendard, Pretendard-Regular;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
@@ -32,7 +26,8 @@ html {
 }
 
 body {
-  color: '#333333';
+  color: #333333;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -44,16 +39,19 @@ a {
   text-decoration: none;
 }
 
-button,input,select,textarea {
+button,
+input,
+select,
+textarea {
   background-color: transparent;
-  border: 0;
   &:focus {
-      outline: none;
-      box-shadow: none;
+    outline: none;
+    box-shadow: none;
   }
 }
 
-a,button {
+a,
+button {
   cursor: pointer;
 }
 
@@ -61,11 +59,34 @@ button {
   padding: 0;
 }
 
-ul,ol {
+ul,
+ol {
   padding-left: 0;
   list-style: none;
 }
 
 address {
   font-style: normal;
+}
+
+/*드래그 텍스트*/
+::selection {
+  background-color: #f6b75a;
+  color: white;
+}
+
+/*스크롤바*/
+
+body::-webkit-scrollbar {
+  width: 10px;
+  background: #fff;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #f6b75a;
+  border-radius: 5px;
+}
+
+body::-webkit-scrollbar-track {
+  background: #fff;
 }
