@@ -4,11 +4,16 @@ import CancelOrderModal from './Modal/CancelOrderModal';
 
 type Props = {
   id: number;
-  status: number;
+  status: OrderStatusEnum;
   amount: number;
   date: string;
   totalPrice: number;
 };
+
+enum OrderStatusEnum {
+  COMPLETE = 1,
+  CANCEL = -1,
+}
 
 const OrderItem: React.FC<Props> = ({
   id,
@@ -36,22 +41,34 @@ const OrderItem: React.FC<Props> = ({
     return `${year}.${month}.${day}`;
   };
 
+  // 주문취소 내역 처리
+  const getStatusText = () => {
+    return status === OrderStatusEnum.COMPLETE ? '주문완료' : '주문취소';
+  };
+
+  const handleCancleOrder = () => {
+    if (status === OrderStatusEnum.COMPLETE) {
+      setIsCancelModalOpen(!isCancelModalOpen);
+    }
+  };
+
+  const listItemClass = `mb-[12px] flex h-[70px] items-center rounded-lg border border-border text-center text-[17px] ${status === OrderStatusEnum.CANCEL ? 'bg-background' : ''}`;
+  const buttonClass = `w-[100px] rounded-[5px] bg-caption leading-[35px] text-white hover:bg-dark ${status === OrderStatusEnum.CANCEL ? '!bg-gray30' : ''}`;
+  const textClass = ` w-1/6 ${status === OrderStatusEnum.CANCEL ? 'text-gray30' : ''}`;
+
   return (
-    <li className='mb-[12px] flex h-[70px] items-center rounded-lg border border-border text-center text-[17px]'>
-      <span className='w-1/6'>{status == 1 ? '주문완료' : '주문취소'}</span>
-      <span className='w-1/6'>
+    <li className={listItemClass}>
+      <span className={textClass}>{getStatusText()}</span>
+      <span className={textClass}>
         {amount === 1 ? '도시락 1' : `도시락 1 외 ${amount - 1}개`}
       </span>
-      <span className='w-1/6'>{formatDate()}</span>
-      <span className='w-1/6'>{formatAmount()}원</span>
-      <span className='w-1/6 hover:text-primary'>
+      <span className={textClass}>{formatDate()}</span>
+      <span className={textClass}>{formatAmount()}원</span>
+      <span className={`hover:text-primary ${textClass}`}>
         <Link to={`/orderhistories/${id}`}>주문상세</Link>
       </span>
-      <div className='w-1/6'>
-        <button
-          className='w-[100px] rounded-[5px] bg-gray30 leading-[35px] text-white hover:bg-caption'
-          onClick={() => setIsCancelModalOpen(!isCancelModalOpen)}
-        >
+      <div className={textClass}>
+        <button className={buttonClass} onClick={() => handleCancleOrder()}>
           주문취소
         </button>
       </div>
