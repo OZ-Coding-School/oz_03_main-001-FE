@@ -108,17 +108,21 @@ const OrderDetail = () => {
     // `boxPrice`가 0이 아닌 박스만 필터링
     const filteredBasket = basket.filter((box) => box.boxPrice > 0);
 
+    // 세션 스토리지에서 user 정보 가져오기
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+
     // 필터링된 데이터를 서버 형식에 맞게 가공
     const formDataWithDate = {
       ...data,
+      user: user,
       created_at: currentDate,
       total_price: totalPrice,
       items: filteredBasket.map((box) => ({
-        quantity: 1,
+        quantity: box.quantity,
         lunch: {
           id: box.id,
-          name: '도시락',
-          description: '도시락',
+          name: box.name,
+          description: box.name,
           total_price: box.boxPrice,
           lunch_menus: box.pickedDishList
             .slice()
@@ -199,7 +203,7 @@ const OrderDetail = () => {
                     return details ? (
                       <OrderList
                         key={box.id}
-                        name={`도시락 ${box.id}`}
+                        name={`${box.name} \u2009 \u2009 X ${box.quantity}`}
                         details={details}
                         price={box.boxPrice}
                       />
@@ -338,7 +342,7 @@ const OrderDetail = () => {
                 <div>
                   <p className='text-lg font-normal text-main'>총 결제금액</p>
                   <p className='text-3xl font-normal text-main'>
-                    {totalPrice.toString()}원
+                    {totalPrice.toLocaleString()}원
                   </p>
                 </div>
                 <div className='relative'>
