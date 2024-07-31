@@ -1,14 +1,17 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import arrowRight from '../../assets/images/arrowRight_gray.svg';
 import OrderList from '../../components/common/OrderList';
 import '../../assets/css/customScroll.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoadingIcon from '../../components/common/loding/LodingIcon';
 import LoadingMessage from '../../components/common/loding/LodingMessage';
 import { useNavigate } from 'react-router-dom';
 import useOrderStore from '../../store/useOrderStore';
 import Modal from './Modal/Modal';
+import payLogo3D from '../../assets/images/공지형_메일배너활용_3D.png';
 
 // 폼 데이터 타입 정의
 type FormData = {
@@ -22,7 +25,31 @@ type FormData = {
   total_price: number;
 };
 
+// IMP 객체 타입 선언
+interface IMP {
+  init: (accountId: string) => void;
+  request_pay: (data: any, callback: (response: any) => void) => void;
+}
+
+// 전역 객체에 IMP 추가
+declare global {
+  interface Window {
+    IMP?: IMP;
+  }
+}
+
 const OrderDetail = () => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const navigate = useNavigate();
 
   // 모달 상태 관리
@@ -105,11 +132,11 @@ const OrderDetail = () => {
       return;
     }
 
-    // `boxPrice`가 0이 아닌 박스만 필터링
-    const filteredBasket = basket.filter((box) => box.boxPrice > 0);
-
     // 세션 스토리지에서 user 정보 가져오기
     const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+
+    // `boxPrice`가 0이 아닌 박스만 필터링
+    const filteredBasket = basket.filter((box) => box.boxPrice > 0);
 
     // 필터링된 데이터를 서버 형식에 맞게 가공
     const formDataWithDate = {
@@ -141,16 +168,38 @@ const OrderDetail = () => {
       })),
     };
 
-    try {
-      await axios.post(
-        'https://api.dosirock.store/v1/orders',
-        formDataWithDate
-      );
-      navigate('/orderhistories');
-    } catch (error) {
-      console.error('주문서 데이터:', formDataWithDate);
-      setModalOpen(true);
-      setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
+    // 아임포트 결제 요청
+    const { IMP } = window;
+    if (IMP) {
+      IMP.init('imp61621567'); // 아임포트 관리자 페이지에서 확인한 가맹점 식별코드
+
+      const paymentData = {
+        pg: 'kakaopay.TC0ONETIME',
+        pay_method: 'card',
+        merchant_uid: `mid_${new Date().getTime()}`, // 주문 번호
+        amount: totalPrice, // 결제 금액
+        name: '도시락 주문 결제',
+      };
+
+      IMP.request_pay(paymentData, async (response: any) => {
+        const { success, error_msg } = response;
+
+        if (success) {
+          try {
+            // 결제 성공 시 서버에 주문 데이터 전송
+            await axios.post('https://api.dosirock.store/v1/orders', {
+              ...formDataWithDate,
+            });
+            navigate('/orderhistories');
+          } catch (error) {
+            console.error('주문서 데이터:', formDataWithDate);
+            setModalOpen(true);
+            setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
+          }
+        } else {
+          alert(`결제 실패: ${error_msg}`);
+        }
+      });
     }
   };
 
@@ -346,6 +395,11 @@ const OrderDetail = () => {
                   </p>
                 </div>
                 <div className='relative'>
+                  <img
+                    src={payLogo3D}
+                    alt='payLogo'
+                    className='absolute -left-10 bottom-[0px] w-[100px]'
+                  />
                   <button
                     type='submit'
                     className={`${
