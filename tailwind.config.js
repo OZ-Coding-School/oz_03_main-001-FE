@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        'headerBreak': '1770px', 
+        'headerBreak': '1800px', 
       },
       height: {
         'custom-calc1': 'calc(100vh - 290px)',
