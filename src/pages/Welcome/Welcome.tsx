@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dosirockLogo from '../../assets/images/dosirockLogo.png';
 import welcome from '../../assets/images/welcome.png';
 import { Link } from 'react-router-dom';
@@ -46,13 +46,13 @@ const Welcome: React.FC = () => {
         <div className='flex flex-row'>
           <Link
             to='/login'
-            className='mr-[27px] inline-block flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-primary font-bold text-white'
+            className='mr-[27px] flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-primary font-bold text-white'
           >
             로그인 하기
           </Link>
           <Link
             to='/'
-            className='inline-block flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-[#3C3A37] font-bold text-white'
+            className='flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-[#3C3A37] font-bold text-white'
           >
             메인으로
           </Link>

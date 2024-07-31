@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import {
   FaPlus,

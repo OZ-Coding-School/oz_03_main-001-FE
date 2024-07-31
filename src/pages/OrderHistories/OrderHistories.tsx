@@ -79,155 +79,155 @@ const OrderHistories = () => {
     getOrderHistories();
   }, []);
 
-  const dummyOrderLists: Order[] = [
-    {
-      id: 1,
-      user: 1,
-      request_things: '특별 요청사항',
-      name: '김철수',
-      status: 1,
-      address: '서울시 강남구',
-      contact_number: '010-1234-5678',
-      is_disposable: false,
-      total_price: 17000,
-      created_at: '2024-07-25T14:35:04.020057+09:00',
-      items: [
-        {
-          lunch: {
-            id: 3,
-            name: '도시락1',
-            description: '신선한 도시락',
-            total_price: 10000,
-            lunch_menu: [
-              { id: 5, quantity: 1, name: 'menu1', kcal: 333 },
-              { id: 6, quantity: 2, name: 'menu2', kcal: 333 },
-            ],
-          },
-          quantity: 1,
-        },
-        {
-          lunch: {
-            id: 4,
-            name: '도시락2',
-            description: '신선한 도시락2',
-            total_price: 7000,
-            lunch_menu: [
-              { id: 7, quantity: 1, name: 'menu3', kcal: 333 },
-              { id: 8, quantity: 1, name: 'menu4', kcal: 333 },
-            ],
-          },
-          quantity: 2,
-        },
-      ],
-    },
-    {
-      id: 2,
-      user: 1,
-      request_things: '특별 요청사항',
-      name: '김철수',
-      status: 1,
-      address: '서울시 강남구',
-      contact_number: '010-1234-5678',
-      is_disposable: false,
-      total_price: 27000,
-      created_at: '2024-07-27T14:35:04.020057+09:00',
-      items: [
-        {
-          lunch: {
-            id: 1,
-            name: '도시락1',
-            description: '신선한 도시락',
-            total_price: 10000,
-            lunch_menu: [
-              { id: 1, quantity: 1, name: 'menu1', kcal: 333 },
-              { id: 2, quantity: 2, name: 'menu2', kcal: 333 },
-            ],
-          },
-          quantity: 1,
-        },
-        {
-          lunch: {
-            id: 2,
-            name: '도시락2',
-            description: '신선한 도시락2',
-            total_price: 7000,
-            lunch_menu: [
-              { id: 3, quantity: 1, name: 'menu3', kcal: 333 },
-              { id: 4, quantity: 1, name: 'menu4', kcal: 333 },
-            ],
-          },
-          quantity: 2,
-        },
-        {
-          lunch: {
-            id: 3,
-            name: '도시락3',
-            description: '신선한 도시락3',
-            total_price: 10000,
-            lunch_menu: [
-              { id: 3, quantity: 1, name: 'menu3', kcal: 333 },
-              { id: 4, quantity: 1, name: 'menu4', kcal: 333 },
-            ],
-          },
-          quantity: 2,
-        },
-      ],
-    },
-    {
-      id: 3,
-      user: 1,
-      request_things: '특별 요청사항',
-      name: '김철수',
-      status: 1,
-      address: '서울시 강남구',
-      contact_number: '010-1234-5678',
-      is_disposable: false,
-      total_price: 10000,
-      created_at: '2024-07-28T14:35:04.020057+09:00',
-      items: [
-        {
-          lunch: {
-            id: 1,
-            name: '도시락1',
-            description: '신선한 도시락',
-            total_price: 10000,
-            lunch_menu: [
-              { id: 1, quantity: 1, name: 'menu1', kcal: 333 },
-              { id: 2, quantity: 2, name: 'menu2', kcal: 333 },
-            ],
-          },
-          quantity: 1,
-        },
-      ],
-    },
-    {
-      id: 4,
-      user: 1,
-      request_things: '특별 요청사항',
-      name: '김철수',
-      status: -1,
-      address: '서울시 강남구',
-      contact_number: '010-1234-5678',
-      is_disposable: false,
-      total_price: 10000,
-      created_at: '2024-07-25T14:35:04.020057+09:00',
-      items: [
-        {
-          lunch: {
-            id: 1,
-            name: '도시락1',
-            description: '신선한 도시락',
-            total_price: 10000,
-            lunch_menu: [
-              { id: 1, quantity: 1, name: 'menu1', kcal: 333 },
-              { id: 2, quantity: 2, name: 'menu2', kcal: 333 },
-            ],
-          },
-          quantity: 1,
-        },
-      ],
-    },
-  ];
+  // const dummyOrderLists: Order[] = [
+  //   {
+  //     id: 1,
+  //     user: 1,
+  //     request_things: '특별 요청사항',
+  //     name: '김철수',
+  //     status: 1,
+  //     address: '서울시 강남구',
+  //     contact_number: '010-1234-5678',
+  //     is_disposable: false,
+  //     total_price: 17000,
+  //     created_at: '2024-07-25T14:35:04.020057+09:00',
+  //     items: [
+  //       {
+  //         lunch: {
+  //           id: 3,
+  //           name: '도시락1',
+  //           description: '신선한 도시락',
+  //           total_price: 10000,
+  //           lunch_menu: [
+  //             { id: 5, quantity: 1, name: 'menu1', kcal: 333 },
+  //             { id: 6, quantity: 2, name: 'menu2', kcal: 333 },
+  //           ],
+  //         },
+  //         quantity: 1,
+  //       },
+  //       {
+  //         lunch: {
+  //           id: 4,
+  //           name: '도시락2',
+  //           description: '신선한 도시락2',
+  //           total_price: 7000,
+  //           lunch_menu: [
+  //             { id: 7, quantity: 1, name: 'menu3', kcal: 333 },
+  //             { id: 8, quantity: 1, name: 'menu4', kcal: 333 },
+  //           ],
+  //         },
+  //         quantity: 2,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     user: 1,
+  //     request_things: '특별 요청사항',
+  //     name: '김철수',
+  //     status: 1,
+  //     address: '서울시 강남구',
+  //     contact_number: '010-1234-5678',
+  //     is_disposable: false,
+  //     total_price: 27000,
+  //     created_at: '2024-07-27T14:35:04.020057+09:00',
+  //     items: [
+  //       {
+  //         lunch: {
+  //           id: 1,
+  //           name: '도시락1',
+  //           description: '신선한 도시락',
+  //           total_price: 10000,
+  //           lunch_menu: [
+  //             { id: 1, quantity: 1, name: 'menu1', kcal: 333 },
+  //             { id: 2, quantity: 2, name: 'menu2', kcal: 333 },
+  //           ],
+  //         },
+  //         quantity: 1,
+  //       },
+  //       {
+  //         lunch: {
+  //           id: 2,
+  //           name: '도시락2',
+  //           description: '신선한 도시락2',
+  //           total_price: 7000,
+  //           lunch_menu: [
+  //             { id: 3, quantity: 1, name: 'menu3', kcal: 333 },
+  //             { id: 4, quantity: 1, name: 'menu4', kcal: 333 },
+  //           ],
+  //         },
+  //         quantity: 2,
+  //       },
+  //       {
+  //         lunch: {
+  //           id: 3,
+  //           name: '도시락3',
+  //           description: '신선한 도시락3',
+  //           total_price: 10000,
+  //           lunch_menu: [
+  //             { id: 3, quantity: 1, name: 'menu3', kcal: 333 },
+  //             { id: 4, quantity: 1, name: 'menu4', kcal: 333 },
+  //           ],
+  //         },
+  //         quantity: 2,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 3,
+  //     user: 1,
+  //     request_things: '특별 요청사항',
+  //     name: '김철수',
+  //     status: 1,
+  //     address: '서울시 강남구',
+  //     contact_number: '010-1234-5678',
+  //     is_disposable: false,
+  //     total_price: 10000,
+  //     created_at: '2024-07-28T14:35:04.020057+09:00',
+  //     items: [
+  //       {
+  //         lunch: {
+  //           id: 1,
+  //           name: '도시락1',
+  //           description: '신선한 도시락',
+  //           total_price: 10000,
+  //           lunch_menu: [
+  //             { id: 1, quantity: 1, name: 'menu1', kcal: 333 },
+  //             { id: 2, quantity: 2, name: 'menu2', kcal: 333 },
+  //           ],
+  //         },
+  //         quantity: 1,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     id: 4,
+  //     user: 1,
+  //     request_things: '특별 요청사항',
+  //     name: '김철수',
+  //     status: -1,
+  //     address: '서울시 강남구',
+  //     contact_number: '010-1234-5678',
+  //     is_disposable: false,
+  //     total_price: 10000,
+  //     created_at: '2024-07-25T14:35:04.020057+09:00',
+  //     items: [
+  //       {
+  //         lunch: {
+  //           id: 1,
+  //           name: '도시락1',
+  //           description: '신선한 도시락',
+  //           total_price: 10000,
+  //           lunch_menu: [
+  //             { id: 1, quantity: 1, name: 'menu1', kcal: 333 },
+  //             { id: 2, quantity: 2, name: 'menu2', kcal: 333 },
+  //           ],
+  //         },
+  //         quantity: 1,
+  //       },
+  //     ],
+  //   },
+  // ];
 
   return (
     <div>

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-vars */
 import { useRef, useEffect, CSSProperties } from 'react';
 import canvasConfetti, {
   CreateTypes,
@@ -6,8 +8,8 @@ import canvasConfetti, {
 } from 'canvas-confetti'; // 색종이 날림 효과를 위한 import
 
 export interface IProps extends Options, GlobalOptions {
-  fire?: any;
-  reset?: any;
+  fire?: boolean;
+  reset?: boolean;
   width?: string | number;
   height?: string | number;
   className?: string;
