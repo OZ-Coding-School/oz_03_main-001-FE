@@ -30,8 +30,8 @@ const OrderDetail = () => {
   const [modalMessage, setModalMessage] = useState('');
 
   // zustand store에서 상태 및 액션 가져오기
-  const { currentPost, totalPrice } = useOrderStore((state) => ({
-    currentPost: state.currentPost,
+  const { basket, totalPrice } = useOrderStore((state) => ({
+    basket: state.basket,
     totalPrice: state.totalPrice,
   }));
 
@@ -87,41 +87,64 @@ const OrderDetail = () => {
   };
   const currentDate = getCurrentDate();
 
+  // 카테고리 정렬 기준
+  const CATEGORY_ORDER = ['bob', 'guk', 'chan', 'side'];
+
   const onSubmit = async (data: FormData) => {
     setSubmitted(true); // 제출 시 상태 변경
 
-    // 폼 데이터를 서버 형식에 맞게 가공
+    // 필수 입력 필드가 비어 있는지 확인
+    if (!isFormEmpty) {
+      return;
+    }
+
+    // 도시락 구성이 비어 있는지 확인
+    if (totalPrice === 0) {
+      setModalOpen(true);
+      setModalMessage('도시락 구성을 확인해 주세요.');
+      return;
+    }
+
+    // `boxPrice`가 0이 아닌 박스만 필터링
+    const filteredBasket = basket.filter((box) => box.boxPrice > 0);
+
+    // 필터링된 데이터를 서버 형식에 맞게 가공
     const formDataWithDate = {
       ...data,
       created_at: currentDate,
       total_price: totalPrice,
-      items: currentPost.map((item) => ({
+      items: filteredBasket.map((box) => ({
         quantity: 1,
         lunch: {
-          name: item.name,
-          description: item.name,
-          menus: [
-            {
-              id: item.id,
+          id: box.id,
+          name: '도시락',
+          description: '도시락',
+          total_price: box.boxPrice,
+          lunch_menus: box.pickedDishList
+            .slice()
+            .sort(
+              (a, b) =>
+                CATEGORY_ORDER.indexOf(a.dish.category) -
+                CATEGORY_ORDER.indexOf(b.dish.category)
+            )
+            .map((pickedDish) => ({
+              id: pickedDish.dish.id,
               quantity: 1,
-            },
-          ],
+              name: pickedDish.dish.name,
+              price: pickedDish.dish.price,
+            })),
         },
       })),
     };
-    try {
-      if (!isFormEmpty) {
-        return false;
-      }
 
+    try {
       await axios.post(
         'https://api.dosirock.store/v1/orders',
         formDataWithDate
       );
       navigate('/orderhistories');
     } catch (error) {
-      console.log('주문서 데이터:', formDataWithDate);
-
+      console.error('주문서 데이터:', formDataWithDate);
       setModalOpen(true);
       setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
     }
@@ -145,20 +168,52 @@ const OrderDetail = () => {
           className='customScroll flex flex-col items-center gap-3 overflow-y-auto pr-[3px]'
           style={{ height: 'calc(100% - 98px)' }}
         >
-          {currentPost.length === 0 ? (
+          {basket.length === 0 ? (
             <div className='flex w-[100%] flex-wrap items-center justify-center pt-[250px]'>
               <LoadingIcon />
-              <LoadingMessage message={`도시락 정보를 불러오는 중입니다...`} />
+              <LoadingMessage message={`장바구니에 도시락이 없어요!`} />
             </div>
           ) : (
-            currentPost.map((item) => (
-              <OrderList
-                key={item.id}
-                name={item.name}
-                details={item.description}
-                price={item.price}
-              />
-            ))
+            (() => {
+              // `boxPrice`가 0이 아닌 박스가 있는지 확인
+              const noZeroPriceBox = basket.some((box) => box.boxPrice > 0);
+
+              if (noZeroPriceBox) {
+                return basket
+                  .filter((box) => box.boxPrice > 0) // `boxPrice`가 0이 아닌 박스만 필터링
+                  .map((box) => {
+                    // dish의 category를 기준으로 정렬
+                    const sortedPickedDishList = box.pickedDishList
+                      .slice() // 원본 배열을 변경하지 않기 위해 복사
+                      .sort(
+                        (a, b) =>
+                          CATEGORY_ORDER.indexOf(a.dish.category) -
+                          CATEGORY_ORDER.indexOf(b.dish.category)
+                      );
+
+                    // 정렬된 dish 리스트로 details 생성
+                    const details = sortedPickedDishList
+                      .map((pickedDish) => pickedDish.dish.name)
+                      .join(', ');
+
+                    return details ? (
+                      <OrderList
+                        key={box.id}
+                        name={`도시락 ${box.id}`}
+                        details={details}
+                        price={box.boxPrice}
+                      />
+                    ) : null; // `details`가 비어있으면 렌더링하지 않음
+                  });
+              } else {
+                return (
+                  <div className='flex w-[100%] flex-wrap items-center justify-center pt-[250px]'>
+                    <LoadingIcon />
+                    <LoadingMessage message={`도시락 구성이 비어있어요!`} />
+                  </div>
+                );
+              }
+            })()
           )}
         </div>
       </section>
