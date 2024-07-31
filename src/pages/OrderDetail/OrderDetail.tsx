@@ -226,7 +226,7 @@ const OrderDetail = () => {
               draggable: true,
               progress: undefined,
               theme: 'dark',
-              style: { width: '380px' },
+              style: { width: '330px' },
             });
           }
         } else {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import logo from '../../assets/images/dosirockLogo.png';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import Modal from './Modal/Modal';
+import { toast } from 'react-toastify';
 
 const All = () => {
   const allList = [
@@ -30,10 +30,6 @@ const All = () => {
   ];
 
   const navigate = useNavigate();
-
-  // 모달 상태 관리
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
 
   // '알레르기 없음' 체크 상태 관리
   const [noAll, setNoAll] = useState<boolean>(false);
@@ -67,6 +63,16 @@ const All = () => {
     e.preventDefault();
 
     if (isCheckEmpty) {
+      toast.warn('알레르기 정보를 입력해 주세요 !', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
       setErrorAll('* 알레르기가 없을 시 없음을 체크해주세요');
       return;
     }
@@ -86,8 +92,17 @@ const All = () => {
     } catch (error) {
       console.error('서버 요청 실패:', error);
 
-      setModalOpen(true);
-      setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
+      toast.error('서버 문제로 잠시 후 다시 시도해 주세요 !', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+        style: { width: '330px' },
+      });
     }
   };
 
@@ -145,20 +160,15 @@ const All = () => {
             </div>
           ))}
         </div>
-        <div className='relative'>
-          <button
-            className={`h-[70px] w-[549px] rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
-              isCheckEmpty ? 'bg-disabled' : 'bg-primary hover:bg-primary-hover'
-            }`}
-            type='submit'
-            onClick={postAll}
-          >
-            입력 완료
-          </button>
-          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-            {modalMessage}
-          </Modal>
-        </div>
+        <button
+          className={`h-[70px] w-[549px] rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
+            isCheckEmpty ? 'bg-disabled' : 'bg-primary hover:bg-primary-hover'
+          }`}
+          type='submit'
+          onClick={postAll}
+        >
+          입력 완료
+        </button>
       </form>
     </div>
   );
