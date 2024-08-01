@@ -18,6 +18,7 @@ import axios from 'axios';
 
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Lunch from './Lunch';
 
 enum categoryEnum {
   recommend = 'recommend',
@@ -54,8 +55,11 @@ const Order = () => {
     createBox,
     currentPost,
     setCurrentPost,
+    currentLunchPost,
+    setCurrentLunchPost,
     totalPrice,
     setTotalPrice,
+    setCurrentBoxId,
   } = useOrderStore();
 
   useEffect(() => {
@@ -66,22 +70,43 @@ const Order = () => {
           category: currentCategory,
         };
 
-        const response = await axios.get(
-          'https://api.dosirock.store/v1/menus/',
-          { params }
-        );
-        setCurrentPost(response.data.results);
+        let response;
+
+        currentCategory === categoryEnum.recommend
+          ? (response = await axios.get(
+              `https://api.dosirock.store/v1/lunch/random/`
+            ))
+          : (response = await axios.get(
+              'https://api.dosirock.store/v1/menus/',
+              { params }
+            ));
+
+        currentCategory === categoryEnum.recommend
+          ? setCurrentLunchPost(response.data)
+          : setCurrentPost(response.data.results);
+
         setTotalItemsCount(response.data.total_count);
       } catch (err) {
         console.log(err);
       }
     };
     getApiMenus();
-  }, [setCurrentPost, page, currentCategory]);
+  }, [
+    setCurrentLunchPost,
+    setCurrentPost,
+    page,
+    currentLunchPost,
+    currentCategory,
+  ]);
 
   useEffect(() => {
     setTotalPrice(basket.reduce((sum, box) => sum + box.boxPrice, 0));
   }, [basket, setTotalPrice]);
+
+  const handleCreatebox = (boxId: number) => {
+    createBox(boxId);
+    setCurrentBoxId(boxId);
+  };
 
   return (
     <div className='bottom-0 flex h-[calc(100vh-75px)] w-screen flex-row bg-background p-8'>
@@ -185,14 +210,16 @@ const Order = () => {
           </label>
         </div>
         <div className='grid grid-cols-5 grid-rows-2 gap-[2vh]'>
-          {currentPost.map((dish, i) => (
-            <Dish key={i} dish={dish} />
-          ))}
+          {currentCategory === categoryEnum.recommend
+            ? currentLunchPost.map((lunch, i) => (
+                <Lunch key={i} lunch={lunch} />
+              ))
+            : currentPost.map((dish, i) => <Dish key={i} dish={dish} />)}
         </div>
         <Pagination
           activePage={page}
           itemsCountPerPage={10}
-          totalItemsCount={totalItemsCount}
+          totalItemsCount={totalItemsCount ? totalItemsCount : 1}
           pageRangeDisplayed={5}
           prevPageText={<FaAngleLeft />}
           nextPageText={<FaAngleRight />}
@@ -212,7 +239,7 @@ const Order = () => {
         </ul>
         <button
           className='flex w-full items-center justify-center rounded-xl bg-gray30 p-3 font-semibold text-white duration-100 hover:bg-dark hover:font-extrabold'
-          onClick={createBox}
+          onClick={() => handleCreatebox(Date.now())}
         >
           도시락 추가하기 <FaPlus className='ml-2' />
         </button>
@@ -225,7 +252,7 @@ const Order = () => {
             원
           </p>
         </div>
-        {basket.length === 0 ? (
+        {totalPrice === 0 ? (
           <div className='flex w-full justify-center rounded-xl bg-disabled p-3 font-semibold text-white duration-100'>
             주문하기
           </div>

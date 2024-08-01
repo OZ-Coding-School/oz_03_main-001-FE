@@ -16,7 +16,9 @@ type DishData = {
 
 type pickedDish = {
   id: number;
+  quantity: number;
   dish: DishData;
+  pickedPrice: number;
 };
 
 type Box = {
@@ -39,6 +41,7 @@ const Box: React.FC<Props> = ({ box }) => {
     removePickedDish,
     setBoxName,
     setBoxQuantity,
+    setDishQuantity,
   } = useOrderStore();
 
   const [isEditName, setIsEditName] = useState(false);
@@ -90,10 +93,35 @@ const Box: React.FC<Props> = ({ box }) => {
         className={`mb-2 w-full border border-x-0 border-t-0 border-dashed pb-2 text-gray30 ${currentBoxId === box.id ? '' : 'hidden'}`}
       >
         {box.pickedDishList.map((pickedDish) => (
-          <li key={pickedDish.id} className='flex justify-between'>
-            <span>{pickedDish.dish.name}</span>
+          <li key={pickedDish.id} className='flex items-start justify-between'>
+            {pickedDish.dish.category === 'bob' ||
+            pickedDish.dish.category === 'guk' ? (
+              <span className='mr-2 text-start'>{pickedDish.dish.name}</span>
+            ) : (
+              <>
+                <span className='w-5/12 text-start'>
+                  {pickedDish.dish.name}
+                </span>
+                <span>*</span>
+                <input
+                  type='number'
+                  value={pickedDish.quantity}
+                  onChange={(e) =>
+                    setDishQuantity(
+                      currentBoxId,
+                      pickedDish.id,
+                      Number(e.target.value)
+                    )
+                  }
+                  min={1}
+                  max={3}
+                  className='border-bg-gray20 rounded text-center focus:border'
+                />
+              </>
+            )}
             <span className='flex items-center'>
-              {pickedDish.dish.price.toLocaleString()}
+              {(pickedDish.pickedPrice =
+                pickedDish.quantity * pickedDish.dish.price).toLocaleString()}
               <IoClose
                 className='ml-2'
                 onClick={() => removePickedDish(box.id, pickedDish.id)}
@@ -121,7 +149,7 @@ const Box: React.FC<Props> = ({ box }) => {
             {(box.boxPrice =
               box.quantity *
               box.pickedDishList.reduce(
-                (sum, pickedDish) => sum + pickedDish.dish.price,
+                (sum, pickedDish) => sum + pickedDish.pickedPrice,
                 0
               )).toLocaleString()}
           </span>
