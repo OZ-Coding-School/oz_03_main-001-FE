@@ -27,7 +27,7 @@ const Dish: React.FC<Props> = ({ dish }) => {
       <img
         src={dish.image_url}
         alt={dish.name}
-        className='h-[20vh] w-[100vh] bg-gray20'
+        className='h-[19vh] w-[100vh] bg-gray20'
       />
       <div>
         <span className='mr-0.5 text-xl'>{dish.price.toLocaleString()}</span>

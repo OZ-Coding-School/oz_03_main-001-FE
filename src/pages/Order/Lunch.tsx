@@ -52,7 +52,7 @@ const Lunch: React.FC<Props> = ({ lunch }) => {
       <img
         src={lunch.image_url}
         alt={lunch.name}
-        className='h-[20vh] w-[100vh] bg-gray20'
+        className='h-[19vh] w-[100vh] bg-gray20'
       />
       <div>
         <span className='mr-0.5 text-xl'>{lunch.total_price}</span>
