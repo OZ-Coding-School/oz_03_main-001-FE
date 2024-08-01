@@ -53,6 +53,7 @@ const Join = () => {
     const isPasswordValid = validatePassword();
     const isRePasswordValid = validateRePassword();
 
+    console.log(idValue, nameValue, emailValue, passValue);
     // 유효성 검사를 모두 통과하면
     if (
       isNameValid &&
@@ -72,6 +73,8 @@ const Join = () => {
             password: passValue,
           }
         );
+        // 서버 응답 처리
+        console.log('서버 응답:', response.data);
 
         // 성공하면 페이지 이동
         if (response.data.success) {
