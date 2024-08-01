@@ -33,7 +33,8 @@ const Order = () => {
     categoryEnum.recommend
   );
   const [page, setPage] = useState<number>(1);
-  const [totalItemsCount, setTotalItemsCount] = useState(0);
+  const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
+  const [searchContents, setSearchContents] = useState<string>('');
 
   const handleMenudropChange = () => {
     setIsDroped(!isDroped);
@@ -68,6 +69,7 @@ const Order = () => {
         const params = {
           page: page,
           category: currentCategory,
+          search: searchContents,
         };
 
         let response;
@@ -97,6 +99,7 @@ const Order = () => {
     page,
     currentLunchPost,
     currentCategory,
+    searchContents,
   ]);
 
   useEffect(() => {
@@ -179,9 +182,13 @@ const Order = () => {
                     ? '반찬'
                     : '기타'}
           </p>
-          <div className='mx-8 flex h-5/6 w-56 flex-row items-center justify-between rounded-xl bg-white px-2'>
+          <div
+            className={`mx-8 flex h-5/6 w-56 flex-row items-center justify-between rounded-xl bg-white px-2 ${currentCategory === categoryEnum.recommend ? 'hidden' : ''}`}
+          >
             <input
               type='text'
+              value={searchContents}
+              onChange={(e) => setSearchContents(e.target.value)}
               placeholder='검색어를 입력하세요.'
               className='w-full cursor-none'
             ></input>
