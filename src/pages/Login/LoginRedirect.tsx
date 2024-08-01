@@ -1,5 +1,5 @@
 // src/components/CallbackHandler.js
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -17,7 +17,7 @@ const LoginRedirect = () => {
         try {
           await axios.post(
             //post요청을 보낼 인증코드 서버  (엑세스토큰을 발급받을 코드 보내기)
-            'http://127.0.0.1:8000/api/v1/users/kakao/callback/',
+            'https://127.0.0.1:8000/api/v1/users/kakao/callback/',
             { code }
           );
           navigate('/'); // 로그인 성공 후 홈으로 리디렉션

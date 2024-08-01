@@ -7,51 +7,57 @@ import { useParams } from 'react-router-dom';
 import LoadingIcon from '../../components/common/loding/LodingIcon';
 import LoadingMessage from '../../components/common/loding/LodingMessage';
 
-type LunchItem = {
+// 타입 정의
+type LunchMenu = {
   id: number;
+  quantity: number;
   name: string;
-  details: string;
   price: number;
 };
 
-type OrderInfo = {
+type Lunch = {
+  id: number;
   name: string;
-  phone: string;
+  description: string;
+  total_price: number;
+  lunch_menus: LunchMenu[];
+};
+
+type Item = {
+  quantity: number;
+  lunch: Lunch;
+};
+
+type OrderInfo = {
+  id: number;
+  name: string;
+  contact_number: string;
   address: string;
-  detailedAddress: string;
-  deliveryMemo?: string;
-  requestCheckbox?: boolean;
-  cookingMemo?: string;
-  totalPrice: number;
+  detailed_address: string;
+  delivery_memo?: string;
+  is_disposable?: boolean;
+  cooking_memo?: string;
+  total_price: number;
+  created_at: string;
+  items: Item[];
 };
 
 const OrderHistory = () => {
   // useParams을 써서 url에서 id 가져오기
   const { id } = useParams<{ id: string }>();
 
-  // 가져온 도시락 정보 관리
-  const [lunchItems, setLunchItems] = useState<LunchItem[]>([]);
-  // 가져온 주문서 정보 관리
-  const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null);
   // 데이터 로딩 상태 관리
   const [loading, setLoading] = useState(true);
+  // 서버에서 가져온 정보 관리
+  const [orderInfo, setOrderInfo] = useState<OrderInfo | null>(null);
 
   useEffect(() => {
     const getOrderData = async () => {
       try {
-        const lunchResponses = await axios.get(`/api/v1/lunch/${id}`);
-        const lunchData = lunchResponses.data;
-        console.log('응답 데이터:', lunchData);
-        if (Array.isArray(lunchData)) {
-          setLunchItems(lunchData);
-          setLoading(false);
-        } else {
-          console.error('올바르지 않은 응답 형식:', lunchData);
-          setLoading(true);
-        }
-
-        const orderResponse = await axios.get(`/api/v1/orders/${id}`);
-        const orderData: OrderInfo = orderResponse.data;
+        const orderResponse = await axios.get(
+          `https://api.dosirock.store/v1/orders/${id}`
+        );
+        const orderData = orderResponse.data;
         console.log('응답 데이터:', orderData);
         if (orderData && typeof orderData === 'object') {
           setOrderInfo(orderData);
@@ -62,11 +68,11 @@ const OrderHistory = () => {
         }
       } catch (error) {
         console.error('정보를 가져오는 데 실패했습니다:', error);
+        setLoading(true);
       }
     };
 
     getOrderData();
-    // url의 아이디 값이 바뀔 때 마다 작동
   }, [id]);
 
   return (
@@ -94,12 +100,14 @@ const OrderHistory = () => {
               className='customScroll flex flex-col gap-3 overflow-y-auto pr-[3px]'
               style={{ height: 'calc(100% - 98px)' }}
             >
-              {lunchItems.map((item) => (
+              {orderInfo?.items.map((item) => (
                 <OrderList
-                  key={item.id}
-                  name={item.name}
-                  details={item.details}
-                  price={item.price}
+                  key={item.lunch.id}
+                  name={item.lunch.name}
+                  details={item.lunch.lunch_menus
+                    .map((menu) => menu.name)
+                    .join(', ')}
+                  price={item.lunch.total_price}
                 />
               ))}
             </div>
@@ -128,7 +136,7 @@ const OrderHistory = () => {
                         전화 번호
                       </div>
                       <p className='cursor-none font-light'>
-                        {orderInfo?.phone}
+                        {orderInfo?.contact_number}
                       </p>
                     </div>
                   </div>
@@ -145,7 +153,7 @@ const OrderHistory = () => {
                       상세 주소
                     </div>
                     <p className='cursor-none font-light'>
-                      {orderInfo?.detailedAddress}
+                      {orderInfo?.detailed_address}
                     </p>
                   </div>
                   <div className='flex h-[100px] w-[100%] flex-wrap pt-3'>
@@ -153,7 +161,7 @@ const OrderHistory = () => {
                       배송 메모
                     </div>
                     <p className='cursor-none font-light'>
-                      {orderInfo?.deliveryMemo || ''}
+                      {orderInfo?.delivery_memo || ''}
                     </p>
                   </div>
                 </div>
@@ -168,7 +176,7 @@ const OrderHistory = () => {
                         type='checkbox'
                         // eslint-disable-next-line tailwindcss/classnames-order
                         className='h-5 w-5 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
-                        checked={orderInfo?.requestCheckbox || false}
+                        checked={orderInfo?.is_disposable || false}
                         readOnly
                       />
                       <span className='pl-2 text-base font-normal text-caption'>
@@ -177,16 +185,21 @@ const OrderHistory = () => {
                     </div>
                   </div>
                   <div className='h-[115px] w-[100%] cursor-none rounded-xl border border-border px-[15px] py-[10px] font-light'>
-                    {orderInfo?.cookingMemo || ''}
+                    {orderInfo?.cooking_memo || ''}
                   </div>
-                  <div className='justify-end pt-[65px] text-right'>
-                    <div>
+                  <div className='flex justify-between pt-[65px] text-right'>
+                    <div className='flex flex-col items-start justify-center'>
+                      <p className='text-lg font-normal text-main'>주문 날짜</p>
+                      <p className='text-3xl font-normal text-main'>
+                        {orderInfo?.created_at}일
+                      </p>
+                    </div>
+                    <div className='flex flex-col items-end justify-center'>
                       <p className='text-lg font-normal text-main'>
                         총 결제금액
                       </p>
                       <p className='text-3xl font-normal text-main'>
-                        {' '}
-                        {orderInfo?.totalPrice.toLocaleString()}원
+                        {orderInfo?.total_price.toLocaleString()}원
                       </p>
                     </div>
                   </div>

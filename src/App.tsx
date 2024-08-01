@@ -17,6 +17,8 @@ import OrderHistories from './pages/OrderHistories/OrderHistories';
 import Community from './pages/Community/Community';
 import CustomCursor from './components/layout/CustomCursor';
 import LoginRedirect from './pages/Login/LoginRedirect';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const location = useLocation();
@@ -26,6 +28,7 @@ const App = () => {
     <>
       {!noHeaderPaths.includes(location.pathname) && <Header />}
       <CustomCursor />
+      <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />

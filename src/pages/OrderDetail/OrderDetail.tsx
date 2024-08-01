@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import arrowRight from '../../assets/images/arrowRight_gray.svg';
@@ -7,81 +9,84 @@ import { useEffect, useState } from 'react';
 import LoadingIcon from '../../components/common/loding/LodingIcon';
 import LoadingMessage from '../../components/common/loding/LodingMessage';
 import { useNavigate } from 'react-router-dom';
-
-// 도시락 데이터 타입 정의
-type MenuItem = {
-  id: number;
-  name: string; // 도시락 이름
-  details: string; // 밥, 국 반찬
-  price: number; // 가격
-};
+import useOrderStore from '../../store/useOrderStore';
+import payLogo3D from '../../assets/images/공지형_메일배너활용_3D.png';
+import { toast } from 'react-toastify';
 
 // 폼 데이터 타입 정의
 type FormData = {
   name: string;
-  phone: string;
+  contact_number: string;
   address: string;
-  detailedAddress: string;
-  deliveryMemo?: string;
-  requestCheckbox?: boolean;
-  cookingMemo?: string;
+  detail_address: string;
+  delivery_memo?: string;
+  is_disposable?: boolean;
+  cooking_memo?: string;
+  total_price: number;
 };
 
+// IMP 객체 타입 선언
+interface IMP {
+  init: (accountId: string) => void;
+  request_pay: (data: any, callback: (response: any) => void) => void;
+}
+
+// 전역 객체에 IMP 추가
+declare global {
+  interface Window {
+    IMP?: IMP;
+  }
+}
+
 const OrderDetail = () => {
-  const navigate = useNavigate();
-
-  // 가져온 도시락 정보 관리
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  // 도시락의 가격 관리
-  const [allPrice, setAllPrice] = useState<number>(0);
-
-  // 도시락 정보 가져오는 건 요성님이 전역에 저장해 준 정보 가져오기
   useEffect(() => {
-    const getMenuItems = async () => {
-      try {
-        const response = await axios.get('/api/v1/lunch');
-        const items = response.data;
-        console.log('응답 데이터:', items);
+    const script = document.createElement('script');
+    script.src = 'https://cdn.iamport.kr/v1/iamport.js';
+    script.async = true;
+    document.body.appendChild(script);
 
-        if (Array.isArray(items)) {
-          setMenuItems(items);
-
-          const totalPrice = items.reduce(
-            (sum: number, item: MenuItem) => sum + item.price,
-            0
-          );
-          setAllPrice(totalPrice);
-        } else {
-          console.error('올바르지 않은 응답 형식:', items);
-        }
-      } catch (error) {
-        console.error('도시락 리스트를 가져오는 데 실패했습니다:', error);
-      }
+    return () => {
+      document.body.removeChild(script);
     };
-
-    getMenuItems();
   }, []);
 
-  const { register, handleSubmit, watch } = useForm<FormData>({
+  const navigate = useNavigate();
+
+  // zustand store에서 상태 및 액션 가져오기
+  const { basket, totalPrice } = useOrderStore((state) => ({
+    basket: state.basket,
+    totalPrice: state.totalPrice,
+  }));
+
+  const { register, handleSubmit, watch, setValue } = useForm<FormData>({
     defaultValues: {
       name: '',
-      phone: '',
+      contact_number: '',
       address: '',
-      detailedAddress: '',
-      deliveryMemo: '',
-      requestCheckbox: false,
-      cookingMemo: '',
+      detail_address: '',
+      delivery_memo: '',
+      is_disposable: false,
+      cooking_memo: '',
+      total_price: 0,
     },
   });
 
   // watch를 이용해 각 필드의 상태를 감시
   const name = watch('name');
-  const phone = watch('phone');
+  const contact_number = watch('contact_number');
   const address = watch('address');
-  const detailedAddress = watch('detailedAddress');
+  const detail_address = watch('detail_address');
 
   // 모든 필드가 채워져 있으면 트루
-  const isFormEmpty = name && phone && address && detailedAddress;
+  const isFormEmpty = name && contact_number && address && detail_address;
+
+  const handlePhoneInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const input = event.target.value;
+    const filteredInput = input.replace(/[^\d]/g, ''); // 숫자 이외의 문자를 모두 제거
+    setValue('contact_number', filteredInput); // setValue를 사용하여 폼 값 업데이트
+  };
 
   // 폼제출 여부 상태 관리
   const [submitted, setSubmitted] = useState(false);
@@ -105,21 +110,137 @@ const OrderDetail = () => {
   };
   const currentDate = getCurrentDate();
 
+  // 카테고리 정렬 기준
+  const CATEGORY_ORDER = ['bob', 'guk', 'chan', 'side'];
+
   const onSubmit = async (data: FormData) => {
     setSubmitted(true); // 제출 시 상태 변경
 
-    try {
-      if (!isFormEmpty) {
-        return false;
-      }
-      // 폼 데이터에 날짜 추가
-      const formDataWithDate = { ...data, orderDate: currentDate };
+    // 필수 입력 필드와 도시락 구성이 비어 있는지 확인
+    if (!isFormEmpty && totalPrice === 0) {
+      toast.error('도시락 구성과 배송정보를 확인해 주세요!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: { width: '380px', background: '#FFF4B8', color: 'black' },
+      });
+      return;
+    } else if (!isFormEmpty) {
+      toast.error('배송 정보를 입력해 주세요!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: { background: '#FFF4B8', color: 'black' },
+      });
+      return;
+    } else if (totalPrice === 0) {
+      toast.error('도시락 구성을 채워 주세요!', {
+        position: 'top-center',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: { background: '#FFF4B8', color: 'black' },
+      });
+      return;
+    }
 
-      await axios.post('/api/v1/orders', formDataWithDate);
-      navigate('/orderhistories');
-    } catch (error) {
-      console.log('주문서 데이터:', { ...data, orderDate: currentDate });
-      alert('주문서 제출에 실패했습니다.');
+    // 세션 스토리지에서 user 정보 가져오기
+    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+
+    // `boxPrice`가 0이 아닌 박스만 필터링
+    const filteredBasket = basket.filter((box) => box.boxPrice > 0);
+
+    // 필터링된 데이터를 서버 형식에 맞게 가공
+    const formDataWithDate = {
+      ...data,
+      user: user,
+      created_at: currentDate,
+      total_price: totalPrice,
+      items: filteredBasket.map((box) => ({
+        quantity: box.quantity,
+        lunch: {
+          id: box.id,
+          name: box.name,
+          description: box.name,
+          total_price: box.boxPrice,
+          lunch_menus: box.pickedDishList
+            .slice()
+            .sort(
+              (a, b) =>
+                CATEGORY_ORDER.indexOf(a.dish.category) -
+                CATEGORY_ORDER.indexOf(b.dish.category)
+            )
+            .map((pickedDish) => ({
+              id: pickedDish.dish.id,
+              quantity: 1,
+              name: pickedDish.dish.name,
+              price: pickedDish.dish.price,
+            })),
+        },
+      })),
+    };
+
+    // 아임포트 결제 요청
+    const { IMP } = window;
+    if (IMP) {
+      IMP.init('imp61621567'); // 아임포트 관리자 페이지에서 확인한 가맹점 식별코드
+
+      const paymentData = {
+        pg: 'kakaopay.TC0ONETIME',
+        pay_method: 'card',
+        merchant_uid: `mid_${new Date().getTime()}`, // 주문 번호
+        amount: totalPrice, // 결제 금액
+        name: '도시락 주문 결제',
+      };
+
+      IMP.request_pay(paymentData, async (response: any) => {
+        const { success, error_msg } = response;
+
+        if (success) {
+          try {
+            // 결제 성공 시 서버에 주문 데이터 전송
+            await axios.post('https://api.dosirock.store/v1/orders', {
+              ...formDataWithDate,
+            });
+            navigate('/orderhistories');
+          } catch (error) {
+            console.error('주문서 데이터:', formDataWithDate);
+
+            toast.error('서버 문제로 잠시 후 다시 시도해 주세요!', {
+              position: 'top-center',
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              style: { width: '330px', background: '#FFF4B8', color: 'black' },
+            });
+          }
+        } else {
+          toast.error(error_msg, {
+            position: 'top-center',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: { width: '350px', background: '#FFF4B8', color: 'black' },
+          });
+        }
+      });
     }
   };
 
@@ -141,20 +262,52 @@ const OrderDetail = () => {
           className='customScroll flex flex-col items-center gap-3 overflow-y-auto pr-[3px]'
           style={{ height: 'calc(100% - 98px)' }}
         >
-          {menuItems.length === 0 ? (
+          {basket.length === 0 ? (
             <div className='flex w-[100%] flex-wrap items-center justify-center pt-[250px]'>
               <LoadingIcon />
-              <LoadingMessage message={`도시락 정보를 불러오는 중입니다...`} />
+              <LoadingMessage message={`장바구니에 도시락이 없어요!`} />
             </div>
           ) : (
-            menuItems.map((item) => (
-              <OrderList
-                key={item.id}
-                name={item.name}
-                details={item.details}
-                price={item.price}
-              />
-            ))
+            (() => {
+              // `boxPrice`가 0이 아닌 박스가 있는지 확인
+              const noZeroPriceBox = basket.some((box) => box.boxPrice > 0);
+
+              if (noZeroPriceBox) {
+                return basket
+                  .filter((box) => box.boxPrice > 0) // `boxPrice`가 0이 아닌 박스만 필터링
+                  .map((box) => {
+                    // dish의 category를 기준으로 정렬
+                    const sortedPickedDishList = box.pickedDishList
+                      .slice() // 원본 배열을 변경하지 않기 위해 복사
+                      .sort(
+                        (a, b) =>
+                          CATEGORY_ORDER.indexOf(a.dish.category) -
+                          CATEGORY_ORDER.indexOf(b.dish.category)
+                      );
+
+                    // 정렬된 dish 리스트로 details 생성
+                    const details = sortedPickedDishList
+                      .map((pickedDish) => pickedDish.dish.name)
+                      .join(', ');
+
+                    return details ? (
+                      <OrderList
+                        key={box.id}
+                        name={`${box.name} \u2009 \u2009 X ${box.quantity}`}
+                        details={details}
+                        price={box.boxPrice}
+                      />
+                    ) : null; // `details`가 비어있으면 렌더링하지 않음
+                  });
+              } else {
+                return (
+                  <div className='flex w-[100%] flex-wrap items-center justify-center pt-[250px]'>
+                    <LoadingIcon />
+                    <LoadingMessage message={`도시락 구성이 비어있어요!`} />
+                  </div>
+                );
+              }
+            })()
           )}
         </div>
       </section>
@@ -194,9 +347,11 @@ const OrderDetail = () => {
                   <input
                     id='phone'
                     type='text'
-                    className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(phone)} px-[15px] py-[10px]`}
+                    placeholder='숫자를 입력해 주세요.'
+                    className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(contact_number)} px-[15px] py-[10px]`}
                     style={{ width: 'calc(100% - 95px)' }}
-                    {...register('phone')}
+                    {...register('contact_number')}
+                    onChange={handlePhoneInputChange}
                   />
                 </div>
               </div>
@@ -224,12 +379,12 @@ const OrderDetail = () => {
                   </div>
                 </div>
                 <input
-                  id='detailedAddress'
+                  id='detail_address'
                   type='text'
                   placeholder='상세 주소를 입력해 주세요.'
-                  className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(detailedAddress)} px-[15px] py-[10px]`}
+                  className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(detail_address)} px-[15px] py-[10px]`}
                   style={{ width: 'calc(100% - 95px)' }}
-                  {...register('detailedAddress')}
+                  {...register('detail_address')}
                 />
               </div>
               <div className='w-[100%]'>
@@ -241,7 +396,7 @@ const OrderDetail = () => {
                   placeholder='기사님께 전달해드릴 배송 메모를 입력해 주세요.'
                   className='h-[100px] cursor-none rounded-xl border border-border px-[15px] py-[10px] align-top'
                   style={{ width: 'calc(100% - 95px)', resize: 'none' }}
-                  {...register('deliveryMemo')}
+                  {...register('delivery_memo')}
                 />
               </div>
             </div>
@@ -252,14 +407,14 @@ const OrderDetail = () => {
                 </div>
                 <div className='flex items-center justify-center'>
                   <input
-                    id='requestCheckbox'
+                    id='is_disposable'
                     type='checkbox'
                     // eslint-disable-next-line tailwindcss/classnames-order
                     className='h-5 w-5 cursor-none appearance-none rounded-[4px] bg-checkBox bg-contain bg-center bg-no-repeat checked:bg-checkBox_check checked:bg-contain checked:bg-center checked:bg-no-repeat'
-                    {...register('requestCheckbox')}
+                    {...register('is_disposable')}
                   />
                   <label
-                    htmlFor='requestCheckbox'
+                    htmlFor='is_disposable'
                     className='pl-2 text-base font-normal text-caption'
                   >
                     일회용품도 함께 주세요
@@ -271,25 +426,34 @@ const OrderDetail = () => {
                 placeholder='도시락 주문시 요청 사항을 입력해 주세요.'
                 className='h-[115px] w-[100%] cursor-none rounded-xl border border-border px-[15px] py-[10px]'
                 style={{ resize: 'none' }}
-                {...register('cookingMemo')}
+                {...register('cooking_memo')}
               />
               <div className='flex items-center justify-between pt-[65px]'>
                 <div>
                   <p className='text-lg font-normal text-main'>총 결제금액</p>
                   <p className='text-3xl font-normal text-main'>
-                    {allPrice.toString()}원
+                    {totalPrice.toLocaleString()}원
                   </p>
                 </div>
-                <button
-                  type='submit'
-                  className={`${
-                    isFormEmpty
-                      ? 'bg-primary hover:bg-primary-hover'
-                      : 'bg-disabled'
-                  } h-20 w-[200px] rounded-xl text-center text-xl font-medium text-white`}
-                >
-                  주문하기
-                </button>
+                <div className='relative'>
+                  <img
+                    src={payLogo3D}
+                    alt='payLogo'
+                    className={`${
+                      isFormEmpty ? 'contrast-100' : 'contrast-75'
+                    } w-[100px]'absolute absolute -left-10 bottom-[0px] w-[100px]`}
+                  />
+                  <button
+                    type='submit'
+                    className={`${
+                      isFormEmpty
+                        ? 'bg-primary hover:bg-primary-hover'
+                        : 'bg-disabled'
+                    } h-20 w-[200px] rounded-xl text-center text-xl font-medium text-white`}
+                  >
+                    주문하기
+                  </button>
+                </div>
               </div>
             </div>
           </div>
