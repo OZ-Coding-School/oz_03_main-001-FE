@@ -104,6 +104,7 @@ const OrderHistory = () => {
                 <OrderList
                   key={item.lunch.id}
                   name={item.lunch.name}
+                  quantity={item.quantity}
                   details={item.lunch.lunch_menus
                     .map((menu) => menu.name)
                     .join(', ')}
