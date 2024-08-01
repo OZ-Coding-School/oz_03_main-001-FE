@@ -67,12 +67,12 @@ const Login: React.FC = () => {
 
   return (
     <div>
-      <div className='flex h-screen flex-col items-center justify-center'>
-        <Link to='/'>
+      <div className='flex h-screen cursor-none flex-col items-center justify-center'>
+        <Link to='/' className='cursor-none'>
           <img
             src={dosirockLogo}
             alt='Logo'
-            className='mb-[28px] flex h-[73px] w-[200px]'
+            className='mb-[28px] flex h-[73px] w-[200px] cursor-none'
           />
         </Link>
 
@@ -80,10 +80,10 @@ const Login: React.FC = () => {
         <form
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          className='w-[490px] rounded-[28px] border border-border px-[43px] pb-[46px] pt-[40px]'
+          className='w-[490px] cursor-none rounded-[28px] border border-border px-[43px] pb-[46px] pt-[40px]'
           autoComplete='off'
         >
-          <div className='mb-[14px] text-xl font-medium leading-10 text-main'>
+          <div className='mb-[14px] cursor-none text-xl font-medium leading-10 text-main'>
             로그인
           </div>
           <div className='flex flex-col items-center'>
@@ -104,7 +104,7 @@ const Login: React.FC = () => {
               type='text'
               placeholder='아이디'
               //   required //반드시 값을 입력해야할때
-              className='h-[60px] w-[410px] rounded-[12px] border border-border px-[20px] py-[12px]'
+              className='h-[60px] w-[410px] cursor-none rounded-[12px] border border-border px-[20px] py-[12px]'
               style={{
                 border: ' 1px solid ',
                 borderColor: errors.id ? 'red' : '#E6E6E6',
@@ -128,7 +128,7 @@ const Login: React.FC = () => {
               type='password'
               placeholder='비밀번호'
               required //반드시 값을 입력해야할때
-              className='mt-[14px] h-[60px] w-[410px] rounded-[12px] border px-[20px] py-[12px]'
+              className='mt-[14px] h-[60px] w-[410px] cursor-none rounded-[12px] border px-[20px] py-[12px]'
               style={{
                 border: ' 1px solid ',
                 borderColor: errors.id ? 'red' : '#E6E6E6',
@@ -141,7 +141,7 @@ const Login: React.FC = () => {
               <button
                 disabled={!isValid || isSubmitting} //양식이 제출되는 중에는 버튼 비활성화
                 type='submit'
-                className={`mt-9 h-[60px] w-[410px] rounded-[12px] border bg-primary text-center text-lg font-bold leading-[30px] text-white ${
+                className={`mt-9 h-[60px] w-[410px] cursor-none rounded-[12px] border bg-primary text-center text-lg font-bold leading-[30px] text-white ${
                   !isValid || isSubmitting
                     ? 'opacity-50'
                     : 'hover:bg-primary-hover'
@@ -162,7 +162,7 @@ const Login: React.FC = () => {
           <div className='mb-[12px] flex flex-col items-center'>
             <Link
               to='/join'
-              className='/* var(--gray-300) mb-[18px] mt-[14px] h-[35px] w-[330px] text-center text-base font-semibold leading-10 text-main'
+              className='/* var(--gray-300) mb-[18px] mt-[14px] h-[35px] w-[330px] cursor-none text-center text-base font-semibold leading-10 text-main'
             >
               회원가입
             </Link>
