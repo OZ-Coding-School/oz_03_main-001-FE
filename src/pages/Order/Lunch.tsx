@@ -1,4 +1,4 @@
-import useOrderStore from '../../store/useOrderStore';
+// import useOrderStore from '../../store/useOrderStore';
 
 // type DishData = {
 //   id: number;
@@ -25,11 +25,11 @@ type Props = {
 };
 
 const Lunch: React.FC<Props> = ({ lunch }) => {
-  const { createBox } = useOrderStore();
+  // const { createBox } = useOrderStore();
 
-  const handleOnClickLunch = () => {
-    createBox;
-  };
+  // const handleOnClickLunch = () => {
+  //   createBox;
+  // };
 
   return (
     <button

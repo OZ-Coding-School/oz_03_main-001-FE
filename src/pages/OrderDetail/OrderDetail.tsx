@@ -10,7 +10,7 @@ import LoadingIcon from '../../components/common/loding/LodingIcon';
 import LoadingMessage from '../../components/common/loding/LodingMessage';
 import { useNavigate } from 'react-router-dom';
 import useOrderStore from '../../store/useOrderStore';
-import payLogo3D from '../../assets/images/공지형_메일배너활용_3D.png';
+import payLogo3D from '../../assets/images/공지형_메일배너활용_3D.png';
 import { toast } from 'react-toastify';
 
 // 폼 데이터 타입 정의
