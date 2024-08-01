@@ -64,11 +64,11 @@ const Join = () => {
       //서버에 포스트 시도
       try {
         const response = await axios.post(
-          'https://api.dosirock.store/v1/users/singup',
+          'https://api.dosirock.store/v1/users/signup',
           {
-            username: nameValue,
+            username: idValue,
+            nickname: nameValue,
             email: emailValue,
-            id: idValue,
             password: passValue,
           }
         );
