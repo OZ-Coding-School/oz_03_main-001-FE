@@ -118,40 +118,39 @@ const OrderDetail = () => {
 
     // 필수 입력 필드와 도시락 구성이 비어 있는지 확인
     if (!isFormEmpty && totalPrice === 0) {
-      toast.warn('도시락 구성과 배송정보를 확인해 주세요!', {
+      toast.error('도시락 구성과 배송정보를 확인해 주세요!', {
         position: 'top-center',
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'dark',
-        style: { width: '380px' },
+        style: { width: '380px', background: '#FFF4B8', color: 'black' },
       });
       return;
     } else if (!isFormEmpty) {
-      toast.warn('배송 정보를 입력해 주세요!', {
+      toast.error('배송 정보를 입력해 주세요!', {
         position: 'top-center',
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'dark',
+        style: { background: '#FFF4B8', color: 'black' },
       });
       return;
     } else if (totalPrice === 0) {
-      toast.warn('도시락 구성을 채워 주세요!', {
+      toast.error('도시락 구성을 채워 주세요!', {
         position: 'top-center',
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'dark',
+        style: { background: '#FFF4B8', color: 'black' },
       });
       return;
     }
@@ -217,6 +216,7 @@ const OrderDetail = () => {
             navigate('/orderhistories');
           } catch (error) {
             console.error('주문서 데이터:', formDataWithDate);
+
             toast.error('서버 문제로 잠시 후 다시 시도해 주세요!', {
               position: 'top-center',
               autoClose: 5000,
@@ -225,8 +225,7 @@ const OrderDetail = () => {
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-              theme: 'dark',
-              style: { width: '330px' },
+              style: { width: '330px', background: '#FFF4B8', color: 'black' },
             });
           }
         } else {
@@ -238,8 +237,7 @@ const OrderDetail = () => {
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            theme: 'light',
-            style: { width: '320px' },
+            style: { width: '350px', background: '#FFF4B8', color: 'black' },
           });
         }
       });
@@ -437,7 +435,7 @@ const OrderDetail = () => {
                     {totalPrice.toLocaleString()}원
                   </p>
                 </div>
-                <div>
+                <div className='relative'>
                   <img
                     src={payLogo3D}
                     alt='payLogo'

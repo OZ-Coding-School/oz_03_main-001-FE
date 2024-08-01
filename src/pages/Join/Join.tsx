@@ -82,54 +82,54 @@ const Join = () => {
             response.data.includes('duplicate_email') &&
             response.data.includes('duplicate_username')
           ) {
-            toast.warn('이미 사용 중인 이메일입니다.', {
+            toast.error('이미 사용 중인 이메일입니다.', {
               position: 'top-center',
-              autoClose: 5000,
+              autoClose: 3000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-              theme: 'dark',
+              style: { background: '#FFF4B8', color: 'black' },
             });
             setEmailError(' ');
 
             // 첫 번째 토스트가 사라진 후 두 번째 토스트를 표시
             setTimeout(() => {
-              toast.warn('이미 사용 중인 아이디입니다.', {
+              toast.error('이미 사용 중인 아이디입니다.', {
                 position: 'top-center',
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                theme: 'dark',
+                style: { background: '#FFF4B8', color: 'black' },
               });
             }, 300);
             setIdError(' ');
           } else if (response.data.includes('duplicate_email')) {
-            toast.warn('이미 사용 중인 이메일입니다.', {
+            toast.error('이미 사용 중인 이메일입니다.', {
               position: 'top-center',
-              autoClose: 5000,
+              autoClose: 3000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-              theme: 'dark',
+              style: { background: '#FFF4B8', color: 'black' },
             });
             setEmailError(' ');
           } else if (response.data.includes('duplicate_id')) {
-            toast.warn('이미 사용 중인 아이디입니다.', {
+            toast.error('이미 사용 중인 아이디입니다.', {
               position: 'top-center',
-              autoClose: 5000,
+              autoClose: 3000,
               hideProgressBar: false,
               closeOnClick: true,
               pauseOnHover: true,
               draggable: true,
               progress: undefined,
-              theme: 'dark',
+              style: { background: '#FFF4B8', color: 'black' },
             });
             setIdError(' ');
           }
@@ -144,8 +144,7 @@ const Join = () => {
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: 'dark',
-          style: { width: '330px' },
+          style: { width: '330px', background: '#FFF4B8', color: 'black' },
         });
       }
     }

@@ -63,15 +63,15 @@ const All = () => {
     e.preventDefault();
 
     if (isCheckEmpty) {
-      toast.warn('알레르기 정보를 입력해 주세요 !', {
+      toast.error('알레르기 정보를 입력해 주세요 !', {
         position: 'top-center',
-        autoClose: 5000,
+        autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'dark',
+        style: { background: '#FFF4B8', color: 'black' },
       });
       setErrorAll('* 알레르기가 없을 시 없음을 체크해주세요');
       return;
@@ -100,8 +100,7 @@ const All = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        theme: 'dark',
-        style: { width: '330px' },
+        style: { width: '330px', background: '#FFF4B8', color: 'black' },
       });
     }
   };
