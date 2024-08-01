@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useJoinStore } from '../../store/useJoinStore';
 import logo from '../../assets/images/dosirockLogo.png';
-import Modal from './Modal/Modal';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Join = () => {
   // 페이지 이동을 위한 네비게이트
@@ -34,10 +34,6 @@ const Join = () => {
     validatePassword,
     validateRePassword,
   } = useJoinStore();
-
-  // 모달 상태 관리
-  const [modalOpen, setModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
 
   // 버튼 색 변화를 위해 값이 비어있는지 확인을 위한 변수
   const isValueEmpty =
@@ -86,18 +82,70 @@ const Join = () => {
             response.data.includes('duplicate_email') &&
             response.data.includes('duplicate_username')
           ) {
-            setEmailError('이미 사용 중인 이메일입니다.');
-            setIdError('이미 사용 중인 아이디입니다.');
+            toast.error('이미 사용 중인 이메일입니다.', {
+              position: 'top-center',
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              style: { background: '#FFF4B8', color: 'black' },
+            });
+            setEmailError(' ');
+
+            // 첫 번째 토스트가 사라진 후 두 번째 토스트를 표시
+            setTimeout(() => {
+              toast.error('이미 사용 중인 아이디입니다.', {
+                position: 'top-center',
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                style: { background: '#FFF4B8', color: 'black' },
+              });
+            }, 300);
+            setIdError(' ');
           } else if (response.data.includes('duplicate_email')) {
-            setEmailError('이미 사용 중인 이메일입니다.');
+            toast.error('이미 사용 중인 이메일입니다.', {
+              position: 'top-center',
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              style: { background: '#FFF4B8', color: 'black' },
+            });
+            setEmailError(' ');
           } else if (response.data.includes('duplicate_id')) {
-            setIdError('이미 사용 중인 아이디입니다.');
+            toast.error('이미 사용 중인 아이디입니다.', {
+              position: 'top-center',
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              style: { background: '#FFF4B8', color: 'black' },
+            });
+            setIdError(' ');
           }
         }
       } catch (error) {
         console.error('에러 메세지 : ', error);
-        setModalOpen(true);
-        setModalMessage('서버 문제로 잠시 후 다시 시도해 주세요.');
+        toast.error('서버 문제로 잠시 후 다시 시도해 주세요!', {
+          position: 'top-center',
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: { width: '330px', background: '#FFF4B8', color: 'black' },
+        });
       }
     }
   };
@@ -205,21 +253,16 @@ const Join = () => {
             )}
           </div>
         </div>
-        <div className='relative'>
-          <button
-            id='submit-button'
-            className={`h-[60px] w-[410px] cursor-none rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
-              isValueEmpty ? 'bg-primary hover:bg-primary-hover' : 'bg-disabled'
-            }`}
-            type='submit'
-            onClick={postJoin}
-          >
-            회원가입 하기
-          </button>
-          <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)}>
-            {modalMessage}
-          </Modal>
-        </div>
+        <button
+          id='submit-button'
+          className={`h-[60px] w-[410px] cursor-none rounded-xl border border-border px-[20px] py-[12px] text-lg font-bold text-white ${
+            isValueEmpty ? 'bg-primary hover:bg-primary-hover' : 'bg-disabled'
+          }`}
+          type='submit'
+          onClick={postJoin}
+        >
+          회원가입 하기
+        </button>
       </form>
     </div>
   );
