@@ -24,9 +24,9 @@ const Login: React.FC = () => {
   const onSubmit: SubmitHandler<LoginRequest> = async (data) => {
     try {
       const response = await axios.post(
-        'https://api.dosirock.store/v1/users/login',
+        'https://api.dosirock.store/v1/users/login/',
         {
-          id: data.id,
+          userid: data.id,
           password: data.password,
         },
         { withCredentials: true }
@@ -37,7 +37,6 @@ const Login: React.FC = () => {
 
       if (response.status === 200) {
         //성공
-        sessionStorage.setItem('id', result.id);
         console.log('로그인 성공, 로그인 유저:', result.id);
         setLoginCheck(null);
         navigate('/'); //홈페이지로 이동
