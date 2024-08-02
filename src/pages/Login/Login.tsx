@@ -26,7 +26,7 @@ const Login: React.FC = () => {
       const response = await axios.post(
         'https://api.dosirock.store/v1/users/login/',
         {
-          userid: data.id,
+          username: data.id,
           password: data.password,
         },
         { withCredentials: true }

@@ -28,6 +28,7 @@ const Join = () => {
     setRePassValue,
     setEmailError,
     setIdError,
+    setPassError,
     validateName,
     validateEmail,
     validateId,
@@ -53,7 +54,6 @@ const Join = () => {
     const isPasswordValid = validatePassword();
     const isRePasswordValid = validateRePassword();
 
-    console.log(idValue, nameValue, emailValue, passValue);
     // 유효성 검사를 모두 통과하면
     if (
       isNameValid &&
@@ -73,57 +73,34 @@ const Join = () => {
             password: passValue,
           }
         );
-        // 서버 응답 처리
-        console.log('서버 응답:', response.data);
+
+        // 세션스토리지에 데이터 저장
+        sessionStorage.setItem('access_token', response.data.access_token);
+        sessionStorage.setItem('refresh_token', response.data.refresh_token);
+        sessionStorage.setItem(
+          'user',
+          JSON.stringify(response.data.user.username)
+        );
 
         // 성공하면 페이지 이동
-        if (response.data.success) {
-          navigate('/all');
-        } else {
-          // 중복된 이메일 또는 아이디에 대한 오류 처리
-          if (
-            response.data.includes('duplicate_email') &&
-            response.data.includes('duplicate_username')
-          ) {
-            toast.error('이미 사용 중인 이메일입니다.', {
-              position: 'top-center',
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              style: { background: '#FFF4B8', color: 'black' },
-            });
-            setEmailError(' ');
+        navigate('/all');
 
-            // 첫 번째 토스트가 사라진 후 두 번째 토스트를 표시
-            setTimeout(() => {
-              toast.error('이미 사용 중인 아이디입니다.', {
-                position: 'top-center',
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                style: { background: '#FFF4B8', color: 'black' },
-              });
-            }, 300);
-            setIdError(' ');
-          } else if (response.data.includes('duplicate_email')) {
-            toast.error('이미 사용 중인 이메일입니다.', {
-              position: 'top-center',
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              style: { background: '#FFF4B8', color: 'black' },
-            });
-            setEmailError(' ');
-          } else if (response.data.includes('duplicate_id')) {
+        // 중복된 이메일 또는 아이디에 대한 오류 처리
+        if (response.data.status === 500 && response.data.status === 501) {
+          toast.error('이미 사용 중인 이메일입니다.', {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: { background: '#FFF4B8', color: 'black' },
+          });
+          setEmailError(' ');
+
+          // 첫 번째 토스트가 사라진 후 두 번째 토스트를 표시
+          setTimeout(() => {
             toast.error('이미 사용 중인 아이디입니다.', {
               position: 'top-center',
               autoClose: 3000,
@@ -134,8 +111,45 @@ const Join = () => {
               progress: undefined,
               style: { background: '#FFF4B8', color: 'black' },
             });
-            setIdError(' ');
-          }
+          }, 300);
+          setIdError(' ');
+        } else if (response.data.status === 500) {
+          toast.error('이미 사용 중인 이메일입니다.', {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: { background: '#FFF4B8', color: 'black' },
+          });
+          setEmailError(' ');
+        } else if (response.data.status === 501) {
+          toast.error('이미 사용 중인 아이디입니다.', {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: { background: '#FFF4B8', color: 'black' },
+          });
+          setIdError(' ');
+        } else if (response.data.status === 400) {
+          toast.error('아이디와 비밀번호가 비슷합니다.', {
+            position: 'top-center',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: { background: '#FFF4B8', color: 'black' },
+          });
+          setIdError(' ');
+          setPassError(' ');
         }
       } catch (error) {
         console.error('에러 메세지 : ', error);

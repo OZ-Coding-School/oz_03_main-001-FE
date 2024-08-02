@@ -15,7 +15,6 @@ import payLogo3D from '../../assets/images/공지형_메일배너활용_3D.png';
 import { toast } from 'react-toastify';
 import AddressSearch from './DaumPostcode/AddressSearch';
 import ReactDOM from 'react-dom';
-import { getCurrentDate } from '../../utils/date';
 import { FormData } from '../../types/orderDetailTypes';
 
 interface IMP {
@@ -92,11 +91,6 @@ const OrderDetail = () => {
     return 'border-border';
   };
 
-  const currentDate = getCurrentDate();
-
-  // 세션 스토리지에서 user 정보 가져오기
-  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-
   // `boxPrice`가 0이 아닌 박스만 필터링
   const filteredBasket = basket.filter((box) => box.boxPrice > 0);
 
@@ -168,13 +162,10 @@ const OrderDetail = () => {
     // 필터링된 데이터를 서버 형식에 맞게 가공
     const formDataWithDate = {
       ...data,
-      user: user,
-      created_at: currentDate,
       total_price: totalPrice,
       items: filteredBasket.map((box) => ({
         quantity: box.quantity,
         lunch: {
-          id: box.id,
           name: box.name,
           description: box.name,
           total_price: box.boxPrice,
@@ -210,13 +201,23 @@ const OrderDetail = () => {
 
       IMP.request_pay(paymentData, async (response: any) => {
         const { success, error_msg } = response;
+        console.log(response);
 
         if (success) {
           try {
             // 결제 성공 시 서버에 주문 데이터 전송
-            await axios.post('https://api.dosirock.store/v1/orders', {
-              ...formDataWithDate,
-            });
+            const response2 = await axios.post(
+              'https://api.dosirock.store/v1/orders/',
+              {
+                ...formDataWithDate,
+              },
+              {
+                headers: {
+                  Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNTg4MDA3LCJpYXQiOjE3MjI1ODc3MDcsImp0aSI6ImVkY2FjMjUwYWM2OTQzNjdhZmFjOTc3MWE5NTZiYTQwIiwidXNlcl9pZCI6NDF9.dFKUA8ZC0yT2btoA1crFudgq1vnpkhhHbK76zK5Yk_I`,
+                },
+              }
+            );
+            console.log(response2);
             navigate('/orderhistories');
           } catch (error) {
             console.error('주문서 데이터:', formDataWithDate);
