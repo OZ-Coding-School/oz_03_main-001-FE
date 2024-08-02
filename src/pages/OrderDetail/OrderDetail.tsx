@@ -1,3 +1,4 @@
+/* eslint-disable react/no-deprecated */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useForm } from 'react-hook-form';
@@ -12,20 +13,11 @@ import { useNavigate } from 'react-router-dom';
 import useOrderStore from '../../store/useOrderStore';
 import payLogo3D from '../../assets/images/공지형_메일배너활용_3D.png';
 import { toast } from 'react-toastify';
+import AddressSearch from './DaumPostcode/AddressSearch';
+import ReactDOM from 'react-dom';
+import { getCurrentDate } from '../../utils/date';
+import { FormData } from '../../types/orderDetailTypes';
 
-// 폼 데이터 타입 정의
-type FormData = {
-  name: string;
-  contact_number: string;
-  address: string;
-  detail_address: string;
-  delivery_memo?: string;
-  is_disposable?: boolean;
-  cooking_memo?: string;
-  total_price: number;
-};
-
-// IMP 객체 타입 선언
 interface IMP {
   init: (accountId: string) => void;
   request_pay: (data: any, callback: (response: any) => void) => void;
@@ -39,6 +31,7 @@ declare global {
 }
 
 const OrderDetail = () => {
+  // 가장 결제 불러오기
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://cdn.iamport.kr/v1/iamport.js';
@@ -99,19 +92,36 @@ const OrderDetail = () => {
     return 'border-border';
   };
 
-  // 현재 날짜를 YYYY.MM.DD 형식으로 계산
-  const getCurrentDate = () => {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1 필요
-    const day = String(now.getDate()).padStart(2, '0');
-
-    return `${year}.${month}.${day}`;
-  };
   const currentDate = getCurrentDate();
+
+  // 세션 스토리지에서 user 정보 가져오기
+  const user = JSON.parse(sessionStorage.getItem('user') || '{}');
+
+  // `boxPrice`가 0이 아닌 박스만 필터링
+  const filteredBasket = basket.filter((box) => box.boxPrice > 0);
 
   // 카테고리 정렬 기준
   const CATEGORY_ORDER = ['bob', 'guk', 'chan', 'side'];
+
+  const handleOpenPostcodePopup = () => {
+    // 새 브라우저 팝업을 여는 코드
+    const popup = window.open('', '', 'width=600,height=600');
+    if (popup) {
+      popup.document.write('<div id="postcode-container"></div>');
+      popup.document.close();
+
+      ReactDOM.render(
+        <AddressSearch
+          onClose={() => popup.close()}
+          onSelectAddress={(data) => {
+            setValue('address', data.address);
+            popup.close();
+          }}
+        />,
+        popup.document.getElementById('postcode-container')
+      );
+    }
+  };
 
   const onSubmit = async (data: FormData) => {
     setSubmitted(true); // 제출 시 상태 변경
@@ -155,12 +165,6 @@ const OrderDetail = () => {
       return;
     }
 
-    // 세션 스토리지에서 user 정보 가져오기
-    const user = JSON.parse(sessionStorage.getItem('user') || '{}');
-
-    // `boxPrice`가 0이 아닌 박스만 필터링
-    const filteredBasket = basket.filter((box) => box.boxPrice > 0);
-
     // 필터링된 데이터를 서버 형식에 맞게 가공
     const formDataWithDate = {
       ...data,
@@ -183,7 +187,7 @@ const OrderDetail = () => {
             )
             .map((pickedDish) => ({
               id: pickedDish.dish.id,
-              quantity: 1,
+              quantity: pickedDish.quantity,
               name: pickedDish.dish.name,
               price: pickedDish.dish.price,
             })),
@@ -287,13 +291,18 @@ const OrderDetail = () => {
 
                     // 정렬된 dish 리스트로 details 생성
                     const details = sortedPickedDishList
-                      .map((pickedDish) => pickedDish.dish.name)
+                      .map((pickedDish) =>
+                        pickedDish.quantity > 1
+                          ? `${pickedDish.dish.name} *${pickedDish.quantity}`
+                          : pickedDish.dish.name
+                      )
                       .join(', ');
 
                     return details ? (
                       <OrderList
                         key={box.id}
-                        name={`${box.name} \u2009 \u2009 X ${box.quantity}`}
+                        name={box.name}
+                        quantity={box.quantity}
                         details={details}
                         price={box.boxPrice}
                       />
@@ -347,7 +356,7 @@ const OrderDetail = () => {
                   <input
                     id='phone'
                     type='text'
-                    placeholder='숫자를 입력해 주세요.'
+                    placeholder='숫자만 입력이 가능합니다.'
                     className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(contact_number)} px-[15px] py-[10px]`}
                     style={{ width: 'calc(100% - 95px)' }}
                     {...register('contact_number')}
@@ -355,21 +364,36 @@ const OrderDetail = () => {
                   />
                 </div>
               </div>
-              <div className='w-[100%]'>
+              <div className='flex w-[100%] items-center'>
                 <div className='relative inline-block w-[95px] text-lg font-normal text-main'>
                   배송지
                   <div className='absolute left-[-10px] top-[-7px] h-1 w-1 text-primary'>
                     *
                   </div>
                 </div>
-                <input
-                  id='address'
-                  type='text'
-                  placeholder='도로명 주소 또는 지번 주소를 입력해주세요.'
-                  className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(address)} px-[15px] py-[10px]`}
+                <div
+                  className='flex items-center justify-between'
                   style={{ width: 'calc(100% - 95px)' }}
-                  {...register('address')}
-                />
+                >
+                  <input
+                    id='address'
+                    type='text'
+                    disabled
+                    placeholder='주소를 검색해주세요.'
+                    className={`h-[47px] cursor-none rounded-xl border ${getBorderClass(address)} px-[15px] py-[10px]`}
+                    style={{ width: 'calc(100% - 110px)' }}
+                    {...register('address')}
+                  />
+                  <div>
+                    <button
+                      type='button'
+                      onClick={handleOpenPostcodePopup}
+                      className='h-[40px] w-[100px] cursor-none rounded-xl bg-primary text-center text-base font-medium text-white hover:bg-primary-hover'
+                    >
+                      주소 검색
+                    </button>
+                  </div>
+                </div>
               </div>
               <div className='w-[100%]'>
                 <div className='relative inline-block w-[95px] text-lg font-normal text-main'>

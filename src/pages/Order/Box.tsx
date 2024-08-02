@@ -114,7 +114,21 @@ const Box: React.FC<Props> = ({ box }) => {
                     )
                   }
                   min={1}
-                  max={3}
+                  max={
+                    pickedDish.dish.category === 'chan'
+                      ? box.pickedDishList
+                          .filter((dish) => dish.dish.category === 'chan')
+                          .reduce((sum, dish) => sum + dish.quantity, 0) === 3
+                        ? pickedDish.quantity
+                        : 3
+                      : pickedDish.dish.category === 'side'
+                        ? box.pickedDishList
+                            .filter((dish) => dish.dish.category === 'side')
+                            .reduce((sum, dish) => sum + dish.quantity, 0) === 3
+                          ? pickedDish.quantity
+                          : 3
+                        : 3
+                  }
                   className='border-bg-gray20 rounded text-center focus:border'
                 />
               </>
