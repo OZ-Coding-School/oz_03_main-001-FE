@@ -97,7 +97,6 @@ const Order = () => {
     setCurrentLunchPost,
     setCurrentPost,
     page,
-    currentLunchPost,
     currentCategory,
     searchContents,
   ]);
