@@ -169,7 +169,7 @@ const OrderDetail = () => {
           name: box.name,
           description: box.name,
           total_price: box.boxPrice,
-          lunch_menus: box.pickedDishList
+          menus: box.pickedDishList
             .slice()
             .sort(
               (a, b) =>
@@ -212,9 +212,7 @@ const OrderDetail = () => {
                 ...formDataWithDate,
               },
               {
-                headers: {
-                  Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzIyNTg4MDA3LCJpYXQiOjE3MjI1ODc3MDcsImp0aSI6ImVkY2FjMjUwYWM2OTQzNjdhZmFjOTc3MWE5NTZiYTQwIiwidXNlcl9pZCI6NDF9.dFKUA8ZC0yT2btoA1crFudgq1vnpkhhHbK76zK5Yk_I`,
-                },
+                headers: { withCredentials: true },
               }
             );
             console.log(response2);
