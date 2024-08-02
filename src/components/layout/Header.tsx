@@ -4,8 +4,10 @@ import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import Logo from '../../assets/images/dosirockLogo.png';
 import iconOrderHistory from '../../assets/images/orderHistory.png';
 import iconLogout from '../../assets/images/logout.png';
+import { checkCookie } from '../../utils/checkCookie';
 
 const Header = () => {
+  const accessToken = checkCookie('access_token');
   const location = useLocation();
   const orderPaths: string[] = ['/order', '/orderDetail', '/orderHistory'];
   const CommunityPaths: string[] = ['/community'];
@@ -58,26 +60,28 @@ const Header = () => {
               커뮤니티
             </Link>
           </div>
-          {/* 비로그인 시 */}
-          {/* <button className='h-[38px] w-[85px] rounded-full bg-border font-medium hover:bg-gray20'>
-            <Link to='/login'>로그인</Link>
-          </button> */}
-
-          {/* 로그인 시 */}
-          <div className='relative' ref={dropdownRef}>
-            <button
-              className='flex h-[38px] items-center rounded-full bg-white px-[20px] font-medium hover:bg-background'
-              onClick={() => {
-                setIsDropdownOpen(!isDropdownOpen);
-              }}
-            >
-              <span className='mr-[10px]'>
-                <span className='userName font-semibold'>홍길동</span> 님
-              </span>
-              {isDropdownOpen ? <IoChevronUp /> : <IoChevronDown />}
+          {accessToken ? (
+            // 로그인 시
+            <div className='relative' ref={dropdownRef}>
+              <button
+                className='flex h-[38px] items-center rounded-full bg-white px-[20px] font-medium hover:bg-background'
+                onClick={() => {
+                  setIsDropdownOpen(!isDropdownOpen);
+                }}
+              >
+                <span className='mr-[10px]'>
+                  <span className='userName font-semibold'>내정보</span>
+                </span>
+                {isDropdownOpen ? <IoChevronUp /> : <IoChevronDown />}
+              </button>
+              {isDropdownOpen && <UserMenu />}
+            </div>
+          ) : (
+            // 비로그인 시
+            <button className='h-[38px] w-[85px] rounded-full bg-border font-medium hover:bg-gray20'>
+              <Link to='/login'>로그인</Link>
             </button>
-            {isDropdownOpen && <UserMenu />}
-          </div>
+          )}
         </div>
       </header>
       <div></div>
