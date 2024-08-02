@@ -19,6 +19,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Lunch from './Lunch';
+import { useDebounce } from '../../hooks/useDebounce';
 
 enum categoryEnum {
   recommend = 'recommend',
@@ -35,6 +36,8 @@ const Order = () => {
   const [page, setPage] = useState<number>(1);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
   const [searchContents, setSearchContents] = useState<string>('');
+
+  const debounceSearchContents = useDebounce(searchContents, 300);
 
   const handleMenudropChange = () => {
     setIsDroped(!isDroped);
@@ -69,7 +72,7 @@ const Order = () => {
         const params = {
           page: page,
           category: currentCategory,
-          search: searchContents,
+          search: debounceSearchContents,
         };
 
         let response;
@@ -98,7 +101,7 @@ const Order = () => {
     setCurrentPost,
     page,
     currentCategory,
-    searchContents,
+    debounceSearchContents,
   ]);
 
   useEffect(() => {
