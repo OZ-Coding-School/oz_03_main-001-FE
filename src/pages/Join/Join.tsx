@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from 'react';
 import { useJoinStore } from '../../store/useJoinStore';
 import logo from '../../assets/images/dosirockLogo.png';
 import axios from 'axios';
@@ -8,6 +9,12 @@ import { toast } from 'react-toastify';
 const Join = () => {
   // 페이지 이동을 위한 네비게이트
   const navigate = useNavigate();
+
+  // 페이지가 마운트될 때 폼 상태를 초기화
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 상태를 초기화
+    resetState();
+  }, []);
 
   // useJoinStore를 통해 필요한 상태와 상태 업데이트 함수들을 가져오기
   const {
@@ -34,6 +41,7 @@ const Join = () => {
     validateId,
     validatePassword,
     validateRePassword,
+    resetState,
   } = useJoinStore();
 
   // 버튼 색 변화를 위해 값이 비어있는지 확인을 위한 변수
@@ -73,14 +81,10 @@ const Join = () => {
             password: passValue,
           }
         );
-
-        // 세션스토리지에 데이터 저장
-        sessionStorage.setItem('access_token', response.data.access_token);
-        sessionStorage.setItem('refresh_token', response.data.refresh_token);
-        sessionStorage.setItem(
-          'user',
-          JSON.stringify(response.data.user.username)
-        );
+        console.log(response);
+        // 액세스 토큰을 세션에 저장하는 함수
+        const accessToken = response.data.access_token;
+        sessionStorage.setItem('accessToken', accessToken);
 
         // 성공하면 페이지 이동
         navigate('/all');
@@ -185,6 +189,7 @@ const Join = () => {
               className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${nameError ? 'border-primary' : 'border-border'}`}
               type='text'
               placeholder='이름'
+              defaultValue=''
               value={nameValue}
               onChange={(e) => {
                 setNameValue(e.target.value);
@@ -203,6 +208,7 @@ const Join = () => {
               className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${emailError ? 'border-primary' : 'border-border'}`}
               type='email'
               placeholder='이메일'
+              defaultValue=''
               value={emailValue}
               onChange={(e) => {
                 setEmailValue(e.target.value);
@@ -221,6 +227,7 @@ const Join = () => {
               className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${idError ? 'border-primary' : 'border-border'}`}
               type='text'
               placeholder='아이디'
+              defaultValue=''
               value={idValue}
               onChange={(e) => {
                 setIdValue(e.target.value);
@@ -239,6 +246,7 @@ const Join = () => {
               className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${passError ? 'border-primary' : 'border-border'}`}
               type='password'
               placeholder='비밀번호'
+              defaultValue=''
               value={passValue}
               onChange={(e) => {
                 setPassValue(e.target.value);
@@ -257,6 +265,7 @@ const Join = () => {
               className={`h-[60px] w-[410px] cursor-none rounded-xl border px-[20px] py-[12px] ${rePassError ? 'border-primary' : 'border-border'}`}
               type='password'
               placeholder='비밀번호 확인'
+              defaultValue=''
               value={rePassValue}
               onChange={(e) => {
                 setRePassValue(e.target.value);

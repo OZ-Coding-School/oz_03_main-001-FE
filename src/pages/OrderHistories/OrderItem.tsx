@@ -6,7 +6,7 @@ import CancelOrderModal from './Modal/CancelOrderModal';
 type Props = {
   id: number;
   status: OrderStatusEnum;
-  amount: number;
+  amount: string[];
   date: string;
   totalPrice: number;
 };
@@ -53,6 +53,16 @@ const OrderItem: React.FC<Props> = ({
     }
   };
 
+  // amount 배열 처리
+  const formatAmountText = () => {
+    if (amount.length === 0) {
+      return '정보 없음'; // 배열이 비어있는 경우
+    }
+
+    const [first, ...rest] = amount;
+    return rest.length > 0 ? `${first} 외 ${rest.length}개` : first;
+  };
+
   const listItemClass = `mb-[12px] flex h-[70px] items-center rounded-lg border border-border text-center text-[17px] ${status === OrderStatusEnum.CANCEL ? 'bg-background' : ''}`;
   const buttonClass = `w-[100px] rounded-[5px] bg-caption leading-[35px] text-white hover:bg-dark ${status === OrderStatusEnum.CANCEL ? '!bg-gray30' : ''}`;
   const textClass = ` w-1/6 ${status === OrderStatusEnum.CANCEL ? 'text-gray30' : ''}`;
@@ -60,9 +70,7 @@ const OrderItem: React.FC<Props> = ({
   return (
     <li className={listItemClass}>
       <span className={textClass}>{getStatusText()}</span>
-      <span className={textClass}>
-        {amount === 1 ? '도시락 1' : `도시락 1 외 ${amount - 1}개`}
-      </span>
+      <span className={textClass}>{formatAmountText()}</span>
       <span className={textClass}>{formatDate()}</span>
       <span className={textClass}>{formatAmount()}원</span>
       <span className={`hover:text-primary ${textClass}`}>

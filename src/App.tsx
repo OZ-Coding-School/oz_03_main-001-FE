@@ -19,6 +19,7 @@ import CustomCursor from './components/layout/CustomCursor';
 import LoginRedirect from './pages/Login/LoginRedirect';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+// import PrivateRoute from './components/common/PrivateRoute';
 
 const App = () => {
   const location = useLocation();
@@ -34,12 +35,32 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/loginredirect' element={<LoginRedirect />} />
         <Route path='/join' element={<Join />} />
-        <Route path='/all' element={<All />} />
-        <Route path='/welcome' element={<Welcome />} />
+        <Route
+          path='/all'
+          // element={<PrivateRoute element={All} />} />
+          element={<All />}
+        />
+        <Route
+          path='/welcome'
+          // element={<PrivateRoute element={Welcome} />} />
+          element={<Welcome />}
+        />
         <Route path='/order' element={<Order />} />
-        <Route path='/orderdetail' element={<OrderDetail />} />
-        <Route path='/orderhistories' element={<OrderHistories />} />
-        <Route path='/orderhistories/:id' element={<OrderHistory />} />
+        <Route
+          path='/orderdetail'
+          // element={<PrivateRoute element={OrderDetail} />}
+          element={<OrderDetail />}
+        />
+        <Route
+          path='/orderhistories'
+          // element={<PrivateRoute element={OrderHistories} />}
+          element={<OrderHistories />}
+        />
+        <Route
+          path='/orderhistories/:id'
+          // element={<PrivateRoute element={OrderHistory} />}
+          element={<OrderHistory />}
+        />
         <Route path='/Community' element={<Community />} />
       </Routes>
     </>

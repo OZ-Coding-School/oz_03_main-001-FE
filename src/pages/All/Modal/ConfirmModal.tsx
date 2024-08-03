@@ -30,17 +30,19 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   };
 
   const handleConfirm = async () => {
+    const accessToken = sessionStorage.getItem('accessToken');
     try {
-      // 세션 스토리지에서 데이터 가져오기
-      const accessToken = sessionStorage.getItem('access_token');
-      const username = sessionStorage.getItem('user');
-
       // 서버에 DELETE 요청 보내기
-      await axios.delete(`https://api.dosirock.store/v1/users/${username}`, {
-        headers: {
-          Authorization: accessToken,
-        },
-      });
+      await axios.delete(
+        `https://api.dosirock.store/v1/users`,
+        // { credential: 'include' }
+        // { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       // 사용자 데이터 삭제 성공 후 페이지 이동
       onConfirm();

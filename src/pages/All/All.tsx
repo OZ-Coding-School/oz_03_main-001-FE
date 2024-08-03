@@ -50,9 +50,9 @@ const All = () => {
   };
 
   const handleConfirm = () => {
-    sessionStorage.removeItem('access_token');
-    sessionStorage.removeItem('refresh_token');
-    sessionStorage.removeItem('user');
+    sessionStorage.removeItem('accessToken');
+    // sessionStorage.removeItem('refresh_token');
+    // sessionStorage.removeItem('user');
   };
 
   return (
