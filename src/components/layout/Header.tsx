@@ -32,28 +32,6 @@ const Header = () => {
     };
   }, []);
 
-  // 쿠키에서 특정 이름의 값을 가져오는 함수
-  function getCookie(name: string): string | null {
-    const nameEQ = `${name}=`;
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) === ' ') c = c.substring(1);
-      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null; // 쿠키가 없으면 null 반환
-  }
-
-  // 엑세스 토큰 가져오기
-  const accessTokenKakao = getCookie('access_token');
-
-  // 엑세스 토큰이 null이 아닐 때만 sessionStorage에 저장
-  if (accessTokenKakao) {
-    sessionStorage.setItem('accessToken', accessTokenKakao);
-  } else {
-    console.error('Access token not found in cookies.');
-  }
-
   const accessToken = sessionStorage.getItem('accessToken');
 
   return (
