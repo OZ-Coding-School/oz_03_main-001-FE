@@ -28,9 +28,7 @@ type Box = {
 };
 
 type Store = {
-  isAllergyChecked: boolean;
   currentCategory: string;
-  toggleAllergy: () => void;
   setCurrentCategory: (current: string) => void;
   basket: Box[];
   createBox: (boxId: number, name?: string, price?: number) => void;
@@ -51,10 +49,7 @@ type Store = {
 };
 
 const useOrderStore = create<Store>()((set) => ({
-  isAllergyChecked: true,
   currentCategory: 'recommend',
-  toggleAllergy: () =>
-    set((state) => ({ isAllergyChecked: !state.isAllergyChecked })),
   setCurrentCategory: (current) => set({ currentCategory: current }),
   basket: [
     { id: 1, name: '도시락', pickedDishList: [], quantity: 1, boxPrice: 0 },
