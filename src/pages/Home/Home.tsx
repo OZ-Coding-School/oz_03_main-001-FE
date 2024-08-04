@@ -6,6 +6,7 @@ import truck from '../../assets/images/truck.png';
 import munuh from '../../assets/images/munuh-profile.png';
 import tigim from '../../assets/images/tigim-profile.png';
 import kori from '../../assets/images/kori-profile.png';
+import gif from '../../assets/images/main-gif.gif';
 
 import './customClass.css';
 import Carousel from './Carousel';
@@ -124,7 +125,9 @@ const Home = () => {
           </motion.div>
           <motion.div {...motionSettings}>
             <div className='flex items-center'>
-              <div className='preView border-black h-[485px] w-[864px] rounded-[19px] border-4 bg-white'></div>
+              <div className='preView border-black flex w-[864px] overflow-hidden rounded-[19px] border-4 bg-white'>
+                <img src={gif} alt='주문 과정' />
+              </div>
               <p className='ml-[60px] text-[20px] leading-10 text-white'>
                 도시락도 락이다는 당신만을 위한{' '}
                 <span className='text-secondary'>맞춤 도시락 서비스</span>

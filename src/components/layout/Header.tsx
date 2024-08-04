@@ -72,7 +72,7 @@ const Header = () => {
                 }}
               >
                 <span className='mr-[10px]'>
-                  <span className='userName font-semibold'>내정보</span>
+                  <span className='userName font-semibold'>내 정보</span>
                 </span>
                 {isDropdownOpen ? <IoChevronUp /> : <IoChevronDown />}
               </button>
