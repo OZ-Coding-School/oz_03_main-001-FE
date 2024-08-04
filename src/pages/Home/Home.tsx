@@ -13,7 +13,6 @@ import Footer from '../../components/layout/Footer';
 import Bg01 from './bgAnimation/Bg01';
 import Bg02 from './bgAnimation/Bg02';
 import Bg03 from './bgAnimation/Bg03';
-import { useEffect } from 'react';
 
 const Home = () => {
   const motionSettings = {
@@ -51,35 +50,6 @@ const Home = () => {
     viewport: { once: true, amount: 0.8 },
     variants: cardVariants,
   };
-
-  // 쿠키에서 특정 이름의 값을 가져오는 함수
-  const getCookie = (name: string): string | null => {
-    const nameEQ = `${name}=`;
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) === ' ') c = c.substring(1);
-      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null; // 쿠키가 없으면 null 반환
-  };
-
-  useEffect(() => {
-    // 엑세스 토큰 가져오기
-    const accessTokenKakao = getCookie('access_token');
-
-    // 세션 스토리지에서 기존 토큰 가져오기
-    const existingToken = sessionStorage.getItem('accessToken');
-
-    // 엑세스 토큰이 null이 아니고 세션 스토리지에 토큰이 없는 경우에만 저장
-    if (accessTokenKakao && !existingToken) {
-      sessionStorage.setItem('accessToken', accessTokenKakao);
-    } else if (!accessTokenKakao) {
-      console.error('쿠키가 없어요');
-    } else {
-      console.log('이미 쿠키가 있어요.');
-    }
-  }, []); // 빈 배열: 컴포넌트 마운트 시 한 번만 실행
 
   return (
     <section>
