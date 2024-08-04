@@ -32,7 +32,7 @@ const Header = () => {
     };
   }, []);
 
-  const token1 = sessionStorage.getItem('accessToken');
+  const accessToken = sessionStorage.getItem('accessToken');
 
   return (
     <>
@@ -63,7 +63,7 @@ const Header = () => {
               커뮤니티
             </Link>
           </div>
-          {token1 ? (
+          {accessToken ? (
             <div className='relative' ref={dropdownRef}>
               <button
                 className='flex h-[38px] items-center rounded-full bg-white px-[20px] font-medium hover:bg-background'

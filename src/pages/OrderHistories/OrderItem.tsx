@@ -9,6 +9,7 @@ type Props = {
   amount: string[];
   date: string;
   totalPrice: number;
+  onOrderUpdated: (id: number, newStatus: OrderStatusEnum) => void; // 주문 업데이트 콜백
 };
 
 enum OrderStatusEnum {
@@ -22,14 +23,14 @@ const OrderItem: React.FC<Props> = ({
   amount,
   date,
   totalPrice,
+  onOrderUpdated,
 }) => {
   // 주문취소 모달
   const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
 
   // 금액 포맷 함수 (콤마 표시)
   const formatAmount = () => {
-    const formattedAmount = totalPrice.toLocaleString();
-    return formattedAmount;
+    return totalPrice.toLocaleString();
   };
 
   // 날짜 포맷 함수
@@ -49,8 +50,13 @@ const OrderItem: React.FC<Props> = ({
 
   const handleCancleOrder = () => {
     if (status === OrderStatusEnum.COMPLETE) {
-      setIsCancelModalOpen(!isCancelModalOpen);
+      // setIsCancelModalOpen(!isCancelModalOpen);
+      setIsCancelModalOpen(true);
     }
+  };
+
+  const handleOrderCancelled = (id: number) => {
+    onOrderUpdated(id, OrderStatusEnum.CANCEL); // 상태 업데이트
   };
 
   // amount 배열 처리
@@ -77,12 +83,20 @@ const OrderItem: React.FC<Props> = ({
         <Link to={`/orderhistories/${id}`}>주문상세</Link>
       </span>
       <div className={textClass}>
-        <button className={buttonClass} onClick={() => handleCancleOrder()}>
+        <button
+          className={buttonClass}
+          onClick={handleCancleOrder}
+          disabled={status === OrderStatusEnum.CANCEL}
+        >
           주문취소
         </button>
       </div>
       {isCancelModalOpen && (
-        <CancelOrderModal setIsCancelModalOpen={setIsCancelModalOpen} id={id} />
+        <CancelOrderModal
+          setIsCancelModalOpen={setIsCancelModalOpen}
+          id={id}
+          onOrderCancelled={handleOrderCancelled}
+        />
       )}
     </li>
   );
