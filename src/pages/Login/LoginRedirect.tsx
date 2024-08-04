@@ -17,7 +17,7 @@ const LoginRedirect = () => {
         try {
           await axios.post(
             //post요청을 보낼 인증코드 서버  (엑세스토큰을 발급받을 코드 보내기)
-            'https://127.0.0.1:8000/api.dosirock.store/v1/users/kakao/callback',
+            'https://api.dosirock.store/v1/users/kakao/callback/',
             { code }
           );
           navigate('/'); // 로그인 성공 후 홈으로 리디렉션
