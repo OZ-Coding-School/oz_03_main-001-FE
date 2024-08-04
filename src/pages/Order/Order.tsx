@@ -78,7 +78,7 @@ const Order = () => {
           page: page,
           category: currentCategory,
           search: debounceSearchContents,
-          allergy: isAllergyFiltered,
+          allergy: accessToken ? isAllergyFiltered : false,
         };
 
         let response;
@@ -89,7 +89,12 @@ const Order = () => {
             ))
           : (response = await axios.get(
               'https://api.dosirock.store/v1/menus/',
-              { params, headers: { Authorization: `Bearer ${accessToken}` } }
+              {
+                params,
+                headers: accessToken
+                  ? { Authorization: `Bearer ${accessToken}` }
+                  : {},
+              }
             ));
 
         currentCategory === categoryEnum.recommend
@@ -193,7 +198,7 @@ const Order = () => {
                     : '기타'}
           </p>
           <div
-            className={`mx-8 flex h-5/6 w-56 flex-row items-center justify-between rounded-xl bg-white px-2 ${currentCategory === categoryEnum.recommend ? 'hidden' : ''}`}
+            className={`ml-8 flex h-5/6 w-56 flex-row items-center justify-between rounded-xl bg-white px-2 ${currentCategory === categoryEnum.recommend ? 'hidden' : ''}`}
           >
             <input
               type='text'
@@ -204,7 +209,9 @@ const Order = () => {
             ></input>
             <FaMagnifyingGlass />
           </div>
-          <label className='ml-auto flex cursor-none select-none items-center'>
+          <label
+            className={`ml-auto flex cursor-none select-none items-center ${accessToken ? '' : 'hidden'}`}
+          >
             <div className='relative mx-2'>
               <input
                 type='checkbox'
