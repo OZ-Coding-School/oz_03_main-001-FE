@@ -18,6 +18,7 @@ const Logout: React.FC<LogoutProps> = ({ provider }) => {
         { withCredentials: true } //쿠키보내기
       );
       navigate('/'); //로그아웃 후 홈으로 리디렉션
+      sessionStorage.removeItem('accessToken');
     } catch (error) {
       console.error('로그아웃 에러:', error);
     }
