@@ -27,6 +27,7 @@ type JoinState = {
   validateId: () => boolean;
   validatePassword: () => boolean;
   validateRePassword: () => boolean;
+  resetState: () => void;
 };
 
 export const useJoinStore = create<JoinState>((set, get) => ({
@@ -116,4 +117,18 @@ export const useJoinStore = create<JoinState>((set, get) => ({
     setRePassError('');
     return true;
   },
+
+  resetState: () =>
+    set({
+      nameValue: '',
+      emailValue: '',
+      idValue: '',
+      passValue: '',
+      rePassValue: '',
+      nameError: '',
+      emailError: '',
+      idError: '',
+      passError: '',
+      rePassError: '',
+    }),
 }));

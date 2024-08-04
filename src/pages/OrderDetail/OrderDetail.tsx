@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import AddressSearch from './DaumPostcode/AddressSearch';
 import ReactDOM from 'react-dom';
 import { FormData } from '../../types/orderDetailTypes';
+// import useVerify from '../../hooks/useVerify';
 
 interface IMP {
   init: (accountId: string) => void;
@@ -204,6 +205,7 @@ const OrderDetail = () => {
         console.log(response);
 
         if (success) {
+          const accessToken = sessionStorage.getItem('accessToken');
           try {
             // 결제 성공 시 서버에 주문 데이터 전송
             const response2 = await axios.post(
@@ -212,8 +214,11 @@ const OrderDetail = () => {
                 ...formDataWithDate,
               },
               {
-                headers: { withCredentials: true },
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
               }
+              // { withCredentials: true }
             );
             console.log(response2);
             navigate('/orderhistories');

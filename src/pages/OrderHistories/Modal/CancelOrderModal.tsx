@@ -6,11 +6,13 @@ import axios from 'axios';
 type CancelOrderModalProps = {
   setIsCancelModalOpen: (value: boolean) => void;
   id: number;
+  onOrderCancelled: (id: number) => void; // 추가된 콜백
 };
 
 const CancelOrderModal: React.FC<CancelOrderModalProps> = ({
   setIsCancelModalOpen,
   id,
+  onOrderCancelled, // 콜백 사용
 }) => {
   // 주문취소 창 이외의 영역을 누르면 주문취소 모달이 사라지게
   const modalRef = useRef<HTMLDivElement | null>(null);
@@ -32,19 +34,20 @@ const CancelOrderModal: React.FC<CancelOrderModalProps> = ({
 
   // 주문취소
   const cancelOrder = async (id: number) => {
+    const accessToken = sessionStorage.getItem('accessToken');
     try {
       const response = await axios.put(
         `https://api.dosirock.store/v1/orders/${id}`,
-        {
-          status: -1,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
+        { status: -1 },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+        // {
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        // }
       );
       console.log('주문취소에 성공했습니다. : ', response);
+      onOrderCancelled(id); // 주문 취소 성공 시 부모에게 알림
     } catch (error) {
       console.log('주문취소에 실패했습니다. : ', error);
     }

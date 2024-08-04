@@ -47,9 +47,15 @@ const OrderHistories = () => {
 
   useEffect(() => {
     const getOrderHistories = async () => {
+      const accessToken = sessionStorage.getItem('accessToken');
       try {
         const response = await axios.get(
-          'https://api.dosirock.store/v1/orders/'
+          'https://api.dosirock.store/v1/orders/',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         console.log('응답 데이터 :', response.data);
 
@@ -248,6 +254,20 @@ const OrderHistories = () => {
 };
 
 const HasOrder = ({ orderLists }: { orderLists: Order[] }) => {
+  const [orders, setOrders] = useState<Order[]>(orderLists);
+
+  useEffect(() => {
+    setOrders(orderLists); // 초기 상태 설정
+  }, [orderLists]);
+
+  const handleOrderUpdated = (id: number, newStatus: number) => {
+    setOrders((prevLists) =>
+      prevLists.map((order) =>
+        order.id === id ? { ...order, status: newStatus } : order
+      )
+    );
+  };
+
   return (
     <div>
       <ul className='flex h-[60px] items-center pr-[10px] text-center'>
@@ -260,16 +280,22 @@ const HasOrder = ({ orderLists }: { orderLists: Order[] }) => {
       </ul>
       <div className='customScroll h-custom-calc1 overflow-y-scroll'>
         <ul>
-          {orderLists.map((item) => (
-            <OrderItem
-              key={item.id}
-              id={item.id}
-              status={item.status}
-              amount={item.items.length}
-              totalPrice={item.total_price}
-              date={item.created_at}
-            />
-          ))}
+          {orders.map((item) => {
+            // item.items 배열의 각 요소에서 lunch.name을 추출하여 문자열 배열로 생성
+            const amount = item.items.map((subItem) => subItem.lunch.name);
+
+            return (
+              <OrderItem
+                key={item.id}
+                id={item.id}
+                status={item.status}
+                amount={amount}
+                totalPrice={item.total_price}
+                date={item.created_at}
+                onOrderUpdated={handleOrderUpdated} // 주문 업데이트 콜백
+              />
+            );
+          })}
         </ul>
       </div>
     </div>

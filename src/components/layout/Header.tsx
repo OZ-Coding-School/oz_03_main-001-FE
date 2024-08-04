@@ -1,13 +1,14 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import { useState, useRef, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import Logo from '../../assets/images/dosirockLogo.png';
 import iconOrderHistory from '../../assets/images/orderHistory.png';
 import iconLogout from '../../assets/images/logout.png';
-import { checkCookie } from '../../utils/checkCookie';
+import axios from 'axios';
 
 const Header = () => {
-  const accessToken = checkCookie('access_token');
   const location = useLocation();
   const orderPaths: string[] = ['/order', '/orderDetail', '/orderHistory'];
   const CommunityPaths: string[] = ['/community'];
@@ -30,6 +31,8 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const accessToken = sessionStorage.getItem('accessToken');
 
   return (
     <>
@@ -61,7 +64,6 @@ const Header = () => {
             </Link>
           </div>
           {accessToken ? (
-            // 로그인 시
             <div className='relative' ref={dropdownRef}>
               <button
                 className='flex h-[38px] items-center rounded-full bg-white px-[20px] font-medium hover:bg-background'
@@ -77,19 +79,43 @@ const Header = () => {
               {isDropdownOpen && <UserMenu />}
             </div>
           ) : (
-            // 비로그인 시
             <button className='h-[38px] w-[85px] rounded-full bg-border font-medium hover:bg-gray20'>
               <Link to='/login'>로그인</Link>
             </button>
           )}
         </div>
       </header>
-      <div></div>
     </>
   );
 };
 
 const UserMenu = () => {
+  // 페이지 이동을 위한 네비게이트
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    sessionStorage.removeItem('accessToken');
+    // sessionStorage.removeItem('refresh_token');
+    // sessionStorage.removeItem('user');
+    navigate('/');
+    try {
+      const accessToken = sessionStorage.getItem('accessToken');
+      await axios.post(
+        'https://api.dosirock.store/v1/users/logout',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        } // URL 확인
+        // {}, // 빈 요청 본문
+        // {
+        //   withCredentials: true, // 쿠키를 포함한 요청
+        // }
+      );
+    } catch (error) {
+      console.error('로그아웃 오류:', error);
+    }
+  };
+
   return (
     <ul className='absolute left-1/2 top-[50px] w-[160px] -translate-x-1/2 overflow-hidden rounded-lg border border-background bg-white shadow-box'>
       <li className='relative hover:bg-background'>
@@ -113,9 +139,12 @@ const UserMenu = () => {
           aria-hidden
           className='absolute left-[20px] top-1/2 -translate-y-1/2'
         />
-        <Link to='' className='w-[160px] pl-[50px] text-[15px] leading-[50px]'>
+        <div
+          onClick={handleLogout}
+          className='w-[160px] pl-[50px] text-[15px] leading-[50px]'
+        >
           로그아웃
-        </Link>
+        </div>
       </li>
     </ul>
   );

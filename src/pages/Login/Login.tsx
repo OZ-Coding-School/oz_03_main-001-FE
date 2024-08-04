@@ -35,10 +35,15 @@ const Login: React.FC = () => {
 
       const result = response.data;
 
+      // 액세스 토큰을 세션에 저장하는 함수
+      const accessToken = response.data.access_token;
+      sessionStorage.setItem('accessToken', accessToken);
+
       if (response.status === 200) {
         //성공
-        console.log('로그인 성공, 로그인 유저:', result.id);
+        console.log('로그인 성공, 로그인 유저:', result);
         setLoginCheck(null);
+        sessionStorage.setItem('loginProvider', 'default');
         navigate('/'); //홈페이지로 이동
       } else if (response.status === 400) {
         //잘못된 값 입력됐을때 에러

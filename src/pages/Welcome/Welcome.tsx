@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import dosirockLogo from '../../assets/images/dosirockLogo.png';
 import welcome from '../../assets/images/welcome.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ReactCanvasConfetti from './confetti';
 
 const Welcome: React.FC = () => {
+  const navigate = useNavigate();
+
   const [fire, setFire] = useState(false);
 
   useEffect(() => {
@@ -16,6 +18,19 @@ const Welcome: React.FC = () => {
     // 클린업 함수로 타이머를 해제합니다.
     return () => clearTimeout(timer);
   }, []);
+
+  const handleGoLogin = () => {
+    sessionStorage.removeItem('accessToken');
+    // sessionStorage.removeItem('refresh_token');
+    // sessionStorage.removeItem('user');
+    navigate('/login');
+  };
+  const handleGoHome = () => {
+    sessionStorage.removeItem('accessToken');
+    // sessionStorage.removeItem('refresh_token');
+    // sessionStorage.removeItem('user');
+    navigate('/');
+  };
 
   return (
     <div className='flex h-screen items-center justify-center'>
@@ -44,18 +59,18 @@ const Welcome: React.FC = () => {
           </div>
         </div>
         <div className='flex flex-row'>
-          <Link
-            to='/login'
-            className='mr-[27px] flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-primary font-bold text-white'
+          <button
+            onClick={handleGoLogin}
+            className='mr-[27px] flex h-[70px] w-[291px] cursor-none items-center justify-center rounded-[12px] border bg-primary font-bold text-white'
           >
             로그인 하기
-          </Link>
-          <Link
-            to='/'
-            className='flex h-[70px] w-[291px] items-center justify-center rounded-[12px] border bg-[#3C3A37] font-bold text-white'
+          </button>
+          <button
+            onClick={handleGoHome}
+            className='flex h-[70px] w-[291px] cursor-none items-center justify-center rounded-[12px] border bg-[#3C3A37] font-bold text-white'
           >
             메인으로
-          </Link>
+          </button>
         </div>
       </div>
     </div>

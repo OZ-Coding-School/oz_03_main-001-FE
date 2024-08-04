@@ -20,7 +20,7 @@ type Lunch = {
   name: string;
   description: string;
   total_price: number;
-  lunch_menus: LunchMenu[];
+  lunch_menu: LunchMenu[];
 };
 
 type Item = {
@@ -33,13 +33,23 @@ type OrderInfo = {
   name: string;
   contact_number: string;
   address: string;
-  detailed_address: string;
+  detail_address: string;
   delivery_memo?: string;
   is_disposable?: boolean;
   cooking_memo?: string;
   total_price: number;
   created_at: string;
   items: Item[];
+};
+
+// 날짜 포맷 함수 정의
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 };
 
 const OrderHistory = () => {
@@ -53,12 +63,19 @@ const OrderHistory = () => {
 
   useEffect(() => {
     const getOrderData = async () => {
+      const accessToken = sessionStorage.getItem('accessToken');
       try {
         const orderResponse = await axios.get(
-          `https://api.dosirock.store/v1/orders/${id}`
+          `https://api.dosirock.store/v1/orders/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
         const orderData = orderResponse.data;
         console.log('응답 데이터:', orderData);
+
         if (orderData && typeof orderData === 'object') {
           setOrderInfo(orderData);
           setLoading(false);
@@ -105,7 +122,7 @@ const OrderHistory = () => {
                   key={item.lunch.id}
                   name={item.lunch.name}
                   quantity={item.quantity}
-                  details={item.lunch.lunch_menus
+                  details={item.lunch.lunch_menu
                     .map((menu) => menu.name)
                     .join(', ')}
                   price={item.lunch.total_price}
@@ -154,7 +171,7 @@ const OrderHistory = () => {
                       상세 주소
                     </div>
                     <p className='cursor-none font-light'>
-                      {orderInfo?.detailed_address}
+                      {orderInfo?.detail_address}
                     </p>
                   </div>
                   <div className='flex h-[100px] w-[100%] flex-wrap pt-3'>
@@ -192,14 +209,16 @@ const OrderHistory = () => {
                     <div className='flex flex-col items-start justify-center'>
                       <p className='text-lg font-normal text-main'>주문 날짜</p>
                       <p className='text-3xl font-normal text-main'>
-                        {orderInfo?.created_at}일
+                        {orderInfo?.created_at
+                          ? `${formatDate(orderInfo.created_at)}일`
+                          : '정보 없음'}
                       </p>
                     </div>
                     <div className='flex flex-col items-end justify-center'>
                       <p className='text-lg font-normal text-main'>
                         총 결제금액
                       </p>
-                      <p className='text-3xl font-normal text-main'>
+                      <p className='text-3xl font-medium text-primary'>
                         {orderInfo?.total_price.toLocaleString()}원
                       </p>
                     </div>
