@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
 import { useJoinStore } from '../../store/useJoinStore';
@@ -81,31 +82,46 @@ const Join = () => {
             password: passValue,
           }
         );
-        console.log(response);
+        console.log('회원가입 성공');
         // 액세스 토큰을 세션에 저장하는 함수
         const accessToken = response.data.access_token;
         sessionStorage.setItem('accessToken', accessToken);
 
-        // 성공하면 페이지 이동
         navigate('/all');
 
-        // 중복된 이메일 또는 아이디에 대한 오류 처리
-        if (response.data.status === 500 && response.data.status === 501) {
-          toast.error('이미 사용 중인 이메일입니다.', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: { background: '#FFF4B8', color: 'black' },
-          });
-          setEmailError(' ');
+        // if (response.status === 200) {
+        //   console.log('회원가입 성공');
+        //   // 액세스 토큰을 세션에 저장하는 함수
+        //   const accessToken = response.data.access_token;
+        //   sessionStorage.setItem('accessToken', accessToken);
 
-          // 첫 번째 토스트가 사라진 후 두 번째 토스트를 표시
-          setTimeout(() => {
-            toast.error('이미 사용 중인 아이디입니다.', {
+        //   navigate('/all');
+        // } else if (response.status === 400) {
+        //   const errorMessage = response.data.error_message;
+        //   // 첫 번째 마침표까지 자르기
+        //   const truncatedMessage = errorMessage.split('.')[0] + '.';
+        //   toast.error(truncatedMessage, {
+        //     position: 'top-center',
+        //     autoClose: 3000,
+        //     hideProgressBar: false,
+        //     closeOnClick: true,
+        //     pauseOnHover: true,
+        //     draggable: true,
+        //     progress: undefined,
+        //     style: { background: '#FFF4B8', color: 'black' },
+        //   });
+        // }
+      } catch (error) {
+        console.log(error);
+
+        if (axios.isAxiosError(error) && error.response) {
+          const { data } = error.response;
+          const errorMessage = data.error_message;
+          // 첫 번째 마침표까지 자르기
+          const truncatedMessage = errorMessage.split('.')[0] + '.';
+
+          if (truncatedMessage.includes('이메일')) {
+            toast.error(truncatedMessage, {
               position: 'top-center',
               autoClose: 3000,
               hideProgressBar: false,
@@ -115,62 +131,47 @@ const Join = () => {
               progress: undefined,
               style: { background: '#FFF4B8', color: 'black' },
             });
-          }, 300);
-          setIdError(' ');
-        } else if (response.data.status === 500) {
-          toast.error('이미 사용 중인 이메일입니다.', {
+            setEmailError(' ');
+          } else if (truncatedMessage.includes('아이디')) {
+            toast.error(truncatedMessage, {
+              position: 'top-center',
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              style: { background: '#FFF4B8', color: 'black' },
+            });
+            setIdError(' ');
+          } else if (truncatedMessage.includes('비밀번호')) {
+            toast.error(truncatedMessage, {
+              position: 'top-center',
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              style: { background: '#FFF4B8', color: 'black' },
+            });
+            setPassError(' ');
+          }
+        } else {
+          toast.error('서버 문제로 잠시 후 다시 시도해 주세요!', {
             position: 'top-center',
-            autoClose: 3000,
+            autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
             draggable: true,
             progress: undefined,
-            style: { background: '#FFF4B8', color: 'black' },
+            style: { width: '330px', background: '#FFF4B8', color: 'black' },
           });
-          setEmailError(' ');
-        } else if (response.data.status === 501) {
-          toast.error('이미 사용 중인 아이디입니다.', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: { background: '#FFF4B8', color: 'black' },
-          });
-          setIdError(' ');
-        } else if (response.data.status === 400) {
-          toast.error('아이디와 비밀번호가 비슷합니다.', {
-            position: 'top-center',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: { background: '#FFF4B8', color: 'black' },
-          });
-          setIdError(' ');
-          setPassError(' ');
         }
-      } catch (error) {
-        console.error('에러 메세지 : ', error);
-        toast.error('서버 문제로 잠시 후 다시 시도해 주세요!', {
-          position: 'top-center',
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          style: { width: '330px', background: '#FFF4B8', color: 'black' },
-        });
       }
     }
   };
-
   return (
     <div className='flex h-screen flex-col items-center justify-center gap-7'>
       <div>

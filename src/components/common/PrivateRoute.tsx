@@ -48,6 +48,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 interface DefaultProps {
   [key: string]: unknown;
@@ -74,6 +75,16 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     } else {
       setIsVerified(false);
       navigate('/');
+      toast.error('로그인 후 사용해 주세요!', {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: { width: '330px', background: '#FFF4B8', color: 'black' },
+      });
     }
   };
 

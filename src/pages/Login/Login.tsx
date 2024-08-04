@@ -33,23 +33,22 @@ const Login: React.FC = () => {
       );
       // console.log(response);
 
-      const result = response.data;
-
-      // 액세스 토큰을 세션에 저장하는 함수
-      const accessToken = response.data.access_token;
-      sessionStorage.setItem('accessToken', accessToken);
+      // const result = response.data;
 
       if (response.status === 200) {
         //성공
-        console.log('로그인 성공, 로그인 유저:', result);
+        console.log('로그인 성공');
         setLoginCheck(null);
+        // 액세스 토큰을 세션에 저장하는 함수
+        const accessToken = response.data.access_token;
+        sessionStorage.setItem('accessToken', accessToken);
         sessionStorage.setItem('loginProvider', 'default');
         navigate('/'); //홈페이지로 이동
-      } else if (response.status === 400) {
+      } else if (response.status === 500) {
         //잘못된 값 입력됐을때 에러
         toast.error('잘못된 값이 입력되었습니다.', {
           position: 'top-center',
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -58,26 +57,10 @@ const Login: React.FC = () => {
           style: { background: '#FFF4B8', color: 'black' },
         });
         console.log(loginCheck);
-      } else if (response.status === 500) {
-        //서버 내부 에러
-        toast.error(
-          '서버 내부 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.',
-          {
-            position: 'top-center',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: { background: '#FFF4B8', color: 'black' },
-          }
-        );
-        console.log(loginCheck);
       }
     } catch (error) {
       console.error('로그인 요청 중 에러 발생:', error);
-      toast.error('오류가 발생했습니다. 다시 시도해 주세요.', {
+      toast.error('아이디 또는 비밀번호를 확인해주세요.', {
         position: 'top-center',
         autoClose: 5000,
         hideProgressBar: false,
@@ -85,7 +68,7 @@ const Login: React.FC = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        style: { width: '340px', background: '#FFF4B8', color: 'black' },
+        style: { background: '#FFF4B8', color: 'black' },
       });
     }
   };
