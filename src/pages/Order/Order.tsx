@@ -36,6 +36,7 @@ const Order = () => {
   const [page, setPage] = useState<number>(1);
   const [totalItemsCount, setTotalItemsCount] = useState<number>(0);
   const [searchContents, setSearchContents] = useState<string>('');
+  const [isAllergyFiltered, setIsAllergyFilterd] = useState<boolean>(true);
 
   const debounceSearchContents = useDebounce(searchContents, 300);
 
@@ -52,9 +53,11 @@ const Order = () => {
     setPage(1);
   };
 
+  const handleAllergyFilter = () => {
+    setIsAllergyFilterd(!isAllergyFiltered);
+  };
+
   const {
-    isAllergyChecked,
-    toggleAllergy,
     basket,
     createBox,
     currentPost,
@@ -66,6 +69,8 @@ const Order = () => {
     setCurrentBoxId,
   } = useOrderStore();
 
+  const accessToken = sessionStorage.getItem('accessToken');
+
   useEffect(() => {
     const getApiMenus = async () => {
       try {
@@ -73,6 +78,7 @@ const Order = () => {
           page: page,
           category: currentCategory,
           search: debounceSearchContents,
+          allergy: isAllergyFiltered,
         };
 
         let response;
@@ -83,7 +89,7 @@ const Order = () => {
             ))
           : (response = await axios.get(
               'https://api.dosirock.store/v1/menus/',
-              { params }
+              { params, headers: { Authorization: `Bearer ${accessToken}` } }
             ));
 
         currentCategory === categoryEnum.recommend
@@ -102,6 +108,8 @@ const Order = () => {
     page,
     currentCategory,
     debounceSearchContents,
+    isAllergyFiltered,
+    accessToken,
   ]);
 
   useEffect(() => {
@@ -200,18 +208,18 @@ const Order = () => {
             <div className='relative mx-2'>
               <input
                 type='checkbox'
-                checked={isAllergyChecked}
-                onChange={toggleAllergy}
+                checked={isAllergyFiltered}
+                onChange={handleAllergyFilter}
                 className='sr-only'
               ></input>
               <div
                 className={`box block h-6 w-10 rounded-full ${
-                  isAllergyChecked ? 'bg-primary' : 'bg-gray20'
+                  isAllergyFiltered ? 'bg-primary' : 'bg-gray20'
                 }`}
               ></div>
               <div
                 className={`absolute left-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white transition ${
-                  isAllergyChecked ? 'translate-x-full' : ''
+                  isAllergyFiltered ? 'translate-x-full' : ''
                 }`}
               ></div>
             </div>
