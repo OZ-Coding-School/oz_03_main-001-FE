@@ -35,8 +35,11 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/loginredirect' element={<LoginRedirect />} />
         <Route path='/join' element={<Join />} />
-        <Route path='/all' element={<PrivateRoute element={All} />} />
-        {/* element={<All />} */}
+        <Route
+          path='/all'
+          // element={<PrivateRoute element={All} />} />
+          element={<All />}
+        />
 
         <Route path='/welcome' element={<PrivateRoute element={Welcome} />} />
         {/* element={<Welcome />} */}
