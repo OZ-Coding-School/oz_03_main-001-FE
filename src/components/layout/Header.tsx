@@ -6,10 +6,12 @@ import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import Logo from '../../assets/images/dosirockLogo.png';
 import iconOrderHistory from '../../assets/images/orderHistory.png';
 import iconLogout from '../../assets/images/logout.png';
-import axios from 'axios';
+// import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const orderPaths: string[] = ['/order', '/orderDetail', '/orderHistory'];
   const CommunityPaths: string[] = ['/community'];
@@ -68,6 +70,19 @@ const Header = () => {
     }
   }, []); // 빈 배열을 의존성으로 전달하여 컴포넌트가 처음 마운트될 때만 실행
 
+  const handleLogout = async () => {
+    try {
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken');
+      Cookies.remove('access_token', { path: '/', domain: '.dosirock.store' });
+
+      setIsAccessTokenCheck(false);
+      navigate('/');
+    } catch (error) {
+      console.error('로그아웃 오류:', error);
+    }
+  };
+
   return (
     <>
       {location.pathname === '/' ? <div className='h-[42px] bg-white' /> : null}
@@ -110,7 +125,7 @@ const Header = () => {
                 </span>
                 {isDropdownOpen ? <IoChevronUp /> : <IoChevronDown />}
               </button>
-              {isDropdownOpen && <UserMenu />}
+              {isDropdownOpen && <UserMenu handleLogout={handleLogout} />}
             </div>
           ) : (
             <button className='h-[38px] w-[85px] rounded-full bg-border font-medium hover:bg-gray20'>
@@ -143,51 +158,7 @@ const Header = () => {
 //   });
 // };
 
-const UserMenu = () => {
-  // 페이지 이동을 위한 네비게이트
-  const navigate = useNavigate();
-  const handleLogout = async () => {
-    // sessionStorage.removeItem('accessToken');
-    // sessionStorage.removeItem('refresh_token');
-    // sessionStorage.removeItem('user');
-    const accessToken = sessionStorage.getItem('accessToken');
-    console.log(accessToken);
-    try {
-      // const accessToken = sessionStorage.getItem('accessToken');
-      // const response = await axios.post(
-      //   'https://api.dosirock.store/v1/users/logout/',
-      //   {},
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${accessToken}`,
-      //     },
-      //   } // URL 확인
-      //   // {}, // 빈 요청 본문
-      //   // {
-      //   //   withCredentials: true, // 쿠키를 포함한 요청
-      //   // }
-      // );
-      // console.log(response);
-
-      // 세션 스토리지에서 토큰 제거
-      sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('refreshToken'); // 필요에 따라 추가
-
-      // // 쿠키에서 토큰 제거
-      // deleteCookie('accessToken');
-      // deleteCookie('refreshToken'); // 필요에 따라 추가
-
-      // 모든 쿠키를 삭제하려면 이 코드 사용
-      // deleteAllCookies();
-
-      Cookies.remove('access_token', { path: '/', domain: '.dosirock.store' });
-
-      navigate('/');
-    } catch (error) {
-      console.error('로그아웃 오류:', error);
-    }
-  };
-
+const UserMenu = ({ handleLogout }: { handleLogout: () => void }) => {
   return (
     <ul className='absolute left-1/2 top-[50px] w-[160px] -translate-x-1/2 overflow-hidden rounded-lg border border-background bg-white shadow-box'>
       <li className='relative hover:bg-background'>
