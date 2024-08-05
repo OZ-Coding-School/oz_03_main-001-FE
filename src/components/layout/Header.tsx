@@ -98,12 +98,12 @@ const UserMenu = () => {
     // sessionStorage.removeItem('user');
     navigate('/');
     try {
-      const accessToken = sessionStorage.getItem('accessToken');
+      const refreshToken = sessionStorage.getItem('refresh_token');
       await axios.post(
         'https://api.dosirock.store/v1/users/logout',
         {
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${refreshToken}`,
           },
         } // URL 확인
         // {}, // 빈 요청 본문
