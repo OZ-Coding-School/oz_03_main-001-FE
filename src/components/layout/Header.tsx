@@ -7,6 +7,7 @@ import Logo from '../../assets/images/dosirockLogo.png';
 import iconOrderHistory from '../../assets/images/orderHistory.png';
 import iconLogout from '../../assets/images/logout.png';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const Header = () => {
   const location = useLocation();
@@ -88,22 +89,44 @@ const Header = () => {
     </>
   );
 };
+// // 쿠키에서 특정 이름의 쿠키를 삭제하는 함수
+// const deleteCookie = (name: string, path: string = '/', domain?: string) => {
+//   const expires = 'Thu, 01 Jan 1970 00:00:00 GMT';
+//   let cookieString = `${name}=; expires=${expires}; path=${path}`;
+//   if (domain) {
+//     cookieString += `; domain=${domain}`;
+//   }
+//   document.cookie = cookieString;
+// };
+
+// // 모든 쿠키를 삭제하는 함수
+// const deleteAllCookies = (path: string = '/', domain?: string) => {
+//   const cookies = document.cookie.split(';');
+//   cookies.forEach((cookie) => {
+//     const [name] = cookie.split('=');
+//     if (name) {
+//       deleteCookie(name.trim(), path, domain);
+//     }
+//   });
+// };
 
 const UserMenu = () => {
   // 페이지 이동을 위한 네비게이트
   const navigate = useNavigate();
   const handleLogout = async () => {
-    sessionStorage.removeItem('accessToken');
+    // sessionStorage.removeItem('accessToken');
     // sessionStorage.removeItem('refresh_token');
     // sessionStorage.removeItem('user');
-    navigate('/');
+    const accessToken = sessionStorage.getItem('accessToken');
+    console.log(accessToken);
     try {
-      const refreshToken = sessionStorage.getItem('refresh_token');
-      await axios.post(
-        'https://api.dosirock.store/v1/users/logout',
+      // const accessToken = sessionStorage.getItem('accessToken');
+      const response = await axios.post(
+        'https://api.dosirock.store/v1/users/logout/',
+        {},
         {
           headers: {
-            Authorization: `Bearer ${refreshToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         } // URL 확인
         // {}, // 빈 요청 본문
@@ -111,6 +134,22 @@ const UserMenu = () => {
         //   withCredentials: true, // 쿠키를 포함한 요청
         // }
       );
+      console.log(response);
+
+      // 세션 스토리지에서 토큰 제거
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken'); // 필요에 따라 추가
+
+      // // 쿠키에서 토큰 제거
+      // deleteCookie('accessToken');
+      // deleteCookie('refreshToken'); // 필요에 따라 추가
+
+      // 모든 쿠키를 삭제하려면 이 코드 사용
+      // deleteAllCookies();
+
+      Cookies.remove('access_token', { path: '/', domain: '.dosirock.store' });
+
+      navigate('/');
     } catch (error) {
       console.error('로그아웃 오류:', error);
     }
