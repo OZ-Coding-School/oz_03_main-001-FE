@@ -154,20 +154,20 @@ const UserMenu = () => {
     console.log(accessToken);
     try {
       // const accessToken = sessionStorage.getItem('accessToken');
-      const response = await axios.post(
-        'https://api.dosirock.store/v1/users/logout/',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        } // URL 확인
-        // {}, // 빈 요청 본문
-        // {
-        //   withCredentials: true, // 쿠키를 포함한 요청
-        // }
-      );
-      console.log(response);
+      // const response = await axios.post(
+      //   'https://api.dosirock.store/v1/users/logout/',
+      //   {},
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${accessToken}`,
+      //     },
+      //   } // URL 확인
+      //   // {}, // 빈 요청 본문
+      //   // {
+      //   //   withCredentials: true, // 쿠키를 포함한 요청
+      //   // }
+      // );
+      // console.log(response);
 
       // 세션 스토리지에서 토큰 제거
       sessionStorage.removeItem('accessToken');
