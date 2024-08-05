@@ -28,9 +28,6 @@ const SocialLogin = () => {
     <div>
       <button
         type='button'
-        style={{
-          filter: 'grayscale(100%)', // 흑백으로 변환
-        }}
         onClick={kakaoLoginUrl}
         className='ml-[9px] h-[50px] w-[50px] cursor-none'
       >
