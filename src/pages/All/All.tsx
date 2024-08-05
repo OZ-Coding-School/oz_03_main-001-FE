@@ -2,7 +2,7 @@
 import logo from '../../assets/images/dosirockLogo.png';
 // import { Link } from 'react-router-dom';
 import useAllergiesForm from '../../hooks/useAllForm';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConfirmModal from './Modal/ConfirmModal';
 
 const All = () => {
@@ -54,6 +54,31 @@ const All = () => {
     // sessionStorage.removeItem('refresh_token');
     // sessionStorage.removeItem('user');
   };
+
+  // 쿠키에서 특정 이름의 값을 가져오는 함수
+  const getCookie = (name: string): string | null => {
+    const nameEQ = `${name}=`;
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null; // 쿠키가 없으면 null 반환
+  };
+
+  useEffect(() => {
+    // 쿠키에서 엑세스 토큰을 가져옵니다
+    const accessToken = getCookie('access_token');
+
+    if (accessToken) {
+      // 세션 스토리지에 엑세스 토큰을 저장합니다
+      sessionStorage.setItem('accessToken', accessToken);
+      console.log('엑세스 토큰이 세션 스토리지에 저장되었습니다.');
+    } else {
+      console.log('쿠키에서 엑세스 토큰을 찾을 수 없습니다.');
+    }
+  }, []);
 
   return (
     <div className='flex h-screen flex-col items-center justify-center gap-12'>

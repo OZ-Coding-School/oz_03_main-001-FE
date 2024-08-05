@@ -50,12 +50,12 @@ const useAllergiesForm = (_initialState: string[]) => {
     const postData = noAll ? {} : checkAllList;
 
     try {
-      const token1 = sessionStorage.getItem('accessToken');
+      const accessToken = sessionStorage.getItem('accessToken');
 
       const response = await axios.post(
         'https://api.dosirock.store/v1/users/allergies/',
         { allergies: postData },
-        { headers: { Authorization: `Bearer ${token1}` } }
+        { headers: { Authorization: `Bearer ${accessToken}` } }
       );
       console.log('서버 요청 성공:', response);
       navigate('/welcome');
