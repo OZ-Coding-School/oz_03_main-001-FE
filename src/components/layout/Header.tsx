@@ -51,7 +51,7 @@ const Header = () => {
 
     if (!existingToken) {
       // 세션 스토리지에 엑세스 토큰이 없으면 쿠키에서 가져옵니다
-      const accessToken = getCookie('accessToken');
+      const accessToken = getCookie('access_token');
 
       if (accessToken) {
         // 쿠키에서 가져온 엑세스 토큰을 세션 스토리지에 저장합니다
