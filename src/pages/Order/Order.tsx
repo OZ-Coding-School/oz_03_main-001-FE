@@ -55,6 +55,7 @@ const Order = () => {
 
   const handleAllergyFilter = () => {
     setIsAllergyFilterd(!isAllergyFiltered);
+    setPage(1);
   };
 
   const {
