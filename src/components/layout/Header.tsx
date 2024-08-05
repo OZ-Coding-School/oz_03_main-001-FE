@@ -33,6 +33,7 @@ const Header = () => {
     };
   }, []);
 
+  const [isAccessTokenCheck, setIsAccessTokenCheck] = useState<boolean>(false);
   // 쿠키에서 특정 이름의 값을 가져오는 함수
   const getCookie = (name: string): string | null => {
     const nameEQ = `${name}=`;
@@ -56,16 +57,16 @@ const Header = () => {
       if (accessToken) {
         // 쿠키에서 가져온 엑세스 토큰을 세션 스토리지에 저장합니다
         sessionStorage.setItem('accessToken', accessToken);
+        setIsAccessTokenCheck(true);
         console.log('엑세스 토큰이 세션 스토리지에 저장되었습니다.');
       } else {
         console.log('쿠키에서 엑세스 토큰을 찾을 수 없습니다.');
       }
     } else {
       console.log('세션 스토리지에 엑세스 토큰이 이미 존재합니다.');
+      setIsAccessTokenCheck(true);
     }
   }, []); // 빈 배열을 의존성으로 전달하여 컴포넌트가 처음 마운트될 때만 실행
-
-  const accessToken = sessionStorage.getItem('accessToken');
 
   return (
     <>
@@ -96,7 +97,7 @@ const Header = () => {
               커뮤니티
             </Link>
           </div>
-          {accessToken ? (
+          {isAccessTokenCheck ? (
             <div className='relative' ref={dropdownRef}>
               <button
                 className='flex h-[38px] items-center rounded-full bg-white px-[20px] font-medium hover:bg-background'

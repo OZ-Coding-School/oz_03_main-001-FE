@@ -37,8 +37,8 @@ const App = () => {
         <Route path='/join' element={<Join />} />
         <Route
           path='/all'
-          // element={<PrivateRoute element={All} />} />
-          element={<All />}
+          element={<PrivateRoute element={All} />}
+          // element={<All />}
         />
 
         <Route path='/welcome' element={<PrivateRoute element={Welcome} />} />
