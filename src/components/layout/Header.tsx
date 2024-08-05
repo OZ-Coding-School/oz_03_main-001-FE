@@ -73,8 +73,8 @@ const Header = () => {
   const handleLogout = async () => {
     try {
       sessionStorage.removeItem('accessToken');
-      sessionStorage.removeItem('refreshToken');
       Cookies.remove('access_token', { path: '/', domain: '.dosirock.store' });
+      Cookies.remove('refresh_token', { path: '/', domain: '.dosirock.store' });
 
       setIsAccessTokenCheck(false);
       navigate('/');
