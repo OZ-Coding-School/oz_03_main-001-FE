@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 import { toast } from 'react-toastify';
 import { FcHighPriority } from 'react-icons/fc';
 
@@ -30,19 +30,21 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   };
 
   const handleConfirm = async () => {
-    const accessToken = sessionStorage.getItem('accessToken');
+    // const accessToken = sessionStorage.getItem('accessToken');
     try {
-      // 서버에 DELETE 요청 보내기
-      await axios.delete(
-        `https://api.dosirock.store/v1/users`,
-        // { credential: 'include' }
-        // { withCredentials: true }
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
+      // // 서버에 DELETE 요청 보내기
+      // await axios.delete(
+      //   `https://api.dosirock.store/v1/users`,
+      //   // { credential: 'include' }
+      //   // { withCredentials: true }
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${accessToken}`,
+      //     },
+      //   }
+      // );
+
+      sessionStorage.removeItem('accessToken');
 
       // 사용자 데이터 삭제 성공 후 페이지 이동
       onConfirm();
