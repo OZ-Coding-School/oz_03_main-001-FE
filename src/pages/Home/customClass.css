@@ -1,0 +1,7 @@
+.group:hover .group-hover-stroke-white {
+  stroke: white;
+}
+
+.h-custom {
+  height: calc(100vh - 117px);
+}
